@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fleamgmt-parent</artifactId>
+        <groupId>com.huazie.flea.fleamgmt</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <name>FLEA MANAGEMENT STRUTS2</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fleamgmt-struts2</artifactId>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- FLEA MANAGEMENT CONFIG -->
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>fleamgmt-config</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <!-- FLEA FRAME JERSEY CLIENT-->
+        <dependency>
+            <groupId>com.huazie.frame</groupId>
+            <artifactId>flea-frame-jersey-client</artifactId>
+        </dependency>
+
+        <!-- Struts2相关 -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-json-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-spring-plugin</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 把它设置为开发模式，发布时要设置为false -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 自动动态方法的调用，使用这个设置后可以这样调用：action!method -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<!-- 设置该应用使用的编码集为utf-8 -->
+    <constant name="struts.i18n.encoding" value="utf-8" />
+    <!-- 修改后缀 -->
+	<constant name="struts.action.extension" value="flea" />
+	<!-- 上传文件是所允许的文件最大值 -->  
+	<constant name="struts.multipart.maxSize" value="1000000000"/> 
+	<!-- 设置文件上传时的临时文件夹时F盘下的temp文件夹 -->  
+    <constant name="struts.multipart.saveDir" value="E:\\temp"></constant>
+
+	<package name="default" namespace="/" extends="struts-default,json-default">
+
+		<default-action-ref name="pagenotfound"></default-action-ref>
+		
+		<global-results>
+			<result name="error500">/WEB-INF/error-500.html</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="error500" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		 
+		<action name="pagenotfound">
+			<result name="success" type="redirect">
+				<param name="location">/WEB-INF/error-404.html</param>
+			</result>
+		</action>
+		
+	</package>
+	
+	<include file="struts2/structs_auth.xml" />
+	<include file="struts2/structs_base.xml" />
+	<include file="struts2/structs_file.xml" />
+	<include file="struts2/structs_index.xml" />
+	<include file="struts2/structs_res.xml" />
+	<include file="struts2/structs_user.xml" />
+
+</struts>

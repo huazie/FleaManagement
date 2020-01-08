@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>跳蚤管家</title>
+		<meta charset="utf-8" >
+		<meta name=keywords content="跳蚤管家，跳蚤市场的贴心管家，跳主的得力帮手" >
+		<meta name=description content="跳蚤管家，跳蚤市场的贴心管家，跳主的得力帮手" >
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico">
+		
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="resources/plugins/font-awesome/css/font-awesome.min.css" />
+
+		
+		<!--  特别样式  page specific plugin styles -->
+		<link rel="stylesheet" href="resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+
+		<!-- fonts 
+		<link rel="stylesheet" href="resources/css/fonts/fonts.css" />
+		-->
+		
+		<!-- ace styles -->
+		<link rel="stylesheet" href="resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="resources/plugins/ace/css/ace-ie.css" />
+		<![endif]-->
+		
+		<!-- inline styles related to this page -->
+		
+		
+		<!-- ace settings handler -->
+		<script src="resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="resources/plugins/ace/js/html5shiv.js"></script>
+		<script src="resources/plugins/ace/js/respond.min.js"></script>
+		<![endif]-->
+		
+	</head>
+	<body class="login-layout">
+		<div class="main-container">
+			<div class="main-content">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="login-container">
+						
+							<div class="space-30"></div>
+						
+							<div class="center">
+								<h1>
+									<img style="margin:0;padding:0;" src="resources/images/header_logo.png">
+								</h1>
+							</div>
+					
+							<div class="space-12"></div>
+					
+							<div class="position-relative">
+								<div id="login-box" class="login-box visible widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header blue lighter bigger">
+												<i class="fa fa-coffee fa-lg green"></i>
+												管家登录
+											</h4>
+					
+											<div class="space-6"></div>
+											
+											<label class="block clearfix">
+												<span class="block input-icon input-icon-right">
+													<input id="name" type="text" class="form-control" placeholder="邮箱或手机号" />
+													<i class="fa fa-user fa-lg"></i>
+												</span>
+											</label>
+			
+											<label class="block clearfix">
+												<span class="block input-icon input-icon-right">
+													<input id="password" type="password" class="form-control" placeholder="密码" />
+													<i class="fa fa-lock fa-lg"></i>
+												</span>
+											</label>
+			
+											<div class="space"></div>
+			
+											<div class="clearfix">
+												<button type="button" id="login" class="width-35 pull-right btn btn-sm btn-primary">
+													<i class="fa fa-lock fa-lg"></i>
+													登陆
+												</button>
+											</div>
+			
+											<div class="space-4"></div>
+											
+										</div><!-- /widget-main -->
+					
+										<div class="toolbar clearfix">
+											<div>
+												<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+													<i class="fa fa-arrow-left"></i>
+													忘记密码？
+												</a>
+											</div>
+										</div>
+									</div><!-- /widget-body -->
+								</div><!-- /login-box -->
+					
+								<div id="forgot-box" class="forgot-box widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header red lighter bigger">
+												<i class="fa fa-key fa-lg"></i>
+												找回密码
+											</h4>
+					
+											<div id="tabs">
+												<ul>
+													<li>
+														<a href="#email">
+															<i class="green fa fa-envelope bigger-110"></i>
+															&nbsp;邮箱
+														</a>
+													</li>
+	
+													<li>
+														<a href="#mobile">
+															<i class="blue fa fa-mobile bigger-130"></i>
+															&nbsp;手机
+														</a>
+													</li>
+												</ul>
+	
+												<div id="email">
+													<span class="block input-icon input-icon-right">
+														<input type="email" class="form-control" placeholder="请输入邮箱账号" />
+														<i class="fa fa-envelope"></i>
+													</span>
+												</div>
+
+												<div id="mobile">
+													<span class="block input-icon input-icon-right">
+														<input type="text" class="form-control" placeholder="请输入手机号码" />
+														<i class="fa fa-mobile fa-fw"></i>
+													</span>
+												</div>
+											</div>
+											
+											<div class="space-8"></div>
+											
+											<div class="clearfix">
+												<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+													<i class="fa fa-lightbulb-o fa-lg"></i>
+													发送
+												</button>
+											</div>
+										</div><!-- /widget-main -->
+					
+										<div class="toolbar center">
+											<a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
+												返回登录
+												<i class="fa fa-arrow-right"></i>
+											</a>
+										</div>
+									</div><!-- /widget-body -->
+								</div><!-- /forgot-box -->
+					
+							</div><!-- /position-relative -->
+							
+							<div style="margin: 100% 0 0 40%">
+								<h4>
+									<span class="white">&copy; 跳客联盟</span>
+								</h4>
+							</div>
+						</div>
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div>
+		</div><!-- /.main-container -->
+		
+		<!-- 基础脚本basic scripts -->
+		
+		<!--[if !IE]> -->
+		<script src="resources\plugins\jquery\2.0.3\jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!--[if IE]>
+		<script src="resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+		
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+		
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+		
+		<!-- page specific plugin scripts -->
+		
+		<script src="resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="resources/scripts/base/config.js"></script>
+		<script src="resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="resources/plugins/seajs/2.3.0/sea.js" ></script>
+		
+		<!-- ace scripts -->
+		
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+		
+			$(function(){
+				//###start load login.js
+				seajs.use(SeaJsUrlMap.get("login"), function(login) {
+					login.init();
+				});//###end load login.js
+			});
+		
+			function show_box(id) {
+			 	jQuery('.widget-box.visible').removeClass('visible');
+			 	jQuery('#'+id).addClass('visible');
+			}
+			
+		</script>
+		
+	</body>
+</html>

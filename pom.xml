@@ -104,6 +104,7 @@
 
     <modules>
         <module>fleamgmt-config</module>
+        <module>fleamgmt-struts2</module>
         <module>fleamgmt-web</module>
     </modules>
 

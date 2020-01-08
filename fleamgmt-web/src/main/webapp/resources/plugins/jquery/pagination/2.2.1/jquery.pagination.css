@@ -1,0 +1,70 @@
+
+/*table @page*/
+.i-page {
+	float:right;
+	text-align:center;
+	overflow:hidden;
+}
+.i-page a {
+	text-decoration:none;
+	border:solid 1px #CCC;
+	color:#666;
+	background:#fff;
+	border-radius: 4px;
+}
+.i-page a, .i-page span {
+	display:block;
+	float:left;
+	padding:2px 8px;
+	margin-right:5px;
+}
+.i-page .current {
+	color:#FF720D;
+	font-weight:bold;
+	border: transparent 1px solid;
+}
+.i-page .current.prev, .i-page .current.next {
+	border:solid 1px #D5D5D5;
+	color: #BABABA;
+	font-weight:100;
+	background: #fff;
+	border-radius: 4px;
+}
+.i-page-c {
+	text-align:center;
+	height:26px;
+	position:relative;
+	left:50%;
+	float:left;
+}
+.i-page-c a {
+	text-decoration:none;
+	border:solid 1px #CCC;
+	color:#666;
+	background:#fff;
+	border-radius: 4px;
+	display:inline;
+	position:relative;
+	right:50%;
+}
+.i-page-c a, .i-page-c span {
+	display:block;
+	float:left;
+	padding:2px 8px;
+	margin-right:5px;
+	position:relative;
+	right:50%;
+}
+.i-page-c .current {
+	background:#F5F5F5;
+	color:#FF720D;
+	font-weight:bold;
+	border:solid 1px #F5F5F5;
+}
+.i-page-c .current.prev, .i-page-c .current.next {
+	border:solid 1px #D5D5D5;
+	color: #BABABA;
+	font-weight:100;
+	background: #fff;
+	border-radius: 4px;
+}

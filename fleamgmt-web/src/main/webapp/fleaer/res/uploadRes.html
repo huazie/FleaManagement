@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>物品上传</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.min.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+		<link rel="stylesheet" href="../resources/plugins/dropzone/css/dropzone.css" />
+
+		<!-- fonts 
+		<link rel="stylesheet" href="resources/css/fonts/fonts.css" />
+		-->
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../resources/plugins/ace/js/html5shiv.js"></script>
+		<script src="../resources/plugins/ace/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					物品管理
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						 &nbsp;物品上传
+					</small>
+				</h1>
+				<!-- 收藏模块  start-->
+				<div class="page-header-fav">
+					<a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+						<i class="fa fa-star-o fa-lg"></i>
+						<span >收藏</span>
+					</a>
+				</div>
+				<!-- 收藏模块  end -->
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="alert alert-block alert-success">
+						<button type="button" class="close" data-dismiss="alert">
+							<i class="fa fa-remove"></i>
+						</button>
+	
+						<i class="fa fa-hand-o-right green"></i>
+						<span class="blue"> 各位跳主，上传的商品需要审核的哦，时间在半个工作日内。</span>
+					</div>
+					
+					<div class="row-fluid">
+						<div class="span12">
+							<div class="widget-box">
+								<div class="widget-header widget-header-blue widget-header-flat">
+									<h4 class="lighter">
+										<i class="fa fa-plus-circle"></i>
+										物品上传
+									</h4>
+
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										<div id="res_wizard" class="row-fluid" data-target="#step-container">
+											<ul class="wizard-steps">
+												<li data-target="#step1" class="active">
+													<span class="step">1</span>
+													<span class="title">基本信息</span>
+												</li>
+
+												<li data-target="#step2">
+													<span class="step">2</span>
+													<span class="title">图片上传</span>
+												</li>
+
+												<li data-target="#step3">
+													<span class="step">3</span>
+													<span class="title">提交审核</span>
+												</li>
+
+											</ul>
+										</div>
+
+										<hr />
+										<div class="step-content row-fluid position-relative" id="step-container">
+											<div class="step-pane active" id="step1">
+												<h3 class="lighter block grey">
+													<i class="fa fa-info-circle blue fa-lg"></i>
+													基本信息
+												</h3>
+
+												<form id="res_add" class="form-horizontal" fieldset="json">
+													
+													<div class="form-group">
+														<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="res_name">物品名称:</label>
+
+														<div class="col-xs-12 col-sm-9">
+															<div class="clearfix">
+																<input type="text" id="res_name" name="res.resName" class="col-xs-12 col-sm-4" />
+															</div>
+														</div>
+													</div>
+													
+													<div class="space-2"></div>
+													
+													<div class="form-group">
+														<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="password">物品类别:</label>
+
+														<div class="col-xs-12 col-sm-9">
+															<div id="res_type" class="clearfix">
+																<p>
+																	<select id="res_type1" class="first" name="res.resCategory1"></select>
+																	<select id="res_type2" class="second" name="res.resCategory2"></select>
+																	<select id="res_type3" class="third" name="res.resCategory3"></select>
+																</p>
+															</div>
+														</div>
+													</div>
+
+													<div class="space-2"></div>
+													
+													<div class="form-group">
+														<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="res_price">物品价格:</label>
+
+														<div class="col-xs-12 col-sm-9">
+															<div class="clearfix">
+																<span class="input-icon input-icon-right">
+																	<input type="text" id="res_price" name="res.resPrice" />
+																	<i class="fa fa-rmb blue"></i>
+																</span>
+															</div>
+														</div>
+													</div>
+
+													<div class="space-2"></div>
+													
+													<div class="form-group">
+														<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="description">物品描述:</label>
+
+														<div class="col-xs-12 col-sm-9">
+															<div class="clearfix">
+																<textarea id="description" name="res.description" class="col-xs-12 col-sm-6" placeholder="请填写物品的相关描述信息"></textarea>
+															</div>
+														</div>
+													</div>
+
+												</form>
+											</div>
+
+											<div class="step-pane" id="step2">
+												<div id="res_dropzone" class="row-fluid dropzone">
+
+												</div>
+												<div class="space-4"></div>
+												<div class="center">
+													<button class="btn btn-info hidden" id="res_upload">
+														开始上传
+													</button>
+												</div>
+											</div>
+
+											<div class="step-pane" id="step3">
+												<div class="center">
+													<h2 class="blue">
+														<i class="fa fa-thumbs-o-up fa-lg"></i>
+														恭喜
+													</h2>
+													<div class="space-4"></div>
+													<span class="bigger-180">
+														亲爱的跳主，一切准备就绪，可以提交审核了
+													</span>
+												</div>
+											</div>
+										</div>
+
+										<div class="hr hr4"></div>
+
+										<div class="row-fluid wizard-actions">
+											<button class="btn btn-prev">
+												<i class="fa fa-arrow-left"></i>
+												上一步
+											</button>
+
+											<button class="btn btn-success btn-next" data-last="提交审核">
+												下一步
+												<i class="fa fa-arrow-right icon-on-right"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 基础脚本basic scripts -->
+		
+		<!--[if !IE]> -->
+		<script src="..\resources\plugins\jquery\2.0.3\jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!--[if IE]>
+		<script src="..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../resources/plugins/jquery/cxselect/js/jquery.cxselect.js"></script>
+		<script src="../resources/plugins/fuelux/fuelux.wizard.min.js"></script>
+		<script src="../resources/plugins/dropzone/js/dropzone.min.js"></script>
+		<script src="../resources/plugins/bootbox/bootbox.min.js"></script>
+		
+		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../resources/scripts/base/config.js"></script>
+		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../resources/scripts/base/comm.js"></script>
+		
+
+		<!-- ace scripts -->
+		<script src="../resources/plugins/ace/js/ace-elements.js"></script>
+		<script src="../resources/plugins/ace/js/ace.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+
+			$(function(){
+
+				Dropzone.autoDiscover = false;// 禁用dropzone的自动发现
+
+				//###start load res-upload.js
+				seajs.use(SeaJsUrlMap.get("uploadRes"), function(uploadRes) {
+					uploadRes.init();
+				});//###end load res-upload.js
+				
+			});
+		</script>
+	 
+</body>
+</html>

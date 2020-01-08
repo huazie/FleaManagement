@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>跳蚤管家</title>
+		<meta charset="utf-8" >
+		<meta name=keywords content="跳蚤管家，跳蚤市场的贴心管家，跳主的得力帮手" >
+		<meta name=description content="跳蚤管家，跳蚤市场的贴心管家，跳主的得力帮手" >
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.ico">
+		
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.min.css" />
+
+		
+		<!--  特别样式  page specific plugin styles -->
+		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+
+		<!-- fonts 
+		<link rel="stylesheet" href="resources/css/fonts/fonts.css" />
+		-->
+		
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css" />
+		<![endif]-->
+		
+		<!-- inline styles related to this page -->
+		
+		
+		<!-- ace settings handler -->
+		<script src="../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="../resources/plugins/ace/js/html5shiv.js"></script>
+		<script src="../resources/plugins/ace/js/respond.min.js"></script>
+		<![endif]-->
+		
+		<!-- 百度统计代码 , 以异步加载形式进行加载  -->
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "//hm.baidu.com/hm.js?a43c39da34531f4da694d4499c5614d4";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<header class="navbar navbar-default" id="navbar">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+						<img style="margin:0;padding:0;" src="../resources/images/header_logo.png">
+					</a>
+				</div>
+
+				<div class="navbar-header pull-right" role="navigation">
+					<ul id="nav-top" class="nav ace-nav"></ul>
+				</div>
+			</div>
+			
+		</header>
+		
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+			
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+							
+					</div>
+					<ul class="nav nav-list" id="nav-list">
+						
+					</ul>
+					
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="fa fa-angle-double-left fa-lg fa-fw" data-icon1="fa fa-angle-double-left fa-lg fa-fw" data-icon2="fa fa-angle-double-right fa-lg fa-fw"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+				
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb" id="breadcrumb">
+							<!--  
+							<li>
+								<i class="fa fa-home home-icon"></i>
+								<a href="javascript:;">首页</a>
+							</li>
+							<li class="active">控制台</li>-->
+						</ul>
+
+						<div class="nav-search" id="nav-search">
+							<!-- <form class="form-search"> -->
+								<span class="input-icon">
+									<input type="text" placeholder="菜单搜索" class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="fa fa-search nav-search-icon"></i>
+								</span>
+							<!-- </form> -->
+						</div><!-- #nav-search -->
+					</div>
+					
+					<div id="page-content">
+						<!-- 
+							<iframe src="../error-404.html" width="100%" height="500px" frameborder="0" scrolling="no" id="BUSI_PANEL_MODULE_LOADER"></iframe>
+						 -->
+					</div>
+					
+				</div>
+
+				<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+					<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+				</a>
+			
+			</div>
+			
+		</div>
+		
+		<!-- 基础脚本basic scripts -->
+		
+		<!--[if !IE]> -->
+		<script src="../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!--[if IE]>
+		<script src="..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+		
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+		
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+		
+		<!-- page specific plugin scripts -->
+		
+		<!--[if lte IE 8]>
+		  <script src="../resources/plugins/excanvas/js/excanvas.min.js"></script>
+		<![endif]-->
+		
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../resources/scripts/base/config.js"></script>
+		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../resources/scripts/base/comm.js"></script>
+		
+		<!-- ace scripts -->
+		<script src="../resources/plugins/ace/js/ace.js"></script>
+		
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+		
+			$(function(){
+				
+				//###start load index.js
+				seajs.use(SeaJsUrlMap.get("index"), function(index) {
+					index.init();
+				});//###end load index.js
+
+			});
+			
+		</script>
+		
+	</body>
+</html>
