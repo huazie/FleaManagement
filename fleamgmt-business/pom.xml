@@ -7,9 +7,9 @@
         <groupId>com.huazie.flea.fleamgmt</groupId>
         <version>1.0.0</version>
     </parent>
-    <name>FLEA MANAGEMENT STRUTS2</name>
+    <name>FLEA MANAGEMENT BUSINESS</name>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>fleamgmt-struts2</artifactId>
+    <artifactId>fleamgmt-business</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -27,28 +27,19 @@
 
     <dependencies>
 
-        <!-- FLEA MANAGEMENT BUSINESS -->
+        <!-- FLEA MANAGEMENT CONFIG -->
         <dependency>
             <groupId>${parent.groupId}</groupId>
-            <artifactId>fleamgmt-business</artifactId>
+            <artifactId>fleamgmt-config</artifactId>
             <version>${parent.version}</version>
         </dependency>
 
-        <!-- Struts2相关 -->
+        <!-- FLEA FRAME JERSEY CLIENT-->
         <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-json-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-spring-plugin</artifactId>
+            <groupId>com.huazie.frame</groupId>
+            <artifactId>flea-frame-jersey-client</artifactId>
         </dependency>
 
     </dependencies>
-
 
 </project>
