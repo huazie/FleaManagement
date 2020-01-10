@@ -7,7 +7,7 @@
 
 	<package name="auth" namespace="/business" extends="default">
 
-		<action name="authMenu" class="studio.huazie.fleamanagement.module.auth.web.MenuManagementAction">
+		<action name="authMenu" class="com.huazie.fleamgmt.struts2.auth.web.MenuManagementAction">
 			<result name="json" type="json">  
                 <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
                 <param name="root">result</param>
