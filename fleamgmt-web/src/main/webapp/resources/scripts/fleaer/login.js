@@ -7,7 +7,7 @@
 define(function(require, exports, module) {
 	
 	//跳主登录
-	ReqUrlMap.put("fleaerLogin", "fleaerLogin!login.flea");
+	ReqUrlMap.put("fleaMasterLogin", "fleaMasterLogin!login.flea");
 	
 	/**
 	 * 登录界面初始化
@@ -35,12 +35,12 @@ define(function(require, exports, module) {
 			$thiz.addClass("disabled").html(Huazie.msg.btnText("key", "正在登陆中..."));
 			
 			var cmd = {
-				"fleaerLogin.name" : name.trim(),
-				"fleaerLogin.password" : password.trim()
+				"fleaUserLoginInfo.accountCode" : name.trim(),
+				"fleaUserLoginInfo.accountPwd" : password.trim()
 			}
 			
 			// 登录验证
-			Huazie.ajax.postJson(ReqUrlMap.get("fleaerLogin"), cmd, function(data, status) {
+			Huazie.ajax.postJson(ReqUrlMap.get("fleaMasterLogin"), cmd, function(data, status) {
 				
 				var result = data;
 

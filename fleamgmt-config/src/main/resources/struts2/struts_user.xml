@@ -5,9 +5,9 @@
 
 <struts>
 
-	<package name="fleaerLogin" namespace="/business" extends="default">
+	<package name="fleaMasterLogin" namespace="/business" extends="default">
 
-		<action name="fleaerLogin" class="com.huazie.fleamgmt.struts2.login.web.FleaerLoginAction">
+		<action name="fleaMasterLogin" class="com.huazie.fleamgmt.struts2.login.web.FleaMasterLoginAction">
 			<result name="json" type="json">
 				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
 				<param name="root">result</param>

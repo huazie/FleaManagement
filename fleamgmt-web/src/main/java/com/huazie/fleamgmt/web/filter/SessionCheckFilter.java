@@ -36,7 +36,7 @@ public class SessionCheckFilter implements Filter {
 
     private Set<String> checkUrlSet = new HashSet<String>();
 
-    private Set<String> ingoreUrlSet = new HashSet<String>();
+    private Set<String> ignoreUrlSet = new HashSet<String>();
 
     private Set<String> requestPrefixSet = new HashSet<String>();
 
@@ -45,7 +45,7 @@ public class SessionCheckFilter implements Filter {
     @Override
     public void destroy() {
         this.checkUrlSet.clear();
-        this.ingoreUrlSet.clear();
+        this.ignoreUrlSet.clear();
         this.requestPrefixSet.clear();
     }
 
@@ -56,7 +56,7 @@ public class SessionCheckFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
         // 如果是忽略的URL
-        if (sessionKey == null || isInIngoreUrls(request)) {
+        if (sessionKey == null || isInIgnoreUrls(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -66,7 +66,7 @@ public class SessionCheckFilter implements Filter {
             return;
         }
         // 如果是业务请求并且用户没有登录，重定向到指定页面
-        if (isBusiRequest(request) && isNotLogin(session)) {
+        if (isBusinessRequest(request) && isNotLogin(session)) {
             response.sendRedirect(request.getContextPath() + redirectURL);
             return;
         }
@@ -107,20 +107,20 @@ public class SessionCheckFilter implements Filter {
      * @return true：是 , false: 不是
      * @since 1.0.0
      */
-    private boolean isInIngoreUrls(HttpServletRequest request) {
+    private boolean isInIgnoreUrls(HttpServletRequest request) {
         String uri = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
-        Iterator<String> it = ingoreUrlSet.iterator();
+        Iterator<String> it = ignoreUrlSet.iterator();
         while (it.hasNext()) {
             String prefix = it.next();
             if (uri.startsWith(prefix) || uri.contains(prefix)) {
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("SessionCheckFilter##isInIngoreUrls() The {} is in {}, true", uri, ingoreUrlSet);
+                    LOGGER.debug("SessionCheckFilter##isInIgnoreUrls() The {} is in {}, true", uri, ignoreUrlSet);
                 }
                 return true;
             }
         }
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("SessionCheckFilter##isInIngoreUrls() The {} is in {}, false", uri, ingoreUrlSet);
+            LOGGER.debug("SessionCheckFilter##isInIgnoreUrls() The {} is in {}, false", uri, ignoreUrlSet);
         }
         return false;
     }
@@ -132,7 +132,7 @@ public class SessionCheckFilter implements Filter {
      * @return true：是 , false: 不是
      * @since 1.0.0
      */
-    private boolean isBusiRequest(HttpServletRequest request) {
+    private boolean isBusinessRequest(HttpServletRequest request) {
 
         String uri = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
 
@@ -142,13 +142,13 @@ public class SessionCheckFilter implements Filter {
 
             if (uri.startsWith(prefix)) {
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("SessionCheckFilter##isBusiRequest() The {} starts with {}, true", uri, requestPrefixSet);
+                    LOGGER.debug("SessionCheckFilter##isBusinessRequest() The {} starts with {}, true", uri, requestPrefixSet);
                 }
                 return true;
             }
         }
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("SessionCheckFilter##isBusiRequest() The {} starts with {}, false", uri);
+            LOGGER.debug("SessionCheckFilter##isBusinessRequest() The {} starts with {}, false", uri);
         }
         return false;
     }
@@ -198,10 +198,10 @@ public class SessionCheckFilter implements Filter {
         if (IgnoreUrlsStr != null) {
             String[] params = IgnoreUrlsStr.split(",");
             for (int i = 0; i < params.length; i++) {
-                ingoreUrlSet.add(params[i].trim());
+                ignoreUrlSet.add(params[i].trim());
             }
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("SessionCheckFilter##init() IngoreUrlSet={}", ingoreUrlSet);
+                LOGGER.debug("SessionCheckFilter##init() IngoreUrlSet={}", ignoreUrlSet);
             }
         }
         if (requestPrefixStr != null) {
