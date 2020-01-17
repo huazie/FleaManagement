@@ -27,12 +27,12 @@ import javax.annotation.Resource;
  * @since 1.0.0
  */
 @Controller
-public class FleaMasterLoginAction extends BaseAction {
+public class FleaMgmtLoginAction extends BaseAction {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FleaMasterLoginAction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FleaMgmtLoginAction.class);
     private static final long serialVersionUID = -8632343740482642538L;
 
-    private transient IFleaUserLoginSV fleaUserLoginSV;
+    private IFleaUserLoginSV fleaUserLoginSV;
 
     private FleaUserLoginInfo fleaUserLoginInfo;
 

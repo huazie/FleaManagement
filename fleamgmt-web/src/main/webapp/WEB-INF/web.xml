@@ -10,7 +10,11 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml</param-value>
+        <!--
+            classpath：只会到你的class路径中查找找文件。
+            classpath*：不仅包含class路径，还包括jar文件中（class路径）进行查找。
+        -->
+        <param-value>classpath*:applicationContext.xml</param-value>
     </context-param>
     <filter>
         <filter-name>UrlFilter</filter-name>
@@ -25,11 +29,11 @@
         </init-param>
         <init-param>
             <param-name>IgnoreUrls</param-name>
-            <param-value>/business/fleaerLogin!login.flea,/resources</param-value>
+            <param-value>/business/fleaMgmtLogin!login.flea,/resources</param-value>
         </init-param>
         <init-param>
             <param-name>CheckUrls</param-name>
-            <param-value>/index.html,/fleaer/</param-value>
+            <param-value>/index.html,/mgmt/,/auth/</param-value>
         </init-param>
         <init-param>
             <param-name>RequestPrefix</param-name>

@@ -5,23 +5,23 @@
 
 <struts>
 
-	<package name="fleaMasterLogin" namespace="/business" extends="default">
+	<package name="fleaMgmtLogin" namespace="/business" extends="default">
 
-		<action name="fleaMasterLogin" class="com.huazie.fleamgmt.struts2.login.web.FleaMasterLoginAction">
+		<action name="fleaMgmtLogin" class="com.huazie.fleamgmt.struts2.login.web.FleaMgmtLoginAction">
 			<result name="json" type="json">
 				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
 				<param name="root">result</param>
 				<param name="ignoreHierarchy">false</param>
 			</result>
 		</action>
-		
-		<action name="user" class="studio.huazie.fleamanagement.module.user.web.UserAction">
+		<!--
+		<action name="user" class="studio.huazie.mgmt.module.user.web.UserAction">
 			<result name="json" type="json">
-				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
 				<param name="root">result</param>
 				<param name="ignoreHierarchy">false</param>
 			</result>
 		</action>
+		-->
 		
 	</package>
 </struts>

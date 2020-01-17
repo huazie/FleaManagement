@@ -7,7 +7,7 @@
 define(function(require, exports, module) {
 	
 	//跳主登录
-	ReqUrlMap.put("fleaMasterLogin", "fleaMasterLogin!login.flea");
+	ReqUrlMap.put("fleaMgmtLogin", "fleaMgmtLogin!login.flea");
 	
 	/**
 	 * 登录界面初始化
@@ -40,7 +40,7 @@ define(function(require, exports, module) {
 			}
 			
 			// 登录验证
-			Huazie.ajax.postJson(ReqUrlMap.get("fleaMasterLogin"), cmd, function(data, status) {
+			Huazie.ajax.postJson(ReqUrlMap.get("fleaMgmtLogin"), cmd, function(data, status) {
 				
 				var result = data;
 
@@ -48,7 +48,7 @@ define(function(require, exports, module) {
 					if(result.retCode == "Y"){
 						Huazie.dialog.tips("info", result.retMess, 2);
 						$thiz.removeClass("disabled").html(Huazie.msg.btnText("unlock", "登录"));
-						location.href = ReqUrlMap.get("fleaerHome");
+						location.href = ReqUrlMap.get("fleaMgmtHome");
 					}else if(result.retCode == "N"){
 						Huazie.dialog.tips("warning", result.retMess, 2);
 						$("#name").val('');

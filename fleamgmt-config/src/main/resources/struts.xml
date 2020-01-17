@@ -15,18 +15,18 @@
 	<!-- 上传文件是所允许的文件最大值 -->  
 	<constant name="struts.multipart.maxSize" value="1000000000"/> 
 	<!-- 设置文件上传时的临时文件夹时F盘下的temp文件夹 -->  
-    <constant name="struts.multipart.saveDir" value="E:\\temp"></constant>
+    <constant name="struts.multipart.saveDir" value="E:\\temp"/>
 
 	<package name="default" namespace="/" extends="struts-default,json-default">
 
-		<default-action-ref name="pagenotfound"></default-action-ref>
+		<default-action-ref name="pagenotfound"/>
 		
 		<global-results>
 			<result name="error500">/WEB-INF/error-500.html</result>
 		</global-results>
 		
 		<global-exception-mappings>
-			<exception-mapping result="error500" exception="java.lang.Exception"></exception-mapping>
+			<exception-mapping result="error500" exception="java.lang.Exception"/>
 		</global-exception-mappings>
 		 
 		<action name="pagenotfound">
@@ -36,12 +36,14 @@
 		</action>
 		
 	</package>
-	
+
+	<!--
 	<include file="struts2/structs_auth.xml" />
 	<include file="struts2/structs_base.xml" />
 	<include file="struts2/structs_file.xml" />
 	<include file="struts2/structs_index.xml" />
 	<include file="struts2/structs_res.xml" />
+	-->
 	<include file="struts2/structs_user.xml" />
 
 </struts>

@@ -17,8 +17,8 @@ var ReqUrlMap = (function(){
 	var reqUrlPrefix = "business/";
 	// 请求URL
 	var reqUrl = {
-		"fleaerHome" : reqUrlPrefix + "jump!goToIndex.flea",	//跳蚤管家主页
-		"fleaerMenu" : "jump!goToMenu.flea?menuCode="			//指定菜单页
+		"fleaMgmtHome" : reqUrlPrefix + "jump!goToIndex.flea",	//跳蚤管家主页
+		"fleaMgmtMenu" : "jump!goToMenu.flea?menuCode="			//指定菜单页
 	};
 	
 	return {
@@ -71,6 +71,7 @@ var TplUrlMap = (function(){
 	}
 	
 })(jQuery);
+
 /**
  * image Map
  */
@@ -112,28 +113,27 @@ var SeaJsUrlMap = (function(){
 	
 	// imgUrl
 	var seaJsUrl = [{
-		"login"	: seaJsUrlPrefix[0] + "fleaer/login",				// 用户登录模块js
-		"index" : seaJsUrlPrefix[0] + "fleaer/index",				// 首页模块js
-		"console" : seaJsUrlPrefix[0] + "fleaer/console",			// 控制台js
-		"menu"	: seaJsUrlPrefix[0] + "common/menu",				// 公共菜单模块js
-		"favorite" : seaJsUrlPrefix[0] + "common/favorite",			// 菜单收藏夹js
-		"authMenu"	: seaJsUrlPrefix[0] + "fleaer/auth/auth-menu",	// 菜单管理模块js
-		"uploadRes"	: seaJsUrlPrefix[0] + "fleaer/res/res-upload",	// 上传物品模块js
-		"auditRes"	: seaJsUrlPrefix[0] + "fleaer/res/res-audit",	// 物品审核模块js
-		"searchRes"	: seaJsUrlPrefix[0] + "fleaer/res/res-search",	// 物品浏览模块js
-		"auditUser"	: seaJsUrlPrefix[0] + "fleaer/user/user-audit",	// 跳主审核模块js
-
+		"login"	: seaJsUrlPrefix[0] + "mgmt/login",								// 用户登录模块js
+		"index" : seaJsUrlPrefix[0] + "mgmt/index",								// 首页模块js
+		"console" : seaJsUrlPrefix[0] + "mgmt/console",							// 控制台js
+		"menu"	: seaJsUrlPrefix[0] + "common/menu",							// 公共菜单模块js
+		"favorite" : seaJsUrlPrefix[0] + "common/favorite",						// 菜单收藏夹js
+		"authMenu"	: seaJsUrlPrefix[0] + "auth/function/menu/auth-menu",		// 菜单管理模块js
+		"uploadRes"	: seaJsUrlPrefix[0] + "mgmt/res/res-upload",				// 上传物品模块js
+		"auditRes"	: seaJsUrlPrefix[0] + "mgmt/res/res-audit",					// 物品审核模块js
+		"searchRes"	: seaJsUrlPrefix[0] + "mgmt/res/res-search",				// 物品浏览模块js
+		"auditUser"	: seaJsUrlPrefix[0] + "mgmt/user/user-audit",				// 跳主审核模块js
 	},{
-		"login"	: seaJsUrlPrefix[1] + "fleaer/login",				// 用户登录模块js
-		"index" : seaJsUrlPrefix[1] + "fleaer/index",				// 首页模块js
-		"console" : seaJsUrlPrefix[1] + "fleaer/console",			// 控制台js
-		"menu"	: seaJsUrlPrefix[1] + "common/menu",				// 公共菜单模块js
-		"favorite" : seaJsUrlPrefix[1] + "common/favorite",			// 菜单收藏夹js
-		"authMenu"	: seaJsUrlPrefix[1] + "fleaer/auth/auth-menu",	// 菜单管理模块js
-		"uploadRes"	: seaJsUrlPrefix[1] + "fleaer/res/res-upload",	// 上传物品模块js
-		"auditRes"	: seaJsUrlPrefix[1] + "fleaer/res/res-audit",	// 物品审核模块js
-		"searchRes"	: seaJsUrlPrefix[1] + "fleaer/res/res-search",	// 物品浏览模块js
-		"auditUser"	: seaJsUrlPrefix[1] + "fleaer/user/user-audit",	// 跳主审核模块js
+        "login"	: seaJsUrlPrefix[1] + "mgmt/login",								// 用户登录模块js
+        "index" : seaJsUrlPrefix[1] + "mgmt/index",								// 首页模块js
+        "console" : seaJsUrlPrefix[1] + "mgmt/console",							// 控制台js
+        "menu"	: seaJsUrlPrefix[1] + "common/menu",							// 公共菜单模块js
+        "favorite" : seaJsUrlPrefix[1] + "common/favorite",						// 菜单收藏夹js
+        "authMenu"	: seaJsUrlPrefix[1] + "auth/function/menu/auth-menu",		// 菜单管理模块js
+        "uploadRes"	: seaJsUrlPrefix[1] + "mgmt/res/res-upload",				// 上传物品模块js
+        "auditRes"	: seaJsUrlPrefix[1] + "mgmt/res/res-audit",					// 物品审核模块js
+        "searchRes"	: seaJsUrlPrefix[1] + "mgmt/res/res-search",				// 物品浏览模块js
+        "auditUser"	: seaJsUrlPrefix[1] + "mgmt/user/user-audit",				// 跳主审核模块js
 	}];
 	
 	return {
