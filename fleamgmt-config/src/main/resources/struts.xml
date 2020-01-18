@@ -19,7 +19,7 @@
 
 	<package name="default" namespace="/" extends="struts-default,json-default">
 
-		<default-action-ref name="pagenotfound"/>
+		<default-action-ref name="page_notfound"/>
 		
 		<global-results>
 			<result name="error500">/WEB-INF/error-500.html</result>
@@ -29,7 +29,7 @@
 			<exception-mapping result="error500" exception="java.lang.Exception"/>
 		</global-exception-mappings>
 		 
-		<action name="pagenotfound">
+		<action name="page_notfound">
 			<result name="success" type="redirect">
 				<param name="location">/WEB-INF/error-404.html</param>
 			</result>
@@ -38,12 +38,12 @@
 	</package>
 
 	<!--
-	<include file="struts2/structs_auth.xml" />
-	<include file="struts2/structs_base.xml" />
-	<include file="struts2/structs_file.xml" />
-	<include file="struts2/structs_index.xml" />
-	<include file="struts2/structs_res.xml" />
+	<include file="struts2/struts_auth.xml" />
+	<include file="struts2/struts_base.xml" />
+	<include file="struts2/struts_file.xml" />
+	<include file="struts2/struts_index.xml" />
+	<include file="struts2/struts_res.xml" />
 	-->
-	<include file="struts2/structs_user.xml" />
+	<include file="struts2/struts_user.xml" />
 
 </struts>

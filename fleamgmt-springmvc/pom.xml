@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fleamgmt-parent</artifactId>
+        <groupId>com.huazie.flea.fleamgmt</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <name>FLEA MANAGEMENT SPRING MVC</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fleamgmt-springmvc</artifactId>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- FLEA MANAGEMENT BUSINESS -->
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>fleamgmt-business</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
