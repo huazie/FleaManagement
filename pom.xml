@@ -106,8 +106,8 @@
         <module>fleamgmt-config</module>
         <module>fleamgmt-business</module>
         <module>fleamgmt-struts2</module>
-        <module>fleamgmt-web</module>
         <module>fleamgmt-springmvc</module>
+        <module>fleamgmt-web</module>
     </modules>
 
 </project>

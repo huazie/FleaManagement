@@ -34,6 +34,12 @@
             <version>${parent.version}</version>
         </dependency>
 
+        <!-- Spring MVC-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
