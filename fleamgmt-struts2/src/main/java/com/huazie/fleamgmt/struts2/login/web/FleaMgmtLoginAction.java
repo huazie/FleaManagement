@@ -3,7 +3,7 @@ package com.huazie.fleamgmt.struts2.login.web;
 import com.huazie.fleamgmt.constant.FleaMgmtConstants;
 import com.huazie.fleamgmt.struts2.base.web.BaseAction;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
-import com.huazie.frame.auth.common.pojo.login.FleaUserLoginInfo;
+import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginInfo;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
 import com.huazie.frame.common.FleaFrameManager;
 import com.huazie.frame.common.IFleaUser;
