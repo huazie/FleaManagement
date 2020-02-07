@@ -3,7 +3,7 @@ package com.huazie.fleamgmt.struts2.login.web;
 import com.huazie.fleamgmt.constant.FleaMgmtConstants;
 import com.huazie.fleamgmt.struts2.base.web.BaseAction;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
-import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginInfo;
+import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
 import com.huazie.frame.common.FleaFrameManager;
 import com.huazie.frame.common.IFleaUser;
@@ -12,7 +12,6 @@ import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.jersey.client.core.FleaJerseyClientConfig;
 import com.huazie.frame.jersey.common.FleaUserImpl;
 import com.opensymphony.xwork2.ActionContext;
-import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -34,19 +33,19 @@ public class FleaMgmtLoginAction extends BaseAction {
 
     private IFleaUserLoginSV fleaUserLoginSV;
 
-    private FleaUserLoginInfo fleaUserLoginInfo;
+    private FleaUserLoginPOJO fleaUserLoginPOJO;
 
     @Resource(name = "fleaUserLoginSV")
     public void setFleaUserLoginSV(IFleaUserLoginSV fleaUserLoginSV) {
         this.fleaUserLoginSV = fleaUserLoginSV;
     }
 
-    public FleaUserLoginInfo getFleaUserLoginInfo() {
-        return fleaUserLoginInfo;
+    public FleaUserLoginPOJO getFleaUserLoginPOJO() {
+        return fleaUserLoginPOJO;
     }
 
-    public void setFleaUserLoginInfo(FleaUserLoginInfo fleaUserLoginInfo) {
-        this.fleaUserLoginInfo = fleaUserLoginInfo;
+    public void setFleaUserLoginPOJO(FleaUserLoginPOJO fleaUserLoginPOJO) {
+        this.fleaUserLoginPOJO = fleaUserLoginPOJO;
     }
 
     /**
@@ -64,7 +63,7 @@ public class FleaMgmtLoginAction extends BaseAction {
             ActionContext aContext = ActionContext.getContext();
 
             // 跳主的登录
-            FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginInfo);
+            FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginPOJO);
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
                 // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
@@ -75,7 +74,7 @@ public class FleaMgmtLoginAction extends BaseAction {
                 initUserInfo(fleaAccount);
 
                 // 在这边记录登陆日志
-                fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
+                // fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
                 this.result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 this.result.setRetMess("亲，恭喜您登录成功呦");
             }

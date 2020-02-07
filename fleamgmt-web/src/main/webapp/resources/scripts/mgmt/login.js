@@ -35,8 +35,8 @@ define(function(require, exports, module) {
 			$thiz.addClass("disabled").html(Huazie.msg.btnText("key", "正在登陆中..."));
 			
 			var cmd = {
-				"fleaUserLoginInfo.accountCode" : name.trim(),
-				"fleaUserLoginInfo.accountPwd" : password.trim()
+				"fleaUserLoginPOJO.accountCode" : name.trim(),
+				"fleaUserLoginPOJO.accountPwd" : password.trim()
 			}
 			
 			// 登录验证
