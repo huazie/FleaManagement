@@ -12,6 +12,7 @@ import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.jersey.client.core.FleaJerseyClientConfig;
 import com.huazie.frame.jersey.common.FleaUserImpl;
 import com.opensymphony.xwork2.ActionContext;
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -74,12 +75,12 @@ public class FleaMgmtLoginAction extends BaseAction {
                 initUserInfo(fleaAccount);
 
                 // 在这边记录登陆日志
-                // fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
+                fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
                 this.result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 this.result.setRetMess("亲，恭喜您登录成功呦");
             }
 
-        } catch (CommonException e) {
+        } catch (Exception e) {
             this.result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             this.result.setRetMess(e.getMessage());
         }
