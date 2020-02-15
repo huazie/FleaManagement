@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 自动扫描-->
+    <context:component-scan base-package="com.huazie.**.web"/>
+
+    <!--
+        作用：注册用于支持基于注解的控制器的请求处理方法的bean对象
+        注意：如果没有annotation-driven，resources元素会阻止任意控制器被调用。若不需要使用resources，则不需要annotation-driven
+     -->
+    <mvc:annotation-driven/>
+    <!-- 静态资源需要单独处理，不走Dispatcher Servlet -->
+    <mvc:resources mapping="/css/**" location="/**/css/"/>
+    <mvc:resources mapping="/js/**" location="/**/js/"/>
+    <mvc:resources mapping="/*.html" location="/"/>
+
+    <!-- 对静态资源放行 -->
+    <mvc:default-servlet-handler />
+
+    <!-- 视图解析器：自动为咱们添加前缀与后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/mgmt/" />
+        <property name="suffix" value=".html" />
+    </bean>
+
+</beans>

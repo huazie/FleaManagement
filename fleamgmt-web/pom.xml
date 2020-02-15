@@ -34,6 +34,12 @@
             <version>${parent.version}</version>
         </dependency>
 
+        <!-- FLEA MANAGEMENT SPRING MVC-->
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>fleamgmt-springmvc</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
     </dependencies>
 

@@ -21,7 +21,7 @@ Comm = {
 		
 		var $afav = $(".page-header-fav .page-header-fav-a");
 		
-		var menuCode = Huazie.browser.getFrameParamter("menuCode");
+		var menuCode = Huazie.browser.getFrameParameter("menuCode");
 		
 		//Huazie.log(menuCode);
 		
@@ -69,7 +69,7 @@ Comm = {
 		
 		var $afav = $(".page-header-fav .page-header-fav-a");
 		
-		var menuCode = Huazie.browser.getFrameParamter("menuCode");
+		var menuCode = Huazie.browser.getFrameParameter("menuCode");
 
 		if(Comm.isHome(menuCode)){
 			return;

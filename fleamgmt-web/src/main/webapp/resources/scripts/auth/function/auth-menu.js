@@ -95,8 +95,8 @@ define(function(require, exports, module) {
 								}
 								
 								if(data){
-									Huazie.dialog.rightClickBuddle(data, obj, function(){
-										BindEvent.bindMenuMangementEvent();
+									Huazie.dialog.rightClickBubble(data, obj, function(){
+										BindEvent.bindMenuManagementEvent();
 									});
 								}
 							}
@@ -155,7 +155,7 @@ define(function(require, exports, module) {
 		/**
 		 * 绑定收藏夹点击事件
 		 */
-		bindMenuMangementEvent : function(){
+		bindMenuManagementEvent : function(){
 			$("a[id^='function_']").off("click");
 			$("a[id^='function_']").on("click", function(){
 				var name = $(this).attr("name");
