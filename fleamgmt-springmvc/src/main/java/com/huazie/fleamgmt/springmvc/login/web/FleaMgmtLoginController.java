@@ -4,6 +4,7 @@ import com.huazie.fleamgmt.constant.FleaMgmtConstants;
 import com.huazie.fleamgmt.springmvc.base.web.FleaMgmtCommonController;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
+import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
 import com.huazie.frame.common.FleaFrameManager;
 import com.huazie.frame.common.IFleaUser;
@@ -12,6 +13,7 @@ import com.huazie.frame.common.pojo.OutputCommonData;
 import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.jersey.client.core.FleaJerseyClientConfig;
 import com.huazie.frame.jersey.common.FleaUserImpl;
+import com.huazie.frame.jersey.common.FleaUserImplObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -37,9 +39,16 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
 
     private IFleaUserLoginSV fleaUserLoginSV;
 
+    private IFleaAuthSV fleaAuthSV;
+
     @Resource(name = "fleaUserLoginSV")
     public void setFleaUserLoginSV(IFleaUserLoginSV fleaUserLoginSV) {
         this.fleaUserLoginSV = fleaUserLoginSV;
+    }
+
+    @Resource(name = "fleaAuthSV")
+    public void setFleaAuthSV(IFleaAuthSV fleaAuthSV) {
+        this.fleaAuthSV = fleaAuthSV;
     }
 
     @RequestMapping("fleaMgmtLogin!login.flea")
@@ -64,7 +73,7 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
                 // 初始化用户信息
-                initUserInfo(fleaAccount);
+                fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(), FleaJerseyClientConfig.getSystemAcctId(Long.class), null, new FleaUserImplObjectFactory());
 
                 // 在这边记录登陆日志
                 fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), request);
@@ -82,29 +91,6 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
         }
 
         return result;
-    }
-
-    /**
-     * <p> 初始化用户信息 </p>
-     *
-     * @param fleaAccount 账户信息
-     * @since 1.0.0
-     */
-    private void initUserInfo(FleaAccount fleaAccount) {
-        IFleaUser fleaUser = FleaFrameManager.getManager().getUserInfo();
-        if (ObjectUtils.isEmpty(fleaUser)) {
-            fleaUser = new FleaUserImpl();
-
-            if (ObjectUtils.isNotEmpty(fleaAccount)) {
-                fleaUser.setAcctId(fleaAccount.getAccountId());
-                String systemAcctId = FleaJerseyClientConfig.getSystemAcctId();
-                if (ObjectUtils.isNotEmpty(systemAcctId)) {
-                    fleaUser.setSystemAcctId(Long.valueOf(systemAcctId));
-                }
-            }
-
-            FleaFrameManager.getManager().setUserInfo(fleaUser);
-        }
     }
 
 }
