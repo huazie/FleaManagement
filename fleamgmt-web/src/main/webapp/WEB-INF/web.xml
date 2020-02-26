@@ -60,16 +60,12 @@
     </filter-mapping>
     -->
 
-    <!-- Spring MVC 调度员Servlet-->
+    <!-- Spring MVC 调度员Servlet
     <servlet>
         <servlet-name>springMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <!--
-                classpath：只会到你的class路径中查找找文件。
-                classpath*：不仅包含class路径，还包括jar文件中（class路径）进行查找。
-            -->
             <param-value>classpath*:spring/mvc-config.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
@@ -78,6 +74,7 @@
         <servlet-name>springMVC</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    -->
 
     <error-page>
         <error-code>404</error-code>
