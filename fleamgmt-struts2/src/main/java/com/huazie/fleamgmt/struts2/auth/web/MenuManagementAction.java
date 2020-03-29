@@ -161,7 +161,7 @@ public class MenuManagementAction extends ActionSupport {
         }
 
         ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_FLEAER_ACCOUNT);
+        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##getTreeMenus() Fleaer Account={}", account);
@@ -199,7 +199,7 @@ public class MenuManagementAction extends ActionSupport {
         }
 
         ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_FLEAER_ACCOUNT);
+        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##search() Fleaer Account={}", account);

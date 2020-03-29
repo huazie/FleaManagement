@@ -20,10 +20,6 @@ public interface FleaMgmtConstants {
          */
         String SESSION_ACCOUNT = "Account";
         /**
-         * <p> 跳蚤管家系统登录的账户 </p>
-         */
-        String SESSION_FLEAER_ACCOUNT = "FleaerAccount";
-        /**
          * <p> 用户注册封装类 </p>
          */
         String SESSION_USERREGISTER = "UserRegister";

@@ -70,15 +70,13 @@ public class FleaMgmtLoginAction extends BaseAction {
         }
 
         try {
-            ActionContext aContext = ActionContext.getContext();
 
             // 跳主的登录
             FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginPOJO);
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
-                // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
-                // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
-                aContext.getSession().put(FleaMgmtConstants.SessionConstants.SESSION_FLEAER_ACCOUNT, fleaAccount);
+                // 初始化Session信息
+                initFleaSession(fleaAccount);
 
                 // 初始化用户信息
                 fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(), FleaJerseyClientConfig.getSystemAcctId(Long.class), null, new FleaUserImplObjectFactory());
@@ -99,6 +97,19 @@ public class FleaMgmtLoginAction extends BaseAction {
         }
 
         return "json";
+    }
+
+    /**
+     * <p> 初始化Session信息 </p>
+     *
+     * @param fleaAccount 账户信息
+     * @since 1.0.0
+     */
+    private void initFleaSession(FleaAccount fleaAccount) {
+        ActionContext aContext = ActionContext.getContext();
+        // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
+        // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
+        aContext.getSession().put(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT, fleaAccount);
     }
 
 }

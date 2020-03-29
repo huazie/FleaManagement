@@ -72,6 +72,9 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
             FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginPOJO);
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
+                // 初始化Session信息
+                initFleaSession(fleaAccount, session);
+
                 // 初始化用户信息
                 fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(), FleaJerseyClientConfig.getSystemAcctId(Long.class), null, new FleaUserImplObjectFactory());
 
@@ -91,6 +94,18 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
         }
 
         return result;
+    }
+
+    /**
+     * <p> 初始化Session信息 </p>
+     *
+     * @param fleaAccount 账户信息
+     * @since 1.0.0
+     */
+    private void initFleaSession(FleaAccount fleaAccount, HttpSession session) {
+        // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
+        // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
+        session.setAttribute(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT, fleaAccount);
     }
 
 }
