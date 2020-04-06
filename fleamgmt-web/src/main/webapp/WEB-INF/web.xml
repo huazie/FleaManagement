@@ -23,26 +23,6 @@
     <filter>
         <filter-name>UrlFilter</filter-name>
         <filter-class>com.huazie.fleamgmt.web.filter.SessionCheckFilter</filter-class>
-        <init-param>
-            <param-name>CheckSessionKey</param-name>
-            <param-value>FleaerAccount</param-value>
-        </init-param>
-        <init-param>
-            <param-name>RedirectURL</param-name>
-            <param-value>/</param-value>
-        </init-param>
-        <init-param>
-            <param-name>IgnoreUrls</param-name>
-            <param-value>/business/fleaMgmtLogin!login.flea,/resources</param-value>
-        </init-param>
-        <init-param>
-            <param-name>CheckUrls</param-name>
-            <param-value>/index.html,/mgmt/,/auth/</param-value>
-        </init-param>
-        <init-param>
-            <param-name>RequestPrefix</param-name>
-            <param-value>/business</param-value>
-        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>UrlFilter</filter-name>
