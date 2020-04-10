@@ -60,7 +60,11 @@
         <location>/WEB-INF/error-404.html</location>
     </error-page>
     <error-page>
-        <exception-type>java.lang.Exception</exception-type>
+        <error-code>500</error-code>
         <location>/WEB-INF/error-500.html</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/error.html</location>
     </error-page>
 </web-app>
