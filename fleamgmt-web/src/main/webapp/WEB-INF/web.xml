@@ -21,11 +21,11 @@
 
     <!-- 自定义过滤器 -->
     <filter>
-        <filter-name>UrlFilter</filter-name>
-        <filter-class>com.huazie.fleamgmt.web.filter.SessionCheckFilter</filter-class>
+        <filter-name>FleaMgmt</filter-name>
+        <filter-class>com.huazie.fleamgmt.web.filter.FleaMgmtFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>UrlFilter</filter-name>
+        <filter-name>FleaMgmt</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
