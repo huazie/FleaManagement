@@ -7,7 +7,6 @@ import com.huazie.frame.auth.base.function.entity.FleaMenu;
 import com.huazie.frame.auth.base.function.service.interfaces.IFleaMenuSV;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.common.util.ObjectUtils;
-import com.huazie.frame.common.util.StringUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.slf4j.Logger;
@@ -15,9 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p> 菜单管理Action </p>
@@ -161,7 +157,7 @@ public class MenuManagementAction extends ActionSupport {
         }
 
         ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT);
+        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_USER);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##getTreeMenus() Fleaer Account={}", account);
@@ -199,7 +195,7 @@ public class MenuManagementAction extends ActionSupport {
         }
 
         ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT);
+        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_USER);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##search() Fleaer Account={}", account);

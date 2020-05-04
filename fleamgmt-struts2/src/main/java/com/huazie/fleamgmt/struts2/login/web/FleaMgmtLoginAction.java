@@ -6,12 +6,11 @@ import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
-import com.huazie.frame.common.FleaFrameManager;
-import com.huazie.frame.common.IFleaUser;
+import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.util.ObjectUtils;
+import com.huazie.frame.core.request.FleaRequestUtil;
 import com.huazie.frame.jersey.client.core.FleaJerseyClientConfig;
-import com.huazie.frame.jersey.common.FleaUserImpl;
 import com.huazie.frame.jersey.common.FleaUserImplObjectFactory;
 import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts2.ServletActionContext;
@@ -70,17 +69,19 @@ public class FleaMgmtLoginAction extends BaseAction {
         }
 
         try {
-
             // 跳主的登录
             FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginPOJO);
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
-                // 初始化Session信息
-                initFleaSession(fleaAccount);
-
                 // 初始化用户信息
-                fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(), FleaJerseyClientConfig.getSystemAcctId(Long.class), null, new FleaUserImplObjectFactory());
-
+                fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(),
+                        FleaJerseyClientConfig.getSystemAcctId(Long.class), null,
+                        new FleaUserImplObjectFactory() {
+                            @Override
+                            public void initObject() {
+                                initFleaUserSession();
+                            }
+                        });
                 // 在这边记录登陆日志
                 fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
                 this.result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
@@ -100,16 +101,21 @@ public class FleaMgmtLoginAction extends BaseAction {
     }
 
     /**
-     * <p> 初始化Session信息 </p>
+     * <p> 初始化用户Session信息 </p>
      *
-     * @param fleaAccount 账户信息
      * @since 1.0.0
      */
-    private void initFleaSession(FleaAccount fleaAccount) {
-        ActionContext aContext = ActionContext.getContext();
-        // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
-        // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
-        aContext.getSession().put(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT, fleaAccount);
+    private void initFleaUserSession() {
+        try {
+            ActionContext aContext = ActionContext.getContext();
+            // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
+            // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
+            aContext.getSession().put(FleaRequestUtil.getUserSessionKey(), FleaSessionManager.getUserInfo());
+        } catch (CommonException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("FleaMasterLoginAction##initFleaUserSession() Init User Session occurs exception", e);
+            }
+        }
     }
 
 }

@@ -41,7 +41,7 @@ var ReqUrlMap = (function(){
 var TplUrlMap = (function(){
 	
 	// tpl前缀
-	var tplUrlPrefix = ["resources/template/","../resources/template/"];
+	var tplUrlPrefix = ["resources/template/", "../resources/template/"];
 	
 	// tplUrl
 	var tplUrl = [{

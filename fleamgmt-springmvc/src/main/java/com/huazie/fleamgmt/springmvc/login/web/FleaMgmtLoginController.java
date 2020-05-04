@@ -6,13 +6,13 @@ import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
-import com.huazie.frame.common.FleaFrameManager;
-import com.huazie.frame.common.IFleaUser;
+import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.pojo.OutputCommonData;
 import com.huazie.frame.common.util.ObjectUtils;
+import com.huazie.frame.core.common.FleaCoreCommonException;
+import com.huazie.frame.core.request.FleaRequestUtil;
 import com.huazie.frame.jersey.client.core.FleaJerseyClientConfig;
-import com.huazie.frame.jersey.common.FleaUserImpl;
 import com.huazie.frame.jersey.common.FleaUserImplObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,10 +56,10 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
     public OutputCommonData login(@RequestParam("fleaUserLoginPOJO.accountCode") String accountCode,
                                   @RequestParam("fleaUserLoginPOJO.accountPwd") String accountPwd,
                                   HttpServletRequest request,
-                                  HttpSession session) {
+                                  final HttpSession session) {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaMgmtLoginController##login() start");
+            LOGGER.debug("FleaMgmtLoginController##login(String, String, HttpServletRequest, HttpSession) start");
         }
 
         OutputCommonData result = new OutputCommonData();
@@ -72,11 +72,16 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
             FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginPOJO);
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
-                // 初始化Session信息
-                initFleaSession(fleaAccount, session);
-
                 // 初始化用户信息
-                fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(), FleaJerseyClientConfig.getSystemAcctId(Long.class), null, new FleaUserImplObjectFactory());
+                fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(),
+                        FleaJerseyClientConfig.getSystemAcctId(Long.class), null,
+                        new FleaUserImplObjectFactory() {
+                            @Override
+                            public void initObject() {
+                                // 初始化用户Session信息
+                                initFleaUserSession(session);
+                            }
+                        });
 
                 // 在这边记录登陆日志
                 fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), request);
@@ -90,22 +95,28 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaMasterLoginAction##login() end");
+            LOGGER.debug("FleaMgmtLoginController##login(String, String, HttpServletRequest, HttpSession) end");
         }
 
         return result;
     }
 
     /**
-     * <p> 初始化Session信息 </p>
+     * <p> 初始化用户Session信息 </p>
      *
-     * @param fleaAccount 账户信息
+     * @param session HttpSession对象
      * @since 1.0.0
      */
-    private void initFleaSession(FleaAccount fleaAccount, HttpSession session) {
-        // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
-        // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
-        session.setAttribute(FleaMgmtConstants.SessionConstants.SESSION_ACCOUNT, fleaAccount);
+    private void initFleaUserSession(HttpSession session) {
+        try {
+            // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
+            // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
+            session.setAttribute(FleaRequestUtil.getUserSessionKey(), FleaSessionManager.getUserInfo());
+        } catch (FleaCoreCommonException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("FleaMgmtLoginController##initFleaUserSession() Init User Session occurs exception", e);
+            }
+        }
     }
 
 }

@@ -37,13 +37,13 @@
 		
 	</package>
 
+	<include file="struts2/struts_base.xml" />
+	<include file="struts2/struts_user.xml" />
 	<!--
 	<include file="struts2/struts_auth.xml" />
-	<include file="struts2/struts_base.xml" />
 	<include file="struts2/struts_file.xml" />
 	<include file="struts2/struts_index.xml" />
 	<include file="struts2/struts_res.xml" />
 	-->
-	<include file="struts2/struts_user.xml" />
 
 </struts>

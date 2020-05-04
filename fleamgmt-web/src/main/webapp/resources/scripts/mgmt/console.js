@@ -11,7 +11,7 @@ define(function(require, exports, module) {
 		
 		ConsoleModule.loadMenuFavorite();
 		
-	}
+	};
 	/**
 	 * 控制台模块
 	 */

@@ -13,19 +13,20 @@ define(function(require, exports, module) {
 	 * 登录界面初始化
 	 */
 	exports.init = function(){
-		
-		$("#tabs").tabs();//jquery tabs
-		
-		$("#login").on("click",function(){//登录按钮
+		// jquery tabs
+		$("#tabs").tabs();
+
+		// 登录按钮
+		$("#login").on("click",function(){
 			var name = $("#name").val();
 			var password = $("#password").val();
 			
-			if(name.trim() == ""){
+			if(name && name.trim() === ""){
 				Huazie.dialog.tips("warning", "亲，账号不能为空哟", 1);
 				return;
 			}
 			
-			if(password.trim() == ""){
+			if(password && password.trim() === ""){
 				Huazie.dialog.tips("warning", "亲，密码不能为空哟", 1);
 				return;
 			}
@@ -41,15 +42,13 @@ define(function(require, exports, module) {
 			
 			// 登录验证
 			Huazie.ajax.postJson(ReqUrlMap.get("fleaMgmtLogin"), cmd, function(data, status) {
-				
 				var result = data;
-
 				if(status){
-					if(result.retCode == "Y"){
+					if(result.retCode === "Y"){
 						Huazie.dialog.tips("info", result.retMess, 2);
 						$thiz.removeClass("disabled").html(Huazie.msg.btnText("unlock", "登录"));
 						location.href = ReqUrlMap.get("fleaMgmtHome");
-					}else if(result.retCode == "N"){
+					} else if(result.retCode === "N"){
 						Huazie.dialog.tips("warning", result.retMess, 2);
 						$("#name").val('');
 						$("#password").val('');

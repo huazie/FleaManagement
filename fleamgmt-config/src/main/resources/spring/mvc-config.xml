@@ -9,7 +9,7 @@
 	        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 自动扫描-->
-    <context:component-scan base-package="com.huazie.**.web"/>
+    <context:component-scan base-package="com.huazie.fleamgmt.springmvc.**.web"/>
 
     <!--
         作用：注册用于支持基于注解的控制器的请求处理方法的bean对象

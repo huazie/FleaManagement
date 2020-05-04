@@ -7,11 +7,11 @@
  */
 define(function(require, exports, module) {
 		
-	// 验证跳主是否已经登录
-	ReqUrlMap.put("fleaerLoginValidate", "fleaerIndex!loginValidate.flea");
+	// 获取用户Session信息
+	ReqUrlMap.put("getUserSession", "fleamgmtIndex!getUserSession.flea");
 	
 	// 跳主退出
-	ReqUrlMap.put("fleaerQuit", "fleaerIndex!quit.flea");
+	ReqUrlMap.put("quit", "fleamgmtIndex!quit.flea");
 
 	// 菜单搜索
 	ReqUrlMap.put("menuSearch", "authMenu!search.flea");
@@ -30,18 +30,18 @@ define(function(require, exports, module) {
 	 */
 	exports.init = function(){
 		
-		FleaerIndex.loginValidate(function(data){
-			window.currentMenu = {};
-			// 加载顶部功能模块
-			FuncModule.loadNavFuncModule(data);
-			// 加载侧边快捷菜单
-			FuncModule.loadShortcutsModule(data);
-			// 加载侧边菜单
-			FuncModule.loadSideMenuModule(data.menuInfo);
-			// 加载菜单搜索
-			FuncModule.loadMenuSearch();
-			
-		});
+		// FleaMgmtIndex.getUserSession(function(data){
+		// 	window.currentMenu = {};
+		// 	// 加载顶部功能模块
+		// 	FuncModule.loadNavFuncModule(data);
+		// 	// 加载侧边快捷菜单
+		// 	FuncModule.loadShortcutsModule(data);
+		// 	// 加载侧边菜单
+		// 	FuncModule.loadSideMenuModule(data.menuInfo);
+		// 	// 加载菜单搜索
+		// 	FuncModule.loadMenuSearch();
+		//
+		// });
 		
 		//关闭IE浏览器事件
 		//$(window).bind('beforeunload',function(){
@@ -61,13 +61,13 @@ define(function(require, exports, module) {
 		
 	}
 	
-	var FleaerIndex = {
+	var FleaMgmtIndex = {
 		/**
-		 * 登录验证
+		 * 获取用户Session信息
 		 */
-		loginValidate 		: function(callback){
-			// 读取相应的信息,看用户是否已经登陆过,如果已经登陆过,直接显示登陆信息
-			Huazie.ajax.getJson(ReqUrlMap.get("fleaerLoginValidate"), function(data, status) {
+		getUserSession 		: function(callback){
+			// 读取相应的用户Session信息
+			Huazie.ajax.getJson(ReqUrlMap.get("getUserSession"), function(data, status) {
 				var result = data;
 				if(status){
 					if(result.retCode == "Y"){

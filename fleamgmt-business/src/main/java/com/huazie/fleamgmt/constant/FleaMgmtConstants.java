@@ -16,9 +16,9 @@ public interface FleaMgmtConstants {
      */
     interface SessionConstants {
         /**
-         * <p> 跳蚤管家系统登录的账户 </p>
+         * <p> 跳蚤管家系统用户Session信息键 </p>
          */
-        String SESSION_ACCOUNT = "Account";
+        String SESSION_USER = "FleaUser";
         /**
          * <p> 用户注册封装类 </p>
          */
