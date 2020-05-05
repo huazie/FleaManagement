@@ -14,7 +14,7 @@
 	<constant name="struts.action.extension" value="flea" />
 	<!-- 上传文件是所允许的文件最大值 -->  
 	<constant name="struts.multipart.maxSize" value="1000000000"/> 
-	<!-- 设置文件上传时的临时文件夹时F盘下的temp文件夹 -->  
+	<!-- 设置文件上传时的临时文件夹时 E盘下的temp文件夹, 生产环境另行选择 -->
     <constant name="struts.multipart.saveDir" value="E:\\temp"/>
 
 	<package name="default" namespace="/" extends="struts-default,json-default">

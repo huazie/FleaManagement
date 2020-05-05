@@ -25,7 +25,7 @@ public class JumpAction extends ActionSupport {
      * @return struts2首页跳转字符串
      * @since 1.0.0
      */
-    public String goToIndex() {
+    public String index() {
         LOGGER.debug("JumpAction##goToIndex() start");
         LOGGER.debug("JumpAction##goToIndex() Just For jumping to index.html");
         LOGGER.debug("JumpAction##goToIndex() end");

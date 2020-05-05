@@ -23,8 +23,8 @@ public class JumpController extends FleaMgmtCommonController{
      * @return 首页字符串
      * @since 1.0.0
      */
-    @RequestMapping("jump!goToIndex.flea")
-    public String goToIndex() {
+    @RequestMapping("jump!index.flea")
+    public String index() {
         LOGGER.debug("JumpController##goToIndex() start");
         LOGGER.debug("JumpController##goToIndex() Just For jumping to index.html");
         LOGGER.debug("JumpController##goToIndex() end");

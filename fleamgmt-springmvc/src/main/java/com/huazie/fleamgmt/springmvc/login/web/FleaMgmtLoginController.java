@@ -112,7 +112,7 @@ public class FleaMgmtLoginController extends FleaMgmtCommonController {
             // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
             // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
             session.setAttribute(FleaRequestUtil.getUserSessionKey(), FleaSessionManager.getUserInfo());
-        } catch (FleaCoreCommonException e) {
+        } catch (CommonException e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("FleaMgmtLoginController##initFleaUserSession() Init User Session occurs exception", e);
             }
