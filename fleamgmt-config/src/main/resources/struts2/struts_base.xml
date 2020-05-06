@@ -8,7 +8,7 @@
 	<package name="base" namespace="/business" extends="default">
 
 		<action name="jump" class="com.huazie.fleamgmt.struts2.base.web.JumpAction">
-			<result name="jumpToIndex">../mgmt/index.html</result>
+			<result name="jumpToIndex">../index.html</result>
 		</action>
 
 	</package>

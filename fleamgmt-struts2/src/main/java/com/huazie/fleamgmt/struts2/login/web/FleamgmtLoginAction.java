@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.struts2.login.web;
 
-import com.huazie.fleamgmt.constant.FleaMgmtConstants;
+import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.struts2.base.web.BaseAction;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
@@ -30,8 +30,9 @@ import javax.annotation.Resource;
 @Controller
 public class FleamgmtLoginAction extends BaseAction {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FleamgmtLoginAction.class);
     private static final long serialVersionUID = -8632343740482642538L;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FleamgmtLoginAction.class);
 
     private IFleaUserLoginSV fleaUserLoginSV;
 
@@ -64,8 +65,9 @@ public class FleamgmtLoginAction extends BaseAction {
      * @since 1.0.0
      */
     public String login() {
+
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaMasterLoginAction##login() start");
+            LOGGER.debug("FleamgmtLoginAction##login() start");
         }
 
         try {
@@ -84,17 +86,17 @@ public class FleamgmtLoginAction extends BaseAction {
                         });
                 // 在这边记录登陆日志
                 fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
-                this.result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+                this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 this.result.setRetMess("亲，恭喜您登录成功呦");
             }
 
         } catch (Exception e) {
-            this.result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             this.result.setRetMess(e.getMessage());
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaMasterLoginAction##login() end");
+            LOGGER.debug("FleamgmtLoginAction##login() end");
         }
 
         return "json";
@@ -113,7 +115,7 @@ public class FleamgmtLoginAction extends BaseAction {
             aContext.getSession().put(FleaRequestUtil.getUserSessionKey(), FleaSessionManager.getUserInfo());
         } catch (CommonException e) {
             if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("FleaMasterLoginAction##initFleaUserSession() Init User Session occurs exception", e);
+                LOGGER.error("FleamgmtLoginAction##initFleaUserSession() Init User Session occurs exception", e);
             }
         }
     }

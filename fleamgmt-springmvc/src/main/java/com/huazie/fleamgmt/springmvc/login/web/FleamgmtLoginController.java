@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.springmvc.login.web;
 
-import com.huazie.fleamgmt.constant.FleaMgmtConstants;
+import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.springmvc.base.web.FleaMgmtCommonController;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
@@ -84,12 +84,12 @@ public class FleamgmtLoginController extends FleaMgmtCommonController {
 
                 // 在这边记录登陆日志
                 fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), request);
-                result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 result.setRetMess("亲，恭喜您登录成功呦");
             }
 
         } catch (CommonException e) {
-            result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             result.setRetMess(e.getMessage());
         }
 

@@ -7,7 +7,7 @@ package com.huazie.fleamgmt.constant;
  * @version 1.0.0
  * @since 1.0.0
  */
-public interface FleaMgmtConstants {
+public interface FleamgmtConstants {
 
     /**
      * <p> 用户session常量 </p>

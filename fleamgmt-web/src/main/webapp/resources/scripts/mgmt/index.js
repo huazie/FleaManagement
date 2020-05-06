@@ -28,20 +28,20 @@ define(function(require, exports, module) {
 	/**
 	 * 初始化
 	 */
-	exports.init = function(){
+	exports.init = function() {
 		
-		// FleaMgmtIndex.getUserSession(function(data){
-		// 	window.currentMenu = {};
-		// 	// 加载顶部功能模块
-		// 	FuncModule.loadNavFuncModule(data);
-		// 	// 加载侧边快捷菜单
-		// 	FuncModule.loadShortcutsModule(data);
-		// 	// 加载侧边菜单
-		// 	FuncModule.loadSideMenuModule(data.menuInfo);
-		// 	// 加载菜单搜索
-		// 	FuncModule.loadMenuSearch();
-		//
-		// });
+		FleamgmtIndex.getUserSession(function(data){
+			window.currentMenu = {};
+			// 加载顶部功能模块
+			//FuncModule.loadNavFuncModule(data);
+			// // 加载侧边快捷菜单
+			// FuncModule.loadShortcutsModule(data);
+			// // 加载侧边菜单
+			// FuncModule.loadSideMenuModule(data.menuInfo);
+			// // 加载菜单搜索
+			// FuncModule.loadMenuSearch();
+
+		});
 		
 		//关闭IE浏览器事件
 		//$(window).bind('beforeunload',function(){
@@ -59,9 +59,9 @@ define(function(require, exports, module) {
 //			return confirm("确定离开此页面吗？");
 		//});
 		
-	}
+	};
 	
-	var FleaMgmtIndex = {
+	var FleamgmtIndex = {
 		/**
 		 * 获取用户Session信息
 		 */
@@ -69,13 +69,13 @@ define(function(require, exports, module) {
 			// 读取相应的用户Session信息
 			Huazie.ajax.getJson(ReqUrlMap.get("getUserSession"), function(data, status) {
 				var result = data;
-				if(status){
-					if(result.retCode == "Y"){
+				if(status) {
+					if (result.retCode === "Y") {
 						callback(result);
-					}else{
-						window.location.reload();
+					} else {
+                        Huazie.dialog.tips("warning", result.retMess, 2);
 					}
-				}else{
+				} else {
 					Huazie.dialog.tips("warning", result.retMess, 2);
 				}
 			});
@@ -176,7 +176,7 @@ define(function(require, exports, module) {
 			
 			var user_json = {
 				"NAV_BG_COLOR" 				: "light-blue",
-				"NAV_USER_PHOTO"     		: ImgUrlMap.get("user") + data.user.userPic,
+				"NAV_USER_PHOTO"     		: ImgUrlMap.get("user") + "",
 				"NAV_USER_NAME"				: data.user.userName,
 		  		"NAV_CONTENT"	:	[{
 		  			"HAS_DIVIDER"				: false,
@@ -197,10 +197,10 @@ define(function(require, exports, module) {
 			};
 			
 			//加载顶部导航栏
-			Huazie.tpl.loadTpl(TplUrlMap.get("headerNav"),function(){
+			Huazie.tpl.loadTpl(TplUrlMap.get("headerNav"),function() {
 				// Huazie.tpl.loadTemp($("#nav-top"), "#tpl_header_nav_progress", json);
 				// Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_notice", json1);
-				Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_msg", json2);
+				// Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_msg", json2);
 				Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_user", user_json);
 				BindEvent.bindUserFuncEvent();
 			});
@@ -208,7 +208,7 @@ define(function(require, exports, module) {
 		/**
 		 * 加载侧边快捷菜单
 		 */
-		loadShortcutsModule : function(data){
+		loadShortcutsModule : function(data) {
 			var shortcuts = [{
 				"BTN_CLASS" : "btn-success", 
 				"BTN_ICON"  : "signal"
@@ -224,26 +224,26 @@ define(function(require, exports, module) {
 			}];
 			
 			//加载侧边快捷菜单
-			Huazie.tpl.loadTpl(TplUrlMap.get("shortcuts"), function(){
+			Huazie.tpl.loadTpl(TplUrlMap.get("shortcuts"), function() {
 				Huazie.tpl.loadTemp($("#sidebar-shortcuts"), "#tpl_sidebar_shortcuts", shortcuts);
 			});
 		},
 		/**
 		 * 加载侧边菜单
 		 */
-		loadSideMenuModule : function(menuInfo){
+		loadSideMenuModule : function(menuInfo) {
 			
 			//加载侧边快捷菜单
-			Huazie.tpl.loadTpl(TplUrlMap.get("sideMenu"), function(){
+			Huazie.tpl.loadTpl(TplUrlMap.get("sideMenu"), function() {
 				Huazie.tpl.loadTemp($("#nav-list"), "#tpl_sidebar_nav", menuInfo.menuList);
 				
 				BindEvent.bindSideMenuEvent();
 			});
 			
-			require.async("../common/menu", function(fleaerMenu){
+			require.async("../common/menu", function(fleaerMenu) {
 				var menu = menuInfo.menu;
 				if(menu){
-					if(!menu["HAS_SUB_MENU"]){
+					if(!menu["HAS_SUB_MENU"]) {
 						fleaerMenu.open(menu["MENU_CODE"]);//打开初始化选中的菜单
 					}
 					fleaerMenu.showMenuPath(menu);
@@ -254,12 +254,12 @@ define(function(require, exports, module) {
 		/**
 		 * 用户导航栏功能模块
 		 */
-		UserFuncModule : function(){
+		UserFuncModule : function() {
 			return {
 				/**
 				 * 设置
 				 */
-				setting				: function(){
+				setting				: function() {
 					console.log("setting");
 				},
 				/**
@@ -351,34 +351,34 @@ define(function(require, exports, module) {
 		/**
 		 * 绑定用户导航功能栏的事件
 		 */
-		bindUserFuncEvent	: function(){
-			$("a[id^='user_function_']").on("click", function(){
+		bindUserFuncEvent	: function() {
+			$("a[id^='user_function_']").on("click", function() {
 				var name = $(this).attr("name");
 				var func = eval("FuncModule.UserFuncModule()." + name);
-				if(name=="quit"){
-					Huazie.dialog.confirm("question", "亲，您确定退出吗？", function(){
-						func();//执行相应的功能
+				if(name=="quit") {
+					Huazie.dialog.confirm("question", "亲，您确定退出吗？", function() {
+						func(); // 执行相应的功能
 					});
-				}else{
-					func();//执行相应的功能
+				} else {
+					func(); // 执行相应的功能
 				}
 			});
 		},
 		/**
 		 * 绑定侧边菜单事件
 		 */
-		bindSideMenuEvent	: function(){
-			$("a[id^='menu_']").on("click", function(){
+		bindSideMenuEvent	: function() {
+			$("a[id^='menu_']").on("click", function() {
 				$thiz = $(this);
 				var menu = Huazie.form.serialize($thiz);
 				
 				var level = menu["MENU_LEVEL"];
 				
-				if(window.currentMenu[level] && window.currentMenu[level]["MENU_CODE"] == menu["MENU_CODE"]){
+				if(window.currentMenu[level] && window.currentMenu[level]["MENU_CODE"] == menu["MENU_CODE"]) {
 					return;
 				}
 				
-				require.async("../common/menu", function(fleaerMenu){
+				require.async("../common/menu", function(fleaerMenu) {
 				
 					if(!$thiz.hasClass("dropdown-toggle")){//表示这个是叶子菜单
 						fleaerMenu.open(menu["MENU_CODE"]);//打开初始化选中的菜单

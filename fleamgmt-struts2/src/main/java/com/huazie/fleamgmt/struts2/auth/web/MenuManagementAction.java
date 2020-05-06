@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.struts2.auth.web;
 
-import com.huazie.fleamgmt.constant.FleaMgmtConstants;
+import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.auth.pojo.InputMenuInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputMenuInfo;
 import com.huazie.frame.auth.base.function.entity.FleaMenu;
@@ -90,15 +90,15 @@ public class MenuManagementAction extends ActionSupport {
 //            FleaMenu newMenu = fleaMenuSV.saveMenu(menuCode, menuName, menuIcon, menuSort, hasSubMenu, parentId, menuView, menuLevel, moduleType, description);
 //
 //            if (newMenu.getMenuId() > 0) {
-//                result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+//                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
 //                result.setRetMess("保存成功");
 //            } else {
-//                result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+//                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
 //                result.setRetMess("保存失败,菜单编码为" + menuCode + "");
 //            }
 
         } else {
-            result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             result.setRetMess("请求新增的菜单数据为空");
         }
 
@@ -157,7 +157,7 @@ public class MenuManagementAction extends ActionSupport {
         }
 
         ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_USER);
+        FleaAccount account = (FleaAccount) aContext.getSession().get(FleamgmtConstants.SessionConstants.SESSION_USER);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##getTreeMenus() Fleaer Account={}", account);
@@ -167,11 +167,11 @@ public class MenuManagementAction extends ActionSupport {
 //            List<Map<String, Object>> menuMapList = fleaMenuSV.getAllLevelTreeMenu(account.getAccountId());
 //
 //            result.setMenuList(menuMapList);
-//            result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+//            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
 //            result.setRetMess("菜单树加载成功");
 
         } else {
-            result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             result.setRetMess("系统登录用户信息异常，请刷新重新登录");
         }
 
@@ -195,7 +195,7 @@ public class MenuManagementAction extends ActionSupport {
         }
 
         ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleaMgmtConstants.SessionConstants.SESSION_USER);
+        FleaAccount account = (FleaAccount) aContext.getSession().get(FleamgmtConstants.SessionConstants.SESSION_USER);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##search() Fleaer Account={}", account);
@@ -223,16 +223,16 @@ public class MenuManagementAction extends ActionSupport {
 //                }
 //
 //                result.setMenuList(searchMenuMapList);
-//                result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+//                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
 //                result.setRetMess("已查找到" + searchMenuMapList.size() + "条数据");
 
             } else {
-                result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
                 result.setRetMess("请求查询的菜单信息为空");
             }
 
         } else {
-            result.setRetCode(FleaMgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             result.setRetMess("系统登录用户信息异常，请刷新重新登录");
         }
 
