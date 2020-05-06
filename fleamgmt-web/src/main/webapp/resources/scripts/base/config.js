@@ -17,8 +17,8 @@ var ReqUrlMap = (function(){
 	var reqUrlPrefix = "business/";
 	// 请求URL
 	var reqUrl = {
-		"fleaMgmtHome" : reqUrlPrefix + "jump!index.flea",	// 跳蚤管家主页
-		"fleaMgmtMenu" : "jump!menu.flea?menuCode="			// 指定菜单页
+		"fleamgmtHome" : reqUrlPrefix + "jump!index.flea",	// 跳蚤管家主页
+		"fleamgmtMenu" : "jump!menu.flea?menuCode="			// 指定菜单页
 	};
 	
 	return {

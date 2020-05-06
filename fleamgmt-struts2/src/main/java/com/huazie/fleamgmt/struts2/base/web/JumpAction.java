@@ -26,9 +26,9 @@ public class JumpAction extends ActionSupport {
      * @since 1.0.0
      */
     public String index() {
-        LOGGER.debug("JumpAction##goToIndex() start");
-        LOGGER.debug("JumpAction##goToIndex() Just For jumping to index.html");
-        LOGGER.debug("JumpAction##goToIndex() end");
+        LOGGER.debug("JumpAction##index() start");
+        LOGGER.debug("JumpAction##index() Just For jumping to index.html");
+        LOGGER.debug("JumpAction##index() end");
         return "jumpToIndex";
     }
 }

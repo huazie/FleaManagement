@@ -25,9 +25,9 @@ public class JumpController extends FleaMgmtCommonController{
      */
     @RequestMapping("jump!index.flea")
     public String index() {
-        LOGGER.debug("JumpController##goToIndex() start");
-        LOGGER.debug("JumpController##goToIndex() Just For jumping to index.html");
-        LOGGER.debug("JumpController##goToIndex() end");
+        LOGGER.debug("JumpController##index() start");
+        LOGGER.debug("JumpController##index() Just For jumping to index.html");
+        LOGGER.debug("JumpController##index() end");
         return "index";
     }
 }
