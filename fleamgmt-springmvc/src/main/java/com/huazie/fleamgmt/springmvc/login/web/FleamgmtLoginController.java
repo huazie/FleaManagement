@@ -1,7 +1,7 @@
 package com.huazie.fleamgmt.springmvc.login.web;
 
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
-import com.huazie.fleamgmt.springmvc.base.web.FleaMgmtCommonController;
+import com.huazie.fleamgmt.springmvc.base.web.FleamgmtBusinessController;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpSession;
  * @since 1.0.0
  */
 @Controller
-public class FleamgmtLoginController extends FleaMgmtCommonController {
+public class FleamgmtLoginController extends FleamgmtBusinessController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FleamgmtLoginController.class);
 

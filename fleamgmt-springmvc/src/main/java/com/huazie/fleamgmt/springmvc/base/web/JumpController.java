@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 1.0.0
  */
 @Controller
-public class JumpController extends FleaMgmtCommonController{
+public class JumpController extends FleamgmtPageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JumpController.class);
 

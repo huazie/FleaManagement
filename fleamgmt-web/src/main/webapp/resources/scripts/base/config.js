@@ -12,24 +12,32 @@ window.currentMenu = {};	// 当前选中的菜单
 /**
  * request url Map
  */
-var ReqUrlMap = (function(){
+var ReqUrlMap = (function() {
 	// 请求前缀
 	var reqUrlPrefix = "business/";
+	// 页面请求前缀
+	var pageReqUrlPrefix = "page/";
 	// 请求URL
 	var reqUrl = {
-		"fleamgmtHome" : reqUrlPrefix + "jump!index.flea",	// 跳蚤管家主页
-		"fleamgmtMenu" : "jump!menu.flea?menuCode="			// 指定菜单页
+		"fleamgmtHome" : pageReqUrlPrefix + "jump!index.flea",	// 跳蚤管家主页
+		"fleamgmtMenu" : "jump!menu.flea?menuCode="		// 指定菜单页
 	};
 	
 	return {
-		put : function (key, value){
+		put : function (key, value) {
 			reqUrl[key] = reqUrlPrefix + value;
 		},
 		get : function(key){
+			if (Huazie.browser.isBusiRequest() || Huazie.browser.isPageRequest()) {
+				return "../" + reqUrl[key];
+			}
 			return reqUrl[key];
 		},
-		getReqUrlPrefix	: function(){
+		getReqUrlPrefix	: function() {
 			return reqUrlPrefix;
+		},
+		getPageReqUrlPrefix : function() {
+			return pageReqUrlPrefix;
 		}
 	}
 	
@@ -38,7 +46,7 @@ var ReqUrlMap = (function(){
 /**
  * tpl Map
  */
-var TplUrlMap = (function(){
+var TplUrlMap = (function() {
 	
 	// tpl前缀
 	var tplUrlPrefix = ["resources/template/", "../resources/template/"];
@@ -57,13 +65,13 @@ var TplUrlMap = (function(){
 	}];
 	
 	return {
-		put	: function (key, value){
+		put	: function (key, value) {
 			tplUrl[0][key] = tplUrlPrefix[0] + value;
 			tplUrl[1][key] = tplUrlPrefix[1] + value;
 		},
-		get : function (key){
+		get : function (key) {
 			var conf = 0;
-			if(Huazie.browser.isBusiRequest()){
+			if (Huazie.browser.isBusiRequest() || Huazie.browser.isPageRequest()) {
 				conf = 1;
 			}
 			return tplUrl[conf][key];
@@ -75,7 +83,7 @@ var TplUrlMap = (function(){
 /**
  * image Map
  */
-var ImgUrlMap = (function(){
+var ImgUrlMap = (function() {
 	
 	// image 前缀
 	var imgUrlPrefix  = ["resources/images/", "../resources/images/"];
@@ -88,13 +96,13 @@ var ImgUrlMap = (function(){
 	}];
 	
 	return {
-		put	: function (key, value){
+		put	: function (key, value) {
 			imgUrl[0][key] = imgUrlPrefix[0] + value;
 			imgUrl[1][key] = imgUrlPrefix[1] + value;
 		},
-		get : function (key){
+		get : function (key) {
 			var conf = 0;
-			if(Huazie.browser.isBusiRequest()){
+			if(Huazie.browser.isBusiRequest() || Huazie.browser.isPageRequest()) {
 				conf = 1;
 			}
 			return imgUrl[conf][key];
@@ -106,7 +114,7 @@ var ImgUrlMap = (function(){
 /**
  * seajs Map
  */
-var SeaJsUrlMap = (function(){
+var SeaJsUrlMap = (function() {
 	
 	// seajs 前缀
 	var seaJsUrlPrefix  = ["./resources/scripts/", "../resources/scripts/"];
@@ -137,13 +145,13 @@ var SeaJsUrlMap = (function(){
 	}];
 	
 	return {
-		put	: function (key, value){
+		put	: function (key, value) {
 			seaJsUrl[0][key] = seaJsUrlPrefix[0] + value;
 			seaJsUrl[1][key] = seaJsUrlPrefix[1] + value;
 		},
-		get : function (key){
+		get : function (key) {
 			var conf = 0;
-			if(Huazie.browser.isBusiRequest()){
+			if (Huazie.browser.isBusiRequest() || Huazie.browser.isPageRequest()) {
 				conf = 1;
 			}
 			return seaJsUrl[conf][key];
@@ -157,7 +165,7 @@ var SeaJsUrlMap = (function(){
  * 
  * @param 子串
  */
-String.prototype.contains = function(str){
+String.prototype.contains = function(str) {
 	return this.indexOf(str) > 0;
 }
 

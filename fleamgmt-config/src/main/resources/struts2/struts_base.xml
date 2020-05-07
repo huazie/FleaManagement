@@ -5,7 +5,7 @@
 
 <struts>
 
-	<package name="base" namespace="/business" extends="default">
+	<package name="base" namespace="/page" extends="default">
 
 		<action name="jump" class="com.huazie.fleamgmt.struts2.base.web.JumpAction">
 			<result name="jumpToIndex">../index.html</result>

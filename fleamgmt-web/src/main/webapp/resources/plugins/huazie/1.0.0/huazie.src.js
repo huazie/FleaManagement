@@ -421,6 +421,17 @@ Huazie.browser = {
         return request.contains(busiReqPrefix);
     },
     /**
+     * 判断是不是页面跳转
+     *
+     * @param {String} url 页面跳转请求url
+     * @return {Boolean} true:是 /false
+     */
+    isPageRequest: function (url) {
+        var request = url || window.location.href;
+        var pageReqPrefix = ReqUrlMap.getPageReqUrlPrefix();
+        return request.contains(pageReqPrefix);
+    },
+    /**
      * 获取Frame参数值
      *
      * @param {String} name 参数的键
