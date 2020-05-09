@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 1.0.0
  */
 @Controller
-public class JumpController extends FleamgmtPageController {
+@RequestMapping("/page")
+public class PageController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JumpController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PageController.class);
 
     /**
      * <p> 跳转首页 </p>
@@ -23,7 +24,7 @@ public class JumpController extends FleamgmtPageController {
      * @return 首页字符串
      * @since 1.0.0
      */
-    @RequestMapping("jump!index.flea")
+    @RequestMapping("/home")
     public String index() {
         LOGGER.debug("JumpController##index() start");
         LOGGER.debug("JumpController##index() Just For jumping to index.html");

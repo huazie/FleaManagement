@@ -19,7 +19,7 @@ var ReqUrlMap = (function() {
 	var pageReqUrlPrefix = "page/";
 	// 请求URL
 	var reqUrl = {
-		"fleamgmtHome" : pageReqUrlPrefix + "jump!index.flea",	// 跳蚤管家主页
+		"fleamgmtHome" : pageReqUrlPrefix + "home",	// 跳蚤管家主页
 		"fleamgmtMenu" : "jump!menu.flea?menuCode="		// 指定菜单页
 	};
 	

@@ -1,7 +1,7 @@
 package com.huazie.fleamgmt.springmvc.login.web;
 
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
-import com.huazie.fleamgmt.springmvc.base.web.FleamgmtBusinessController;
+import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
@@ -25,14 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * <p> 跳主登录Controller </p>
+ * <p> 登录Controller </p>
  *
  * @author huazie
  * @version 1.0.0
  * @since 1.0.0
  */
 @Controller
-public class FleamgmtLoginController extends FleamgmtBusinessController {
+public class FleamgmtLoginController extends BusinessController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FleamgmtLoginController.class);
 

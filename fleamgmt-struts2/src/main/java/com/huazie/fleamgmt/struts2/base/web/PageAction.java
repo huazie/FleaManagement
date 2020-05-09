@@ -13,11 +13,11 @@ import org.springframework.stereotype.Controller;
  * @since 1.0.0
  */
 @Controller
-public class JumpAction extends ActionSupport {
+public class PageAction extends ActionSupport {
 
     private static final long serialVersionUID = -3626646068576958721L;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JumpAction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PageAction.class);
 
     /**
      * <p> 跳转首页 </p>
@@ -25,7 +25,7 @@ public class JumpAction extends ActionSupport {
      * @return struts2首页跳转字符串
      * @since 1.0.0
      */
-    public String index() {
+    public String home() {
         LOGGER.debug("JumpAction##index() start");
         LOGGER.debug("JumpAction##index() Just For jumping to index.html");
         LOGGER.debug("JumpAction##index() end");

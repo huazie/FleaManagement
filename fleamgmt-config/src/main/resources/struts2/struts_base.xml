@@ -7,7 +7,7 @@
 
 	<package name="base" namespace="/page" extends="default">
 
-		<action name="jump" class="com.huazie.fleamgmt.struts2.base.web.JumpAction">
+		<action name="*" class="com.huazie.fleamgmt.struts2.base.web.PageAction" method="{1}">
 			<result name="jumpToIndex">../index.html</result>
 		</action>
 
