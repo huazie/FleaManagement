@@ -81,22 +81,6 @@ public class MenuManagementAction extends ActionSupport {
                 menuLevel = parentMenu.getMenuLevel() + 1;
             }
 
-//            List<FleaMenu> subMenuList = fleaMenuSV.getSubLevelMenu(parentId);
-//            int menuSort = 1;
-//            if (subMenuList != null) {
-//                menuSort = subMenuList.size() + 1;// 获取新增菜单在父菜单下的序号
-//            }
-//
-//            FleaMenu newMenu = fleaMenuSV.saveMenu(menuCode, menuName, menuIcon, menuSort, hasSubMenu, parentId, menuView, menuLevel, moduleType, description);
-//
-//            if (newMenu.getMenuId() > 0) {
-//                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-//                result.setRetMess("保存成功");
-//            } else {
-//                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-//                result.setRetMess("保存失败,菜单编码为" + menuCode + "");
-//            }
-
         } else {
             result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             result.setRetMess("请求新增的菜单数据为空");
@@ -156,25 +140,6 @@ public class MenuManagementAction extends ActionSupport {
             LOGGER.debug("MenuManagementAction##remove() start");
         }
 
-        ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleamgmtConstants.SessionConstants.SESSION_USER);
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##getTreeMenus() Fleaer Account={}", account);
-        }
-
-        if (account != null) {
-//            List<Map<String, Object>> menuMapList = fleaMenuSV.getAllLevelTreeMenu(account.getAccountId());
-//
-//            result.setMenuList(menuMapList);
-//            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-//            result.setRetMess("菜单树加载成功");
-
-        } else {
-            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            result.setRetMess("系统登录用户信息异常，请刷新重新登录");
-        }
-
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##remove() end");
@@ -194,47 +159,6 @@ public class MenuManagementAction extends ActionSupport {
             LOGGER.debug("MenuManagementAction##search() start");
         }
 
-        ActionContext aContext = ActionContext.getContext();
-        FleaAccount account = (FleaAccount) aContext.getSession().get(FleamgmtConstants.SessionConstants.SESSION_USER);
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##search() Fleaer Account={}", account);
-        }
-
-        if (account != null) {
-            if (this.menu != null) {
-                String menuName = new String(menu.getMenuName().getBytes("ISO-8859-1"), "UTF-8");//获取菜单名
-
-//                List<Map<String, Object>> menuMapList = fleaMenuSV.getAccessLeafMenus(account.getAccountId());
-//
-//                List<Map<String, Object>> searchMenuMapList = new ArrayList<Map<String, Object>>();
-//
-//                if (menuMapList != null && !menuMapList.isEmpty()) {
-//                    for (Map<String, Object> menuMap : menuMapList) {
-//                        Object mName = menuMap.get("MENU_NAME");
-//                        Object mCode = menuMap.get("MENU_CODE");
-//                        if (mName == null || mCode == null) {
-//                            continue;
-//                        }
-//                        if (StringUtils.isFuzzySearch(mName.toString(), menuName)) {//满足模糊搜索，简拼，全拼搜索
-//                            searchMenuMapList.add(menuMap);
-//                        }
-//                    }
-//                }
-//
-//                result.setMenuList(searchMenuMapList);
-//                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-//                result.setRetMess("已查找到" + searchMenuMapList.size() + "条数据");
-
-            } else {
-                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-                result.setRetMess("请求查询的菜单信息为空");
-            }
-
-        } else {
-            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            result.setRetMess("系统登录用户信息异常，请刷新重新登录");
-        }
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("MenuManagementAction##search() end");

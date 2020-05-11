@@ -6,34 +6,34 @@
  * @date 2017年3月1日
  */
 define(function(require, exports, module) {
-		
+
 	// 获取用户Session信息
 	ReqUrlMap.put("getUserSession", "fleamgmtIndex!getUserSession.flea");
-	
+
 	// 跳主退出
-	ReqUrlMap.put("quit", "fleamgmtIndex!quit.flea");
+	ReqUrlMap.put("userQuit", "fleamgmtIndex!quit.flea");
 
 	// 菜单搜索
 	ReqUrlMap.put("menuSearch", "authMenu!search.flea");
-	
+
 	// 导航栏tpl加载
 	TplUrlMap.put("headerNav", "nav/header_nav.tpl");
-	
+
 	// 侧边栏快捷菜单tpl加载
 	TplUrlMap.put("shortcuts", "sidebar/sidebar_shortcuts.tpl");
-	
+
 	// 侧边菜单tpl加载
 	TplUrlMap.put("sideMenu", "nav/sidebar_nav.tpl");
-	
+
 	/**
 	 * 初始化
 	 */
 	exports.init = function() {
-		
+
 		FleamgmtIndex.getUserSession(function(data){
 			window.currentMenu = {};
 			// 加载顶部功能模块
-			//FuncModule.loadNavFuncModule(data);
+			FuncModule.loadNavFuncModule(data);
 			// // 加载侧边快捷菜单
 			// FuncModule.loadShortcutsModule(data);
 			// // 加载侧边菜单
@@ -42,7 +42,7 @@ define(function(require, exports, module) {
 			// FuncModule.loadMenuSearch();
 
 		});
-		
+
 		//关闭IE浏览器事件
 		//$(window).bind('beforeunload',function(){
 			//待确认？？
@@ -52,15 +52,15 @@ define(function(require, exports, module) {
 //				event = event || window.event;
 //				if(event){
 //					//用户点击浏览器右上角关闭按钮或  按alt+F4关闭  或者 点击任务栏
-//					
+//
 //				}
 //			}
 //			FuncModule.UserFuncModule().quit();
 //			return confirm("确定离开此页面吗？");
 		//});
-		
+
 	};
-	
+
 	var FleamgmtIndex = {
 		/**
 		 * 获取用户Session信息
@@ -81,7 +81,7 @@ define(function(require, exports, module) {
 			});
 		}
 	}
-	
+
 	/**
 	 * 功能模块
 	 */
@@ -90,7 +90,7 @@ define(function(require, exports, module) {
 		 * 加载顶部功能模块
 		 */
 		loadNavFuncModule	: function(data){
-			
+
 			var json = {
 				"NAV_BG_COLOR" 				: "grey",
 				"NAV_ICON"     				: "fa-tasks",
@@ -103,26 +103,26 @@ define(function(require, exports, module) {
 		  			"PROGRESS_BAR_NAME"			: "软件更新",
 		  			"PROGRESS_BAR_PERCENTTAGE" 	: "65%",
 		  			"PROGRESS_BAR_STYLE"		: "",
-		  			"PROGRESS_BAR_STATE"		: ""	
+		  			"PROGRESS_BAR_STATE"		: ""
 		  		},{
 		  			"PROGRESS_BAR_NAME"			: "硬件更新",
 		  			"PROGRESS_BAR_PERCENTTAGE" 	: "35%",
 		  			"PROGRESS_BAR_STYLE"		: "",
-		  			"PROGRESS_BAR_STATE"		: "progress-bar-danger"	
+		  			"PROGRESS_BAR_STATE"		: "progress-bar-danger"
 		  		},{
 		  			"PROGRESS_BAR_NAME"			: "单元测试",
 		  			"PROGRESS_BAR_PERCENTTAGE" 	: "15%",
 		  			"PROGRESS_BAR_STYLE"		: "",
-		  			"PROGRESS_BAR_STATE"		: "progress-bar-warning"	
+		  			"PROGRESS_BAR_STATE"		: "progress-bar-warning"
 		  		},{
 		  			"PROGRESS_BAR_NAME"			: "错误修复",
 		  			"PROGRESS_BAR_PERCENTTAGE" 	: "90%",
 		  			"PROGRESS_BAR_STYLE"		: "progress-striped active",
-		  			"PROGRESS_BAR_STATE"		: "progress-bar-success"	
+		  			"PROGRESS_BAR_STATE"		: "progress-bar-success"
 		  		}],
 		  		"NAV_DROPDOWN_BOTTOM_TITLE"	: "查看任务详情"
 			};
-			
+
 			var json1 = {
 				"NAV_BG_COLOR" 				: "purple",
 				"NAV_ICON"     				: "fa-bell icon-animated-bell",
@@ -148,36 +148,36 @@ define(function(require, exports, module) {
 		  			"NOTICE_ICON" 				: "fa-shopping-cart",
 		  			"NOTICE_TITLE"				: "新订单",
 		  			"NOTICE_BADGE"				: "badge-success",
-		  			"NOTICE_NUM"				: "8"	
+		  			"NOTICE_NUM"				: "8"
 		  		},{
 		  			"NOTICE_ICON_COLOR"			: "btn-info",
 		  			"NOTICE_ICON" 				: "fa-twitter",
 		  			"NOTICE_TITLE"				: "粉丝",
 		  			"NOTICE_BADGE"				: "badge-important",
-		  			"NOTICE_NUM"				: "11"	
+		  			"NOTICE_NUM"				: "11"
 		  		}],
 		  		"NAV_DROPDOWN_BOTTOM_TITLE"	: "查看所有通知"
 			};
-			
-			var notAuditResInfo = data.notAuditResInfo;
 
+			// var notAuditResInfo = data.notAuditResInfo;
+			//
 			var json2 = {
 				"NAV_BG_COLOR" 				: "green",
 				"NAV_ICON"     				: "fa-envelope-o fa-fw icon-animated-vertical",
 				"NAV_BADGE_COLOR"			: "badge-success",
-				"NAV_BADGE_NUM"    			: notAuditResInfo.count,
+				"NAV_BADGE_NUM"    			: 10,
 				"NAV_DROPDOWN_MENU_COLOR"	: "",
 				"NAV_DROPDOWN_HEADER_ICON"  : "fa-envelope-o fa-fw",
 				"NAV_DROPDOWN_HEADER_TITLE"	: "待审核物品",
-		  		"NAV_CONTENT"				: notAuditResInfo.data,
+		  		"NAV_CONTENT"				: "",
 		  		"NAV_HREF"					: "javascript:Comm.openMenu(\"res_audit\");",
 		  		"NAV_DROPDOWN_BOTTOM_TITLE"	: "查看所有"
 			};
-			
+
 			var user_json = {
 				"NAV_BG_COLOR" 				: "light-blue",
-				"NAV_USER_PHOTO"     		: ImgUrlMap.get("user") + "",
-				"NAV_USER_NAME"				: data.user.userName,
+				"NAV_USER_PHOTO"     		: ImgUrlMap.get("user") + "defaults/male.png",
+				"NAV_USER_NAME"				: "13218010892",
 		  		"NAV_CONTENT"	:	[{
 		  			"HAS_DIVIDER"				: false,
 		  			"USER_FUNCTION_ICON"		: "cog",
@@ -195,12 +195,12 @@ define(function(require, exports, module) {
 		  			"USER_FUNCTION_EVENT"		: "quit"
 		  		}]
 			};
-			
+
 			//加载顶部导航栏
 			Huazie.tpl.loadTpl(TplUrlMap.get("headerNav"),function() {
-				// Huazie.tpl.loadTemp($("#nav-top"), "#tpl_header_nav_progress", json);
-				// Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_notice", json1);
-				// Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_msg", json2);
+				Huazie.tpl.loadTemp($("#nav-top"), "#tpl_header_nav_progress", json);
+				Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_notice", json1);
+				Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_msg", json2);
 				Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_user", user_json);
 				BindEvent.bindUserFuncEvent();
 			});
@@ -210,19 +210,19 @@ define(function(require, exports, module) {
 		 */
 		loadShortcutsModule : function(data) {
 			var shortcuts = [{
-				"BTN_CLASS" : "btn-success", 
+				"BTN_CLASS" : "btn-success",
 				"BTN_ICON"  : "signal"
 			},{
-				"BTN_CLASS" : "btn-info", 
+				"BTN_CLASS" : "btn-info",
 				"BTN_ICON"  : "pencil"
 			},{
-				"BTN_CLASS" : "btn-warning", 
+				"BTN_CLASS" : "btn-warning",
 				"BTN_ICON"  : "group"
 			},{
-				"BTN_CLASS" : "btn-danger", 
+				"BTN_CLASS" : "btn-danger",
 				"BTN_ICON"  : "cogs"
 			}];
-			
+
 			//加载侧边快捷菜单
 			Huazie.tpl.loadTpl(TplUrlMap.get("shortcuts"), function() {
 				Huazie.tpl.loadTemp($("#sidebar-shortcuts"), "#tpl_sidebar_shortcuts", shortcuts);
@@ -232,14 +232,14 @@ define(function(require, exports, module) {
 		 * 加载侧边菜单
 		 */
 		loadSideMenuModule : function(menuInfo) {
-			
+
 			//加载侧边快捷菜单
 			Huazie.tpl.loadTpl(TplUrlMap.get("sideMenu"), function() {
 				Huazie.tpl.loadTemp($("#nav-list"), "#tpl_sidebar_nav", menuInfo.menuList);
-				
+
 				BindEvent.bindSideMenuEvent();
 			});
-			
+
 			require.async("../common/menu", function(fleaerMenu) {
 				var menu = menuInfo.menu;
 				if(menu){
@@ -249,7 +249,7 @@ define(function(require, exports, module) {
 					fleaerMenu.showMenuPath(menu);
 				}
 			});
-			
+
 		},
 		/**
 		 * 用户导航栏功能模块
@@ -259,58 +259,58 @@ define(function(require, exports, module) {
 				/**
 				 * 设置
 				 */
-				setting				: function() {
+				setting			: function() {
 					console.log("setting");
 				},
 				/**
 				 * 个人资料
 				 */
-				personalData		: function(){
+				personalData	: function() {
 					console.log("personalData");
 				},
 				/**
-				 * 跳主退出
+				 * 退出
 				 */
-				quit		 		: function(){
-					//开始调后台执行退出的操作
-					Huazie.ajax.getJson(ReqUrlMap.get("fleaerQuit"), function(data, status) {
+				quit		 	: function() {
+					// 执行退出的操作
+					Huazie.ajax.getJson(ReqUrlMap.get("userQuit"), function(data, status) {
 						var result = data;
-						if(status){
-							if (result.retCode == "Y") {
+						if(status) {
+							if (result.retCode === "Y") {
 								window.location.reload();
 							}
-						}else{
+						} else {
 							Huazie.dialog.tips("warning", result.retMess, 2);
 						}
 					});
-				}	
+				}
 			}
 		},
 		/**
 		 * 用户导航栏功能模块
 		 */
-		loadMenuSearch : function(){
+		loadMenuSearch : function() {
 			try {
 				$("#nav-search-input").typeahead({
-					source : function(query, process){
-						
+					source : function(query, process) {
+
 						var cmd = {
 							"menu.menuName" : query
-						}
+						};
 						// 菜单搜索
 						Huazie.ajax.getJson(ReqUrlMap.get("menuSearch"), cmd, function(data, status) {
 							var result = data;
 							if(status){
-								if(result.retCode == "Y"){
-									var menuList = result.menuList.map(function(menuMap){
+								if(result.retCode === "Y") {
+									var menuList = result.menuList.map(function(menuMap) {
 										var jsonStr = { code : menuMap["MENU_CODE"], name: menuMap["MENU_NAME"] };
                         				return JSON.stringify(jsonStr);
 									});
-									return process(menuList);  
-								}else{
+									return process(menuList);
+								} else {
 									Huazie.dialog.tips("warning", result.retMess, 2);
 								}
-							}else{
+							} else {
 								Huazie.dialog.tips("warning", result.retMess, 2);
 							}
 						});
@@ -318,7 +318,7 @@ define(function(require, exports, module) {
 					matcher: function (item) {
 				        return true;
 				    },
-				    sorter: function (items) {          
+				    sorter: function (items) {
 				        return items;
 				    },
 					highlighter: function (obj) {
@@ -327,7 +327,7 @@ define(function(require, exports, module) {
 				    },
 		            updater: function (obj) {
 		            	var item = JSON.parse(obj);
-		       			
+
 		       			var menuCode = item.code;
 
 		       			require.async("../common/menu", function(fleaerMenu){
@@ -343,7 +343,7 @@ define(function(require, exports, module) {
 			}
 		}
 	}
-	
+
 	/**
 	 * 事件绑定对象
 	 */
@@ -371,24 +371,24 @@ define(function(require, exports, module) {
 			$("a[id^='menu_']").on("click", function() {
 				$thiz = $(this);
 				var menu = Huazie.form.serialize($thiz);
-				
+
 				var level = menu["MENU_LEVEL"];
-				
+
 				if(window.currentMenu[level] && window.currentMenu[level]["MENU_CODE"] == menu["MENU_CODE"]) {
 					return;
 				}
-				
+
 				require.async("../common/menu", function(fleaerMenu) {
-				
+
 					if(!$thiz.hasClass("dropdown-toggle")){//表示这个是叶子菜单
 						fleaerMenu.open(menu["MENU_CODE"]);//打开初始化选中的菜单
 					}
 					fleaerMenu.showMenuPath(menu);
-					
+
 				});
 			});
 		}
 	};
-	
+
 });
 

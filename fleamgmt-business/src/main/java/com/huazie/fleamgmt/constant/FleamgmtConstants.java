@@ -16,10 +16,6 @@ public interface FleamgmtConstants {
      */
     interface SessionConstants {
         /**
-         * <p> 跳蚤管家系统用户Session信息键 </p>
-         */
-        String SESSION_USER = "FleaUser";
-        /**
          * <p> 用户注册封装类 </p>
          */
         String SESSION_USERREGISTER = "UserRegister";

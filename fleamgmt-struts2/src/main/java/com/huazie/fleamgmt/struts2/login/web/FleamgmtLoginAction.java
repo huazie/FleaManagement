@@ -84,7 +84,7 @@ public class FleamgmtLoginAction extends BaseAction {
                                 initFleaUserSession();
                             }
                         });
-                // 在这边记录登陆日志
+                // TODO (异步) 在这边记录登陆日志
                 fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
                 this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 this.result.setRetMess("亲，恭喜您登录成功呦");
