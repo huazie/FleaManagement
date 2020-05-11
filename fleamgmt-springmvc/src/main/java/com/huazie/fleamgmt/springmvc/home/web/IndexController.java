@@ -52,7 +52,16 @@ public class IndexController extends BusinessController {
         }
 
         OutputUserInfo userInfo = new OutputUserInfo();
+        IFleaUser fleaUser = FleaSessionManager.getUserInfo();
+        if (null != fleaUser) {
+            userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+            userInfo.setRetMess("用户登录成功");
 
+
+        } else {
+            userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            userInfo.setRetMess("用户信息已失效");
+        }
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("IndexController##getUserSession() end");
@@ -66,6 +75,8 @@ public class IndexController extends BusinessController {
      * @return 用户退出结果返回信息
      * @since 1.0.0
      */
+    @RequestMapping("fleamgmtIndex!quit.flea")
+    @ResponseBody
     public OutputCommonData quit(HttpSession httpSession) {
 
         if (LOGGER.isDebugEnabled()) {
