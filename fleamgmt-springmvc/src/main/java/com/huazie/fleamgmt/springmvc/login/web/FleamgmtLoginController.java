@@ -83,7 +83,7 @@ public class FleamgmtLoginController extends BusinessController {
                         });
 
                 // TODO (异步) 在这边记录登陆日志
-                fleaUserLoginSV.saveLoginLog(fleaAccount.getAccountId(), request);
+                fleaAuthSV.saveLoginLog(fleaAccount.getAccountId(), request);
                 result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 result.setRetMess("亲，恭喜您登录成功呦");
             }
