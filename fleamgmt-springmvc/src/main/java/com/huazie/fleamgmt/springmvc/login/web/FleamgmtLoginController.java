@@ -6,6 +6,7 @@ import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
+import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.pojo.OutputCommonData;
@@ -82,8 +83,8 @@ public class FleamgmtLoginController extends BusinessController {
                             }
                         });
 
-                // TODO (异步) 在这边记录登陆日志
-                fleaAuthSV.saveLoginLog(fleaAccount.getAccountId(), request);
+                // 记录登陆日志 (异步)
+                FleaAuthLogger.asyncSaveLoginLog(fleaAuthSV, fleaAccount.getAccountId(), request);
                 result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 result.setRetMess("亲，恭喜您登录成功呦");
             }

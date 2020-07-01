@@ -5,6 +5,7 @@ import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
+import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;
 import com.huazie.frame.common.exception.CommonException;
@@ -91,8 +92,8 @@ public class IndexController extends BusinessController {
             if (null != fleaUser) {
                 httpSession.removeAttribute(FleaRequestUtil.getUserSessionKey());
                 FleaSessionManager.setUserInfo(null); // 用户信息置空
-                // TODO (异步) 保存用户当月最近一次登录的退出日志
-                fleaAuthSV.saveQuitLog(fleaUser.getAcctId());
+                // 保存用户当月最近一次登录的退出日志 (异步)
+                FleaAuthLogger.asyncSaveQuitLog(fleaAuthSV, fleaUser.getAcctId());
                 output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 output.setRetMess("用户成功退出");
             } else {

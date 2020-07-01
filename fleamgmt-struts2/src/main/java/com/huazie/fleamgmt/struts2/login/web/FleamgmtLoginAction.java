@@ -6,6 +6,7 @@ import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
+import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.util.ObjectUtils;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p> 跳主登录Action </p>
@@ -84,8 +86,8 @@ public class FleamgmtLoginAction extends BaseAction {
                                 initFleaUserSession();
                             }
                         });
-                // TODO (异步) 在这边记录登陆日志
-                fleaAuthSV.saveLoginLog(fleaAccount.getAccountId(), ServletActionContext.getRequest());
+                // 记录登陆日志 (异步)
+                FleaAuthLogger.asyncSaveLoginLog(fleaAuthSV, fleaAccount.getAccountId(), ServletActionContext.getRequest());
                 this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 this.result.setRetMess("亲，恭喜您登录成功呦");
             }
