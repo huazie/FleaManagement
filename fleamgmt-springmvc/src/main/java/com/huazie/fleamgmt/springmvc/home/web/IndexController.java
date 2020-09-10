@@ -4,7 +4,6 @@ import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
-import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
 import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;

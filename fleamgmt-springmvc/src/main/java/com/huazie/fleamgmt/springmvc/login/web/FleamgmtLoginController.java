@@ -5,7 +5,7 @@ import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
 import com.huazie.frame.auth.base.user.entity.FleaAccount;
 import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
-import com.huazie.frame.auth.common.service.interfaces.IFleaUserLoginSV;
+import com.huazie.frame.auth.common.service.interfaces.IFleaUserModuleSV;
 import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.exception.CommonException;
@@ -37,13 +37,13 @@ public class FleamgmtLoginController extends BusinessController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FleamgmtLoginController.class);
 
-    private IFleaUserLoginSV fleaUserLoginSV;
+    private IFleaUserModuleSV fleaUserModuleSV;
 
     private IFleaAuthSV fleaAuthSV;
 
-    @Resource(name = "fleaUserLoginSV")
-    public void setFleaUserLoginSV(IFleaUserLoginSV fleaUserLoginSV) {
-        this.fleaUserLoginSV = fleaUserLoginSV;
+    @Resource(name = "fleaUserModuleSV")
+    public void setFleaUserModuleSV(IFleaUserModuleSV fleaUserModuleSV) {
+        this.fleaUserModuleSV = fleaUserModuleSV;
     }
 
     @Resource(name = "fleaAuthSV")
@@ -69,7 +69,7 @@ public class FleamgmtLoginController extends BusinessController {
             FleaUserLoginPOJO fleaUserLoginPOJO = new FleaUserLoginPOJO();
             fleaUserLoginPOJO.setAccountCode(accountCode);
             fleaUserLoginPOJO.setAccountPwd(accountPwd);
-            FleaAccount fleaAccount = fleaUserLoginSV.login(fleaUserLoginPOJO);
+            FleaAccount fleaAccount = fleaUserModuleSV.login(fleaUserLoginPOJO);
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
                 // 初始化用户信息
