@@ -3,12 +3,17 @@ package com.huazie.fleamgmt.springmvc.home.web;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
+import com.huazie.frame.auth.base.function.entity.FleaMenu;
+import com.huazie.frame.auth.base.user.entity.FleaUser;
+import com.huazie.frame.auth.common.pojo.user.FleaUserModuleData;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.util.FleaAuthLogger;
+import com.huazie.frame.auth.util.FleaMenuTree;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;
 import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.pojo.OutputCommonData;
+import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.core.request.FleaRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p> 首页Controller </p>
@@ -53,15 +59,26 @@ public class IndexController extends BusinessController {
         }
 
         OutputUserInfo userInfo = new OutputUserInfo();
-        IFleaUser fleaUser = FleaSessionManager.getUserInfo();
-        if (null != fleaUser) {
-            userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-            userInfo.setRetMess("用户登录成功");
-
-
-        } else {
+        try {
+            IFleaUser fleaUser = FleaSessionManager.getUserInfo();
+            if (null != fleaUser) {
+                userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+                userInfo.setRetMess("用户登录成功");
+                userInfo.setUserInfo(fleaUser.toMap());
+                List<FleaMenu> fleaMenuList = fleaAuthSV.getAllAccessibleMenus(fleaUser.getAcctId(), fleaUser.getSystemAcctId());
+                FleaMenuTree fleaMenuTree = new FleaMenuTree("跳蚤管家");
+                fleaMenuTree.addAll(fleaMenuList);
+                userInfo.setMenuList(fleaMenuTree.toMapList());
+            } else {
+                userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+                userInfo.setRetMess("用户信息已失效");
+            }
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("获取用户Session异常：\n", e);
+            }
             userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            userInfo.setRetMess("用户信息已失效");
+            userInfo.setRetMess("获取用户Session异常：" + e.getMessage());
         }
 
         if (LOGGER.isDebugEnabled()) {

@@ -34,10 +34,10 @@ define(function(require, exports, module) {
 			window.currentMenu = {};
 			// 加载顶部功能模块
 			FuncModule.loadNavFuncModule(data);
-			// // 加载侧边快捷菜单
-			// FuncModule.loadShortcutsModule(data);
-			// // 加载侧边菜单
-			// FuncModule.loadSideMenuModule(data.menuInfo);
+			// 加载侧边快捷菜单
+			FuncModule.loadShortcutsModule(data);
+			// 加载侧边菜单
+			FuncModule.loadSideMenuModule(data);
 			// // 加载菜单搜索
 			// FuncModule.loadMenuSearch();
 
@@ -231,24 +231,23 @@ define(function(require, exports, module) {
 		/**
 		 * 加载侧边菜单
 		 */
-		loadSideMenuModule : function(menuInfo) {
+		loadSideMenuModule : function(data) {
 
 			//加载侧边快捷菜单
 			Huazie.tpl.loadTpl(TplUrlMap.get("sideMenu"), function() {
-				Huazie.tpl.loadTemp($("#nav-list"), "#tpl_sidebar_nav", menuInfo.menuList);
-
+				Huazie.tpl.loadTemp($("#nav-list"), "#tpl_sidebar_nav", data.menuList);
 				BindEvent.bindSideMenuEvent();
 			});
 
-			require.async("../common/menu", function(fleaerMenu) {
-				var menu = menuInfo.menu;
-				if(menu){
-					if(!menu["HAS_SUB_MENU"]) {
-						fleaerMenu.open(menu["MENU_CODE"]);//打开初始化选中的菜单
-					}
-					fleaerMenu.showMenuPath(menu);
-				}
-			});
+			// require.async("../common/menu", function(fleamgmtMenu) {
+			// 	var menu = menuInfo.menu;
+			// 	if(menu) {
+			// 		if(!menu["HAS_SUB_MENU"]) {
+			// 			fleamgmtMenu.open(menu["MENU_CODE"]);//打开初始化选中的菜单
+			// 		}
+			// 		fleamgmtMenu.showMenuPath(menu);
+			// 	}
+			// });
 
 		},
 		/**
