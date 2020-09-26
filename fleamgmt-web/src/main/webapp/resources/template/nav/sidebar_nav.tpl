@@ -34,7 +34,7 @@
 			<input type="hidden" name="MENU_NAME" value="{{MENU_NAME}}" />
 			<input type="hidden" name="MENU_LEVEL" value="{{MENU_LEVEL}}" />
 		</a>
-		{{#sub_menu_list SUB_MENU}}
+		{{#sub_menu_list SUB_MENUS}}
 		{{#unless HAS_SUB_MENU}}
 		<li>
 			<a href="javascript:;" id="menu_{{MENU_CODE}}" fieldset="json">
@@ -59,7 +59,7 @@
 				<input type="hidden" name="MENU_NAME" value="{{MENU_NAME}}" />
 				<input type="hidden" name="MENU_LEVEL" value="{{MENU_LEVEL}}" />
 			</a>
-			{{#sub_menu_list SUB_MENU}}
+			{{#sub_menu_list SUB_MENUS}}
 			{{#unless HAS_SUB_MENU}}
 			<li>
 				<a href="javascript:;" id="menu_{{MENU_CODE}}" fieldset="json">
@@ -84,7 +84,7 @@
 					<input type="hidden" name="MENU_NAME" value="{{MENU_NAME}}" />
 					<input type="hidden" name="MENU_LEVEL" value="{{MENU_LEVEL}}" />
 				</a>
-				{{#sub_menu_list SUB_MENU}}
+				{{#sub_menu_list SUB_MENUS}}
 				{{#unless HAS_SUB_MENU}}
 				<li>
 					<a href="javascript:;" id="menu_{{MENU_CODE}}" fieldset="json">
