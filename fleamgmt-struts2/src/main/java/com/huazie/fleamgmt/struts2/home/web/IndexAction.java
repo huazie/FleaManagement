@@ -2,6 +2,7 @@ package com.huazie.fleamgmt.struts2.home.web;
 
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
+import com.huazie.fleamgmt.util.UserInfoUtil;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
 import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
@@ -59,16 +60,7 @@ public class IndexAction extends ActionSupport {
             LOGGER.debug("IndexAction##getUserSession() start");
         }
 
-        IFleaUser fleaUser = FleaSessionManager.getUserInfo();
-        if (null != fleaUser) {
-            userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-            userInfo.setRetMess("用户登录成功");
-
-
-        } else {
-            userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            userInfo.setRetMess("用户信息已失效");
-        }
+        userInfo = UserInfoUtil.getUserInfo(fleaAuthSV);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("IndexAction##getUserSession() end");
