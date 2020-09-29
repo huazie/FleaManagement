@@ -46,6 +46,7 @@ public class UserInfoUtil {
                 FleaMenuTree fleaMenuTree = new FleaMenuTree("跳蚤管家");
                 fleaMenuTree.addAll(fleaMenuList);
                 userInfo.setMenuList(fleaMenuTree.toMapList());
+                // TODO
             } else {
                 userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
                 userInfo.setRetMess("用户信息已失效");

@@ -19,8 +19,8 @@ var ReqUrlMap = (function() {
 	var pageReqUrlPrefix = "page/";
 	// 请求URL
 	var reqUrl = {
-		"fleamgmtHome" : pageReqUrlPrefix + "home",		// 跳蚤管家主页
-		"fleamgmtMenu" : pageReqUrlPrefix + "menu?id="	// 指定菜单页
+		"fleamgmtHome" : pageReqUrlPrefix + "home",		    // 跳蚤管家主页
+		"fleamgmtMenu" : pageReqUrlPrefix + "menu?code="	// 指定菜单页
 	};
 	
 	return {

@@ -27,7 +27,6 @@
     <!-- 视图解析器：自动为咱们添加前缀与后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/" />
-        <property name="suffix" value=".html" />
     </bean>
 
 </beans>
