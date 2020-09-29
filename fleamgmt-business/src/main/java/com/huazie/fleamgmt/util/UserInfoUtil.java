@@ -42,11 +42,8 @@ public class UserInfoUtil {
                 userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 userInfo.setRetMess("用户登录成功");
                 userInfo.setUserInfo(fleaUser.toMap());
-                List<FleaMenu> fleaMenuList = fleaAuthSV.getAllAccessibleMenus(fleaUser.getAcctId(), fleaUser.getSystemAcctId());
-                FleaMenuTree fleaMenuTree = new FleaMenuTree("跳蚤管家");
-                fleaMenuTree.addAll(fleaMenuList);
+                FleaMenuTree fleaMenuTree = fleaUser.get(FleaMenuTree.MENU_TREE, FleaMenuTree.class);
                 userInfo.setMenuList(fleaMenuTree.toMapList());
-                // TODO
             } else {
                 userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
                 userInfo.setRetMess("用户信息已失效");

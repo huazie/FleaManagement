@@ -56,6 +56,7 @@ public class IndexController extends BusinessController {
         OutputUserInfo userInfo = UserInfoUtil.getUserInfo(fleaAuthSV);
 
         if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("IndexController##getUserSession() OutputUserInfo = {}", userInfo);
             LOGGER.debug("IndexController##getUserSession() end");
         }
         return userInfo;
