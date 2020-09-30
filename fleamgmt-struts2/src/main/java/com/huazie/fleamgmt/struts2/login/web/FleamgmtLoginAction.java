@@ -37,18 +37,11 @@ public class FleamgmtLoginAction extends BaseAction {
 
     private IFleaUserModuleSV fleaUserModuleSV;
 
-    private IFleaAuthSV fleaAuthSV;
-
     private FleaUserLoginPOJO fleaUserLoginPOJO;
 
     @Resource(name = "fleaUserModuleSV")
     public void setFleaUserModuleSV(IFleaUserModuleSV fleaUserModuleSV) {
         this.fleaUserModuleSV = fleaUserModuleSV;
-    }
-
-    @Resource(name = "fleaAuthSV")
-    public void setFleaAuthSV(IFleaAuthSV fleaAuthSV) {
-        this.fleaAuthSV = fleaAuthSV;
     }
 
     public FleaUserLoginPOJO getFleaUserLoginPOJO() {
@@ -77,7 +70,7 @@ public class FleamgmtLoginAction extends BaseAction {
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
                 // 初始化用户信息
-                fleaAuthSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(),
+                fleaUserModuleSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(),
                         FleaJerseyClientConfig.getSystemAcctId(Long.class), null,
                         new FleaUserImplObjectFactory() {
                             @Override
@@ -86,7 +79,7 @@ public class FleamgmtLoginAction extends BaseAction {
                             }
                         });
                 // 记录登陆日志 (异步)
-                FleaAuthLogger.asyncSaveLoginLog(fleaAuthSV, fleaAccount.getAccountId(), ServletActionContext.getRequest());
+                FleaAuthLogger.asyncSaveLoginLog(fleaUserModuleSV, fleaAccount.getAccountId(), ServletActionContext.getRequest());
                 this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 this.result.setRetMess("亲，恭喜您登录成功呦");
             }
