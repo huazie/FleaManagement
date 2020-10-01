@@ -177,7 +177,7 @@ define(function (require, exports, module) {
             var user_json = {
                 "NAV_BG_COLOR": "light-blue",
                 "NAV_USER_PHOTO": ImgUrlMap.get("user") + "defaults/male.png",
-                "NAV_USER_NAME": "13218010892",
+                "NAV_USER_NAME": data.userInfo.USER_NAME,
                 "NAV_CONTENT": [{
                     "HAS_DIVIDER": false,
                     "USER_FUNCTION_ICON": "cog",

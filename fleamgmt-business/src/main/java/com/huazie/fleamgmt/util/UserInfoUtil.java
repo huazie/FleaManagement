@@ -29,11 +29,10 @@ public class UserInfoUtil {
     /**
      * <p> 获取用户信息 </p>
      *
-     * @param fleaAuthSV 权限服务
      * @return 用户信息
      * @since 1.0.0
      */
-    public static OutputUserInfo getUserInfo(IFleaAuthSV fleaAuthSV) {
+    public static OutputUserInfo getUserInfo() {
 
         OutputUserInfo userInfo = new OutputUserInfo();
         try {

@@ -4,6 +4,7 @@ import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
 import com.huazie.fleamgmt.util.UserInfoUtil;
 import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
+import com.huazie.frame.auth.common.service.interfaces.IFleaUserModuleSV;
 import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;
@@ -31,11 +32,11 @@ public class IndexAction extends ActionSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexAction.class);
 
-    private IFleaAuthSV fleaAuthSV;
+    private IFleaUserModuleSV fleaUserModuleSV;
 
-    @Resource(name = "fleaAuthSV")
-    public void setFleaAuthSV(IFleaAuthSV fleaAuthSV) {
-        this.fleaAuthSV = fleaAuthSV;
+    @Resource(name = "fleaUserModuleSV")
+    public void setFleaUserModuleSV(IFleaUserModuleSV fleaUserModuleSV) {
+        this.fleaUserModuleSV = fleaUserModuleSV;
     }
 
     private OutputUserInfo userInfo = new OutputUserInfo();
@@ -60,7 +61,7 @@ public class IndexAction extends ActionSupport {
             LOGGER.debug("IndexAction##getUserSession() start");
         }
 
-        userInfo = UserInfoUtil.getUserInfo(fleaAuthSV);
+        userInfo = UserInfoUtil.getUserInfo();
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("IndexAction##getUserSession() end");
@@ -88,7 +89,7 @@ public class IndexAction extends ActionSupport {
                 aContext.getSession().remove(FleaRequestUtil.getUserSessionKey());
                 FleaSessionManager.setUserInfo(null); // 用户信息置空
                 // 保存用户当月最近一次登录的退出日志 (异步)
-                FleaAuthLogger.asyncSaveQuitLog(fleaAuthSV, fleaUser.getAcctId());
+                FleaAuthLogger.asyncSaveQuitLog(fleaUserModuleSV, fleaUser.getAcctId());
                 userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 userInfo.setRetMess("用户成功退出");
             } else {
