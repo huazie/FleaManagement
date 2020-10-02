@@ -14,36 +14,45 @@ define(function (require, exports, module) {
 
         var level = menu["MENU_LEVEL"];
 
-        if (level == 1 || level == "1") {
+        if (level === 1 || level === "1") {
             window.currentMenu = {};
         }
 
-        window.currentMenu[menu["MENU_LEVEL"]] = menu;
+        window.currentMenu[level] = menu;
 
         for (var i = 1; i <= level; i++) {
             appendMenuPath(window.currentMenu[i]);
         }
 
-    }
+    };
+
+    /**
+     * 清空展示菜单的路径
+     */
+    exports.clearMenuPath = function () {
+        $("#breadcrumb").html('');
+    };
 
     /**
      * 追加menu的路径
      *
-     * @param menu
-     *            菜单
+     * @param menu 菜单
      */
     function appendMenuPath(menu) {
         Huazie.tpl.loadTpl(TplUrlMap.get("commonLi"), function () {
-            if (menu["MENU_LEVEL"] == 1) {
+            var level = menu["MENU_LEVEL"];
+            if (level === 1 || level === "1") {
                 Huazie.tpl.loadTemp($("#breadcrumb"), "#tpl_common_li_1", menu);
             } else {
-                Huazie.tpl.appendTemp($("#breadcrumb"), "#tpl_common_li_1", menu);//追加
+                Huazie.tpl.appendTemp($("#breadcrumb"), "#tpl_common_li_1", menu); // 追加
             }
         });
     }
 
     /**
      * 打开指定的菜单
+     *
+     * @param menuCode 菜单编码
      */
     exports.open = function (menuCode) {
         openIframe(menuCode);

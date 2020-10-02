@@ -9,6 +9,7 @@ import com.huazie.frame.auth.util.FleaAuthLogger;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;
 import com.huazie.frame.common.exception.CommonException;
+import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.core.request.FleaRequestUtil;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -84,8 +85,8 @@ public class IndexAction extends ActionSupport {
 
         ActionContext aContext = ActionContext.getContext();
         try {
-            IFleaUser fleaUser = (IFleaUser) aContext.getSession().get(FleaRequestUtil.getUserSessionKey());
-            if (null != fleaUser) {
+            IFleaUser fleaUser = FleaSessionManager.getUserInfo();
+            if (ObjectUtils.isNotEmpty(fleaUser)) {
                 aContext.getSession().remove(FleaRequestUtil.getUserSessionKey());
                 FleaSessionManager.setUserInfo(null); // 用户信息置空
                 // 保存用户当月最近一次登录的退出日志 (异步)

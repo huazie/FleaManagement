@@ -11,6 +11,7 @@ import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;
 import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.pojo.OutputCommonData;
+import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.core.request.FleaRequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,8 +81,8 @@ public class IndexController extends BusinessController {
         OutputCommonData output = new OutputCommonData();
 
         try {
-            IFleaUser fleaUser = (IFleaUser) httpSession.getAttribute(FleaRequestUtil.getUserSessionKey());
-            if (null != fleaUser) {
+            IFleaUser fleaUser = FleaSessionManager.getUserInfo();
+            if (ObjectUtils.isNotEmpty(fleaUser)) {
                 httpSession.removeAttribute(FleaRequestUtil.getUserSessionKey());
                 FleaSessionManager.setUserInfo(null); // 用户信息置空
                 // 保存用户当月最近一次登录的退出日志 (异步)
