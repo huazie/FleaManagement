@@ -226,6 +226,11 @@
 		
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
+
+			// iframe重定向父页面跳转
+			if (window !== top) {
+				top.location.href = location.href;
+			}
 		
 			$(function(){
 				// start load login.js

@@ -1737,7 +1737,7 @@ blockquote, blockquote.pull-right {
 		display: none;
 		border-bottom: 1px solid #e5e5e5;
 		text-align: center;
-		vertical-align: none;
+		vertical-align: middle;
 		line-height: normal
 	}
 	.user-info>small {
@@ -3814,7 +3814,7 @@ button.btn:active {
 	background: #b4c2cc !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#bcc9d5),
 		to(#abbac3)) !important;
-	background-image: -webkit-linear-gradient(top, #bcc9d5, 0%, #abbac3, 100%)
+	background-image: -webkit-linear-gradient(top, #bcc9d5 0, #abbac3 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #bcc9d5 0, #abbac3 100%)
 		!important;
@@ -3829,7 +3829,7 @@ button.btn:active {
 	background: #9baebc !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#a3b5c5),
 		to(#93a6b2)) !important;
-	background-image: -webkit-linear-gradient(top, #a3b5c5, 0%, #93a6b2, 100%)
+	background-image: -webkit-linear-gradient(top, #a3b5c5 0, #93a6b2 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #a3b5c5 0, #93a6b2 100%)
 		!important;
@@ -3845,7 +3845,7 @@ button.btn:active {
 	background: #2a8bcc !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#3b98d6),
 		to(#197ec1)) !important;
-	background-image: -webkit-linear-gradient(top, #3b98d6, 0%, #197ec1, 100%)
+	background-image: -webkit-linear-gradient(top, #3b98d6 0, #197ec1 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #3b98d6 0, #197ec1 100%)
 		!important;
@@ -3860,7 +3860,7 @@ button.btn:active {
 	background: #1d6fa6 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#267eb8),
 		to(#136194)) !important;
-	background-image: -webkit-linear-gradient(top, #267eb8, 0%, #136194, 100%)
+	background-image: -webkit-linear-gradient(top, #267eb8 0, #136194 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #267eb8 0, #136194 100%)
 		!important;
@@ -3876,7 +3876,7 @@ button.btn:active {
 	background: #68adde !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#75b5e6),
 		to(#5ba4d5)) !important;
-	background-image: -webkit-linear-gradient(top, #75b5e6, 0%, #5ba4d5, 100%)
+	background-image: -webkit-linear-gradient(top, #75b5e6 0, #5ba4d5 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #75b5e6 0, #5ba4d5 100%)
 		!important;
@@ -3891,7 +3891,7 @@ button.btn:active {
 	background: #3f96d4 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#4a9ede),
 		to(#348dc9)) !important;
-	background-image: -webkit-linear-gradient(top, #4a9ede, 0%, #348dc9, 100%)
+	background-image: -webkit-linear-gradient(top, #4a9ede 0, #348dc9 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #4a9ede 0, #348dc9 100%)
 		!important;
@@ -3907,7 +3907,7 @@ button.btn:active {
 	background: #86b558 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#8ebf60),
 		to(#7daa50)) !important;
-	background-image: -webkit-linear-gradient(top, #8ebf60, 0%, #7daa50, 100%)
+	background-image: -webkit-linear-gradient(top, #8ebf60 0, #7daa50 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #8ebf60 0, #7daa50 100%)
 		!important;
@@ -3922,7 +3922,7 @@ button.btn:active {
 	background: #6c9842 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#74a844),
 		to(#648740)) !important;
-	background-image: -webkit-linear-gradient(top, #74a844, 0%, #648740, 100%)
+	background-image: -webkit-linear-gradient(top, #74a844 0, #648740 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #74a844 0, #648740 100%)
 		!important;
@@ -3938,7 +3938,7 @@ button.btn:active {
 	background: #d3413b !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#d55b52),
 		to(#d12723)) !important;
-	background-image: -webkit-linear-gradient(top, #d55b52, 0%, #d12723, 100%)
+	background-image: -webkit-linear-gradient(top, #d55b52 0, #d12723 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #d55b52 0, #d12723 100%)
 		!important;
@@ -3953,7 +3953,7 @@ button.btn:active {
 	background: #b52c26 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#c43a30),
 		to(#a51f1c)) !important;
-	background-image: -webkit-linear-gradient(top, #c43a30, 0%, #a51f1c, 100%)
+	background-image: -webkit-linear-gradient(top, #c43a30 0, #a51f1c 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #c43a30 0, #a51f1c 100%)
 		!important;
@@ -3969,7 +3969,7 @@ button.btn:active {
 	background: #ffb44b !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#ffbf66),
 		to(#ffa830)) !important;
-	background-image: -webkit-linear-gradient(top, #ffbf66, 0%, #ffa830, 100%)
+	background-image: -webkit-linear-gradient(top, #ffbf66 0, #ffa830 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #ffbf66 0, #ffa830 100%)
 		!important;
@@ -3984,7 +3984,7 @@ button.btn:active {
 	background: #fe9e19 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#fa3),
 		to(#fc9200)) !important;
-	background-image: -webkit-linear-gradient(top, #fa3, 0%, #fc9200, 100%)
+	background-image: -webkit-linear-gradient(top, #fa3 0, #fc9200 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #fa3 0, #fc9200 100%)
 		!important;
@@ -4000,7 +4000,7 @@ button.btn:active {
 	background: #9889c1 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#a696ce),
 		to(#8a7cb4)) !important;
-	background-image: -webkit-linear-gradient(top, #a696ce, 0%, #8a7cb4, 100%)
+	background-image: -webkit-linear-gradient(top, #a696ce 0, #8a7cb4 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #a696ce 0, #8a7cb4 100%)
 		!important;
@@ -4015,7 +4015,7 @@ button.btn:active {
 	background: #7b68af !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#8973be),
 		to(#6d5ca1)) !important;
-	background-image: -webkit-linear-gradient(top, #8973be, 0%, #6d5ca1, 100%)
+	background-image: -webkit-linear-gradient(top, #8973be 0, #6d5ca1 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #8973be 0, #6d5ca1 100%)
 		!important;
@@ -4031,7 +4031,7 @@ button.btn:active {
 	background: #d54c7e !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#db5e8c),
 		to(#ce3970)) !important;
-	background-image: -webkit-linear-gradient(top, #db5e8c, 0%, #ce3970, 100%)
+	background-image: -webkit-linear-gradient(top, #db5e8c 0, #ce3970 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #db5e8c 0, #ce3970 100%)
 		!important;
@@ -4046,7 +4046,7 @@ button.btn:active {
 	background: #be2f64 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#d2346e),
 		to(#aa2a59)) !important;
-	background-image: -webkit-linear-gradient(top, #d2346e, 0%, #aa2a59, 100%)
+	background-image: -webkit-linear-gradient(top, #d2346e 0, #aa2a59 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #d2346e 0, #aa2a59 100%)
 		!important;
@@ -4062,7 +4062,7 @@ button.btn:active {
 	background: #444 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#555),
 		to(#333)) !important;
-	background-image: -webkit-linear-gradient(top, #555, 0%, #333, 100%)
+	background-image: -webkit-linear-gradient(top, #555 0, #333 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #555 0, #333 100%)
 		!important;
@@ -4077,7 +4077,7 @@ button.btn:active {
 	background: #2b2b2b !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#3b3b3b),
 		to(#1a1a1a)) !important;
-	background-image: -webkit-linear-gradient(top, #3b3b3b, 0%, #1a1a1a, 100%)
+	background-image: -webkit-linear-gradient(top, #3b3b3b 0, #1a1a1a 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #3b3b3b 0, #1a1a1a 100%)
 		!important;
@@ -4093,7 +4093,7 @@ button.btn:active {
 	background: #797979 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#898989),
 		to(#696969)) !important;
-	background-image: -webkit-linear-gradient(top, #898989, 0%, #696969, 100%)
+	background-image: -webkit-linear-gradient(top, #898989 0, #696969 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #898989 0, #696969 100%)
 		!important;
@@ -4108,7 +4108,7 @@ button.btn:active {
 	background: #6c6c6c !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#7c7c7c),
 		to(#5c5c5c)) !important;
-	background-image: -webkit-linear-gradient(top, #7c7c7c, 0%, #5c5c5c, 100%)
+	background-image: -webkit-linear-gradient(top, #7c7c7c 0, #5c5c5c 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #7c7c7c 0, #5c5c5c 100%)
 		!important;
@@ -4129,7 +4129,7 @@ button.btn:active {
 	background: #ededed !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#f4f4f4),
 		to(#e6e6e6)) !important;
-	background-image: -webkit-linear-gradient(top, #f4f4f4, 0%, #e6e6e6, 100%)
+	background-image: -webkit-linear-gradient(top, #f4f4f4 0, #e6e6e6 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #f4f4f4 0, #e6e6e6 100%)
 		!important;
@@ -4144,7 +4144,7 @@ button.btn:active {
 	background: #e0e0e0 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#e7e7e7),
 		to(#d9d9d9)) !important;
-	background-image: -webkit-linear-gradient(top, #e7e7e7, 0%, #d9d9d9, 100%)
+	background-image: -webkit-linear-gradient(top, #e7e7e7 0, #d9d9d9 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #e7e7e7 0, #d9d9d9 100%)
 		!important;
@@ -4165,7 +4165,7 @@ button.btn:active {
 	background: #fee088 !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#ffe8a5),
 		to(#fcd76a)) !important;
-	background-image: -webkit-linear-gradient(top, #ffe8a5, 0%, #fcd76a, 100%)
+	background-image: -webkit-linear-gradient(top, #ffe8a5 0, #fcd76a 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #ffe8a5 0, #fcd76a 100%)
 		!important;
@@ -4180,7 +4180,7 @@ button.btn:active {
 	background: #fdd96e !important;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#ffe18b),
 		to(#fbd051)) !important;
-	background-image: -webkit-linear-gradient(top, #ffe18b, 0%, #fbd051, 100%)
+	background-image: -webkit-linear-gradient(top, #ffe18b 0, #fbd051 100%)
 		!important;
 	background-image: -moz-linear-gradient(top, #ffe18b 0, #fbd051 100%)
 		!important;
@@ -5453,8 +5453,10 @@ input.block {
 }
 
 textarea.autosize-transition {
-	-webkit-transition-duration: "height 0.2s";
-	transition-duration: "height 0.2s"
+	-webkit-transition-property: height;
+	-webkit-transition-duration: 0.2s;
+	transition-property: height;
+	transition-duration: 0.2s
 }
 
 .limiterBox {
@@ -7358,7 +7360,7 @@ th, td, .table-bordered {
 	background: #f2f2f2;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#f8f8f8),
 		to(#ececec));
-	background-image: -webkit-linear-gradient(top, #f8f8f8, 0%, #ececec, 100%);
+	background-image: -webkit-linear-gradient(top, #f8f8f8 0, #ececec 100%);
 	background-image: -moz-linear-gradient(top, #f8f8f8 0, #ececec 100%);
 	background-image: linear-gradient(to bottom, #f8f8f8 0, #ececec 100%);
 	background-repeat: repeat-x;
@@ -7379,7 +7381,7 @@ th, td, .table-bordered {
 	border-left-color: #f1f1f1
 }
 
-.table thead tr th:left-child {
+.table thead tr th:last-child {
 	border-right-color: #f1f1f1
 }
 
@@ -7528,7 +7530,7 @@ th .lbl:only-child, td .lbl:only-child {
 .dataTable th.sorting_desc, .dataTable th.sorting_asc {
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#eff3f8),
 		to(#e3e7ed));
-	background-image: -webkit-linear-gradient(top, #eff3f8, 0%, #e3e7ed, 100%);
+	background-image: -webkit-linear-gradient(top, #eff3f8 0, #e3e7ed 100%);
 	background-image: -moz-linear-gradient(top, #eff3f8 0, #e3e7ed 100%);
 	background-image: linear-gradient(to bottom, #eff3f8 0, #e3e7ed 100%);
 	background-repeat: repeat-x;
@@ -7580,7 +7582,7 @@ th .lbl:only-child, td .lbl:only-child {
 	background: #f7f7f7;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#fff),
 		to(#eee));
-	background-image: -webkit-linear-gradient(top, #fff, 0%, #eee, 100%);
+	background-image: -webkit-linear-gradient(top, #fff 0, #eee 100%);
 	background-image: -moz-linear-gradient(top, #fff 0, #eee 100%);
 	background-image: linear-gradient(to bottom, #fff 0, #eee 100%);
 	background-repeat: repeat-x;
@@ -8194,7 +8196,7 @@ th .lbl:only-child, td .lbl:only-child {
 	background: #f2f2f2;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#f8f8f8),
 		to(#ececec));
-	background-image: -webkit-linear-gradient(top, #f8f8f8, 0%, #ececec, 100%);
+	background-image: -webkit-linear-gradient(top, #f8f8f8 0, #ececec 100%);
 	background-image: -moz-linear-gradient(top, #f8f8f8 0, #ececec 100%);
 	background-image: linear-gradient(to bottom, #f8f8f8 0, #ececec 100%);
 	background-repeat: repeat-x;
@@ -10929,7 +10931,7 @@ li.item-default {
 	display: block;
 	position: absolute;
 	right: 101%;
-	right: calc(100% +4px);
+	right: calc(100% + 4px);
 	height: 18px;
 	white-space: nowrap
 }
@@ -12247,14 +12249,14 @@ ul.attachment-list>li {
 		background-size: auto !important
 	}
 	.select2-search input {
-		background-position: auto !important
+		background-position: center !important
 	}
 }
 
 .select2-container-active.select2-dropdown-open .select2-choice {
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#eee),
 		to(#fff));
-	background-image: -webkit-linear-gradient(top, #eee, 0%, #fff, 100%);
+	background-image: -webkit-linear-gradient(top, #eee 0, #fff 100%);
 	background-image: -moz-linear-gradient(top, #eee 0, #fff 100%);
 	background-image: linear-gradient(to bottom, #eee 0, #fff 100%);
 	background-repeat: repeat-x;
@@ -12265,7 +12267,7 @@ ul.attachment-list>li {
 .select2-container-active.select2-drop-above .select2-choice {
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#fff),
 		to(#eee));
-	background-image: -webkit-linear-gradient(top, #fff, 0%, #eee, 100%);
+	background-image: -webkit-linear-gradient(top, #fff 0, #eee 100%);
 	background-image: -moz-linear-gradient(top, #fff 0, #eee 100%);
 	background-image: linear-gradient(to bottom, #fff 0, #eee 100%);
 	background-repeat: repeat-x;
@@ -12302,7 +12304,7 @@ ul.attachment-list>li {
 		background-size: auto !important
 	}
 	.select2-search input {
-		background-position: auto !important
+		background-position: center !important
 	}
 }
 
@@ -14245,7 +14247,7 @@ img.editable-click:hover {
 	background: #f2f2f2;
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#f8f8f8),
 		to(#ececec));
-	background-image: -webkit-linear-gradient(top, #f8f8f8, 0%, #ececec, 100%);
+	background-image: -webkit-linear-gradient(top, #f8f8f8 0, #ececec 100%);
 	background-image: -moz-linear-gradient(top, #f8f8f8 0, #ececec 100%);
 	background-image: linear-gradient(to bottom, #f8f8f8 0, #ececec 100%);
 	background-repeat: repeat-x;
@@ -14279,7 +14281,7 @@ img.editable-click:hover {
 th[aria-selected=true] {
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#eff3f8),
 		to(#e3e7ed));
-	background-image: -webkit-linear-gradient(top, #eff3f8, 0%, #e3e7ed, 100%);
+	background-image: -webkit-linear-gradient(top, #eff3f8 0, #e3e7ed 100%);
 	background-image: -moz-linear-gradient(top, #eff3f8 0, #e3e7ed 100%);
 	background-image: linear-gradient(to bottom, #eff3f8 0, #e3e7ed 100%);
 	background-repeat: repeat-x;
@@ -14642,14 +14644,14 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 .ui-jqdialog .ui-widget-header {
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#fff),
 		to(#eee));
-	background-image: -webkit-linear-gradient(top, #fff, 0%, #eee, 100%);
+	background-image: -webkit-linear-gradient(top, #fff 0, #eee 100%);
 	background-image: -moz-linear-gradient(top, #fff 0, #eee 100%);
 	background-image: linear-gradient(to bottom, #fff 0, #eee 100%);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',
 		endColorstr='#ffeeeeee', GradientType=0);
 	border-image: none;
-	border-bottom: 1px solid solid;
+	border-bottom: 1px solid;
 	color: #669fc7;
 	min-height: 38px;
 	position: relative

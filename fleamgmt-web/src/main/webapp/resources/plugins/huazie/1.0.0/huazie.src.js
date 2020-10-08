@@ -89,7 +89,7 @@ Huazie.ajax = {
     getJson: function (url, data, callback) {
         if (arguments.length === 2) {
             callback = data;
-            data = '';//设置请求参数为空
+            data = ''; // 设置请求参数为空
         }
         var reqMode = this.reqMode.GET;
         var dataType = this.dataType.TEXT;
@@ -107,7 +107,7 @@ Huazie.ajax = {
     getJsonSync: function (url, data, callback) {
         if (arguments.length === 2) {
             callback = data;
-            data = '';//设置请求参数为空
+            data = ''; // 设置请求参数为空
         }
         var reqMode = this.reqMode.GET;
         var dataType = this.dataType.TEXT;
@@ -151,7 +151,7 @@ Huazie.ajax = {
     getHtml: function (url, data, callback) {
         if (arguments.length === 2) {
             callback = data;
-            data = '';//设置请求参数为空
+            data = ''; // 设置请求参数为空
         }
         var reqMode = this.reqMode.GET;
         var dataType = this.dataType.HTML;
@@ -169,7 +169,7 @@ Huazie.ajax = {
     getHtmlSync: function (url, data, callback) {
         if (arguments.length === 2) {
             callback = data;
-            data = '';//设置请求参数为空
+            data = ''; // 设置请求参数为空
         }
         var reqMode = this.reqMode.GET;
         var dataType = this.dataType.HTML;
@@ -262,7 +262,7 @@ Huazie.tpl = {
      */
     loadTpl: function (tplPath, callback) {
         var _self = this;
-        if (!this.isLoaded[tplPath]) {//没有被加载过
+        if (!this.isLoaded[tplPath]) { // 没有被加载过
             Huazie.ajax.getHtml(tplPath, function (htmlData, status) {
                 if (status) {
                     $('body').append(htmlData);
@@ -1179,9 +1179,7 @@ Huazie.data = {
         if (!obj) {
             return defaultValue;
         }
-
         return parseInt(obj);
     }
-
 
 };

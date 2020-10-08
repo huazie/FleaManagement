@@ -1,5 +1,5 @@
 /**
- * @Description console.js
+ * <p> 控制台页面展示JS </p>
  *
  * @author huazie
  * @version v1.0.0
@@ -27,7 +27,7 @@ define(function (require, exports, module) {
                 });
             });
         }
-    }
+    };
 
     var BindEvent = {
         /**
@@ -37,9 +37,10 @@ define(function (require, exports, module) {
             $("a[id^='favorite_']").on("click", function () {
                 var menuCode = $(this).attr("name");
 
-                require.async("../common/menu", function (fleaerMenu) {
+                require.async("../common/menu", function (fleaMenu) {
                     parent.window.currentMenu = {};
-                    fleaerMenu.open1(menuCode);//打开初始化选中的菜单
+                    fleaMenu.open1(menuCode); // 打开初始化选中的菜单
+                    fleaMenu.clearMenuPath(); // 清空展示菜单的路径
                 });
 
             });

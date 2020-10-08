@@ -1,5 +1,5 @@
 /**
- * @Description
+ * <p> 菜单相关JS </p>
  *
  * @author huazie
  * @version v1.0.0
@@ -74,7 +74,8 @@ define(function (require, exports, module) {
         $newIframe.attr('id', menuCode);
         $newIframe.attr('src', src);
         $newIframe.css('width', '100%');
-        $newIframe.css('height', '550px');
+        var height = window.screen.height * 0.76;
+        $newIframe.css('height', height);
         $newIframe.attr('frameborder', '0');
         $newIframe.attr('scrolling', 'yes');
         $("#page-content").html($newIframe);
@@ -89,7 +90,8 @@ define(function (require, exports, module) {
         $newIframe.attr('id', menuCode);
         $newIframe.attr('src', src);
         $newIframe.css('width', '100%');
-        $newIframe.css('height', '550px');
+        var height = parent.screen.height * 0.76;
+        $newIframe.css('height', height);
         $newIframe.attr('frameborder', '0');
         $newIframe.attr('scrolling', 'yes');
         $("#page-content", parent.document).html($newIframe);

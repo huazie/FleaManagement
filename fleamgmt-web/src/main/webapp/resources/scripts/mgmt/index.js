@@ -1,5 +1,5 @@
 /**
- * @Description 主页模块的js
+ * <p> 主页模块的js </p>
  *
  * @author huazie
  * @version v1.0.0
@@ -40,7 +40,6 @@ define(function (require, exports, module) {
             FuncModule.loadSideMenuModule(data);
             // 加载菜单搜索
             FuncModule.loadMenuSearch();
-
         });
 
         //关闭IE浏览器事件
@@ -80,7 +79,7 @@ define(function (require, exports, module) {
                 }
             });
         }
-    }
+    };
 
     /**
      * 功能模块
@@ -198,10 +197,11 @@ define(function (require, exports, module) {
 
             //加载顶部导航栏
             Huazie.tpl.loadTpl(TplUrlMap.get("headerNav"), function () {
-                Huazie.tpl.loadTemp($("#nav-top"), "#tpl_header_nav_progress", json);
-                Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_notice", json1);
-                Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_msg", json2);
-                Huazie.tpl.appendTemp($("#nav-top"), "#tpl_header_nav_user", user_json);
+                var $navTop = $("#nav-top");
+                Huazie.tpl.loadTemp($navTop, "#tpl_header_nav_progress", json);
+                Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_notice", json1);
+                Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_msg", json2);
+                Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_user", user_json);
                 BindEvent.bindUserFuncEvent();
             });
         },
