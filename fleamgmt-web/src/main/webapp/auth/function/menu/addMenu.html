@@ -100,7 +100,7 @@
 											<span class="blue">菜单编码</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_code" name="menu.menuCode" placeholder="比如控制台,菜单编码可以为'console'"></input>
+										<input class="form-control" type="text" id="menu_code" name="menu.menuCode" placeholder="比如控制台,菜单编码可以为'console'"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -111,7 +111,7 @@
 											<span class="blue">菜单名称</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_name" name="menu.menuName" placeholder="菜单显示在前台的名称"></input>
+										<input class="form-control" type="text" id="menu_name" name="menu.menuName" placeholder="菜单显示在前台的名称"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -122,7 +122,7 @@
 											<span class="blue">菜单图标</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_icon" name="menu.menuIcon" placeholder="菜单图标（Font Awesome）"></input>
+										<input class="form-control" type="text" id="menu_icon" name="menu.menuIcon" placeholder="菜单图标（Font Awesome）"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -133,7 +133,7 @@
 											<span class="blue">菜单视图</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_view" name="menu.menuView" placeholder="指定菜单对应的视图URL"></input>
+										<input class="form-control" type="text" id="menu_view" name="menu.menuView" placeholder="指定菜单对应的视图URL"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -159,7 +159,7 @@
 											<span class="blue">父菜单编码</span>
 										</label>
 								
-										<input class="form-control" type="text" id="parent_id" name="menu.parentId" placeholder="比如控制台,菜单编码可以为'console'"></input>
+										<input class="form-control" type="text" id="parent_id" name="menu.parentId" placeholder="比如控制台,菜单编码可以为'console'"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -261,10 +261,10 @@
 		
 			$(function(){
 				
-				//###start load auth-menu.js
+				// ### start load auth-menu.js
 				seajs.use(SeaJsUrlMap.get("authMenu"), function(authMenu) {
 					authMenu.init("add");
-				});//###end load auth-menu.js
+				}); // ### end load auth-menu.js
 				
 			});
 		

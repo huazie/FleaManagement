@@ -35,6 +35,31 @@ public class MenumgmtController extends BusinessController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MenumgmtController.class);
 
     /**
+     * <p> 展示菜单树 </p>
+     *
+     * @return 菜单树信息
+     * @since 1.0.0
+     */
+    @RequestMapping("authMenu!tree.flea")
+    @ResponseBody
+    public OutputMenuInfo tree() {
+
+        OutputMenuInfo output = new OutputMenuInfo();
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("MenumgmtController##tree() start");
+        }
+
+        List<Map<String, Object>> menuTreeMapList = null;
+
+        if (LOGGER.isDebugEnabled()) {
+             LOGGER.debug("MenumgmtController##tree() Menu List = {}", menuTreeMapList);
+            LOGGER.debug("MenumgmtController##tree() end");
+        }
+        return output;
+    }
+
+    /**
      * <p> 菜单搜索 </p>
      *
      * @return 菜单信息

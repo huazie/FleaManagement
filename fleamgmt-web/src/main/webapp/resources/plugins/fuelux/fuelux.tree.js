@@ -1,27 +1,27 @@
-(function(a, c) {
-	var b = function(e, d) {
+(function (a, c) {
+	var b = function (e, d) {
 		this.$element = a(e);
 		this.options = a.extend({}, a.fn.tree.defaults, d);
-		this.$element.on("click", ".tree-item", a.proxy(function(f) {
+		this.$element.on("click", ".tree-item", a.proxy(function (f) {
 			this.selectItem(f.currentTarget)
 		}, this));
-		this.$element.on("click", ".tree-folder-header", a.proxy(function(f) {
+		this.$element.on("click", ".tree-folder-header", a.proxy(function (f) {
 			this.selectFolder(f.currentTarget)
 		}, this));
 		this.render()
 	};
 	b.prototype = {
-		constructor : b,
-		render : function() {
+		constructor: b,
+		render: function () {
 			this.populate(this.$element)
 		},
-		populate : function(f) {
+		populate: function (f) {
 			var e = this;
 			var d = f.parent().find(".tree-loader:eq(0)");
 			d.show();
-			this.options.dataSource.data(f.data(), function(g) {
+			this.options.dataSource.data(f.data(), function (g) {
 				d.hide();
-				a.each(g.data, function(h, j) {
+				a.each(g.data, function (h, j) {
 					var i;
 					if (j.type === "folder") {
 						i = e.$element.find(".tree-folder:eq(0)").clone().show();
@@ -40,10 +40,10 @@
 							i.find("input[name=code]").val(j.code);
 							i.data(j);
 							if ("additionalParameters" in j && "item-selected" in j.additionalParameters
-									&& j.additionalParameters["item-selected"] == true) {
+								&& j.additionalParameters["item-selected"] === true) {
 								i.addClass("tree-selected");
 								i.find("i").removeClass(e.options["unselected-icon"]).addClass(
-										e.options["selected-icon"])
+									e.options["selected-icon"])
 							}
 						}
 					}
@@ -56,15 +56,15 @@
 				e.$element.trigger("loaded")
 			})
 		},
-		selectItem : function(e) {
-			if (this.options.selectable == false) {
+		selectItem: function (e) {
+			if (this.options.selectable === false) {
 				return
 			}
 			var d = a(e);
 			var g = this.$element.find(".tree-selected");
 			var f = [];
 			if (this.options.multiSelect) {
-				a.each(g, function(i, j) {
+				a.each(g, function (i, j) {
 					var h = a(j);
 					if (h[0] !== d[0]) {
 						f.push(a(j).data())
@@ -73,7 +73,7 @@
 			} else {
 				if (g[0] !== d[0]) {
 					g.removeClass("tree-selected").find("i").removeClass(this.options["selected-icon"]).addClass(
-							this.options["unselected-icon"]);
+						this.options["unselected-icon"]);
 					f.push(d.data())
 				}
 			}
@@ -89,11 +89,11 @@
 			}
 			if (f.length) {
 				this.$element.trigger("selected", {
-					info : f
+					info: f
 				})
 			}
 		},
-		selectFolder : function(e) {
+		selectFolder: function (e) {
 			var d = a(e);
 			var f = d.parent();
 			if (d.find("." + this.options["close-icon"]).length) {
@@ -103,7 +103,7 @@
 					this.populate(d)
 				}
 				f.find("." + this.options["close-icon"] + ":eq(0)").removeClass(this.options["close-icon"]).addClass(
-						this.options["open-icon"]);
+					this.options["open-icon"]);
 				this.$element.trigger("opened", d.data())
 			} else {
 				if (this.options.cacheItems) {
@@ -112,22 +112,22 @@
 					f.find(".tree-folder-content:eq(0)").empty()
 				}
 				f.find("." + this.options["open-icon"] + ":eq(0)").removeClass(this.options["open-icon"]).addClass(
-						this.options["close-icon"]);
+					this.options["close-icon"]);
 				this.$element.trigger("closed", d.data())
 			}
 		},
-		selectedItems : function() {
+		selectedItems: function () {
 			var e = this.$element.find(".tree-selected");
 			var d = [];
-			a.each(e, function(f, g) {
+			a.each(e, function (f, g) {
 				d.push(a(g).data())
 			});
 			return d
 		}
 	};
-	a.fn.tree = function(e, g) {
+	a.fn.tree = function (e, g) {
 		var f;
-		var d = this.each(function() {
+		var d = this.each(function () {
 			var j = a(this);
 			var i = j.data("tree");
 			var h = typeof e === "object" && e;
@@ -141,37 +141,35 @@
 		return (f === c) ? d : f
 	};
 	a.fn.tree.defaults = {
-		multiSelect : false,
-		loadingHTML : "<div>Loading...</div>",
-		cacheItems : true
+		multiSelect: false,
+		loadingHTML: "<div>Loading...</div>",
+		cacheItems: true
 	};
 	a.fn.tree.Constructor = b
 })(window.jQuery);
 
-var DataSourceTree = function(options) {
-	this._data 	= options.data;
+var DataSourceTree = function (options) {
+	this._data = options.data;
 	this._delay = options.delay;
-}
+};
 
-DataSourceTree.prototype.data = function(options, callback) {
+DataSourceTree.prototype.data = function (options, callback) {
 	var self = this;
 	var $data = null;
 
-	if(!("name" in options) && !("type" in options)){
-		$data = this._data;//the root tree
-		callback({ data: $data });
+	if (!("name" in options) && !("type" in options)) {
+		$data = self._data;//the root tree
+		callback({data: $data});
 		return;
-	}
-	else if("type" in options && options.type == "folder") {
-		if("additionalParameters" in options && "children" in options.additionalParameters)
+	} else if ("type" in options && options.type === "folder") {
+		if ("additionalParameters" in options && "children" in options.additionalParameters)
 			$data = options.additionalParameters.children;
-		else $data = {}//no data
+		else $data = {} //no data
 	}
-	
-	if($data != null)//this setTimeout is only for mimicking some random delay
-		setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
 
-	//we have used static data here
-	//but you can retrieve your data dynamically from a server using ajax call
-	//checkout examples/treeview.html and examples/treeview.js for more info
+	if ($data != null) // this setTimeout is only for mimicking some random delay
+		setTimeout(function () {
+			callback({data: $data});
+		}, parseInt(Math.random() * 500) + 200);
+
 };
