@@ -7,8 +7,8 @@
  */
 define(function (require, exports, module) {
 
-    // 获取菜单树
-    ReqUrlMap.put("authMenuTree", "authMenu!treeMenus.flea");
+    // 菜单树展示
+    ReqUrlMap.put("authMenuTree", "authMenu!tree.flea");
 
     // 菜单新增
     ReqUrlMap.put("authMenuAdd", "authMenu!add.flea");
@@ -39,8 +39,6 @@ define(function (require, exports, module) {
             // 开始获取菜单树
             Huazie.ajax.getJson(ReqUrlMap.get("authMenuTree"), function (data, status) {
                 var result = data;
-                Huazie.log(data);
-                Huazie.log(status);
                 if (status) {
                     var treeDataSource = new DataSourceTree({data: result.menuList});
 
