@@ -98,6 +98,9 @@ public class IndexAction extends ActionSupport {
                 userInfo.setRetMess("用户登录异常");
             }
         } catch (CommonException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("【Struts2】用户退出异常：\n", e);
+            }
             userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             userInfo.setRetMess("用户退出异常：" + e.getMessage());
         }

@@ -56,7 +56,7 @@ define(function (require, exports, module) {
                             var menuCode = $thiz.find("input[name=code]").val();
                             if (menuCode) {
                                 Huazie.log(menuCode);
-                                //获取folder还是item
+                                // 获取folder还是item
                                 var type = $thiz.find("input[name=type]").val();
 
                                 var data;
@@ -69,16 +69,14 @@ define(function (require, exports, module) {
                                         "FUNCTION_EVENT": "add",
                                         "MENU_CODE": menuCode
                                     }];
-                                } else if (moduleType === "update") {
+                                } else if (moduleType === "change") {
                                     data = [{
                                         "HAS_DIVIDER": false,
                                         "FUNCTION_ICON": "refresh",
                                         "FUNCTION_NAME": "菜单变更",
                                         "FUNCTION_EVENT": "update",
                                         "MENU_CODE": menuCode
-                                    }];
-                                } else if (moduleType === "remove") {
-                                    data = [{
+                                    },{
                                         "HAS_DIVIDER": false,
                                         "FUNCTION_ICON": "minus-circle",
                                         "FUNCTION_NAME": "菜单下线",

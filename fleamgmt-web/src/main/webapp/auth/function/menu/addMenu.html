@@ -94,13 +94,25 @@
 							
 							<div class="widget-body">
 								<div id="menu_add" class="widget-main" fieldset="json">
+
+									<div class="form-group">
+										<label for="parent_id">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">父菜单编码</span>
+										</label>
+
+										<input class="form-control" type="text" id="parent_id" name="menu.parentId" placeholder="比如控制台,菜单编码可以为'console'"/>
+									</div>
+
+									<div class="space-2"></div>
+
 									<div class="form-group">
 										<label for="menu_code">
 											<i class="fa fa-hand-o-right blue"></i>
 											<span class="blue">菜单编码</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_code" name="menu.menuCode" placeholder="比如控制台,菜单编码可以为'console'"/>
+										<input class="form-control" type="text" id="menu_code" name="menu.menuCode" placeholder="比如首页,菜单编码可以为'index'"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -111,7 +123,7 @@
 											<span class="blue">菜单名称</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_name" name="menu.menuName" placeholder="菜单显示在前台的名称"/>
+										<input class="form-control" type="text" id="menu_name" name="menu.menuName" placeholder="菜单显示在前台的名称描述"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -133,37 +145,11 @@
 											<span class="blue">菜单视图</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_view" name="menu.menuView" placeholder="指定菜单对应的视图URL"/>
+										<input class="form-control" type="text" id="menu_view" name="menu.menuView" placeholder="指定菜单对应的视图URL（叶子菜单必填）"/>
 									</div>
 									
 									<div class="space-2"></div>
-									
-									<div class="form-group">
-										<label for="module_type">
-											<i class="fa fa-hand-o-right blue"></i>
-											<span class="blue">模块类型</span>
-										</label>
-								
-										<select class="form-control" id="module_type" name="menu.moduleType">
-											<option value="1">跳蚤管家</option>
-											<option value="2">跳蚤市场</option>
-											<option value="3">跳蚤APP</option>
-										</select>
-									</div>
-									
-									<div class="space-2"></div>
-									
-									<div class="form-group">
-										<label for="parent_id">
-											<i class="fa fa-hand-o-right blue"></i>
-											<span class="blue">父菜单编码</span>
-										</label>
-								
-										<input class="form-control" type="text" id="parent_id" name="menu.parentId" placeholder="比如控制台,菜单编码可以为'console'"/>
-									</div>
-									
-									<div class="space-2"></div>
-									
+
 									<div class="form-group">
 										<label for="description">
 											<i class="fa fa-hand-o-right blue"></i>
@@ -174,18 +160,6 @@
 									</div>
 									
 									<div class="space-2"></div>
-									
-									<div class="form-group">
-										<label for="has_submenu">
-											<i class="fa fa-hand-o-right blue"></i>
-											<span class="blue">是否有子菜单</span>
-										</label>
-										
-										<select class="form-control" id="has_submenu" name="menu.hasSubMenu">
-											<option value="0">没有子菜单</option>
-											<option value="1">有子菜单</option>
-										</select>
-									</div>
 									
 									<div class="row-fluid wizard-actions">
 										<button id="submit" class="btn btn-info" type="button">

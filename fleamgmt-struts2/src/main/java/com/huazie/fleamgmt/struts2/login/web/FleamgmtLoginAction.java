@@ -85,8 +85,11 @@ public class FleamgmtLoginAction extends BaseAction {
             }
 
         } catch (Exception e) {
-            this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            this.result.setRetMess(e.getMessage());
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("【Struts2】用户登录异常：\n", e);
+            }
+            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            result.setRetMess("用户登录异常：" + e.getMessage());
         }
 
         if (LOGGER.isDebugEnabled()) {

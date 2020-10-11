@@ -83,8 +83,11 @@ public class FleamgmtLoginController extends BusinessController {
             }
 
         } catch (CommonException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("【Spring】用户登录异常：\n", e);
+            }
             result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            result.setRetMess(e.getMessage());
+            result.setRetMess("用户登录异常：" + e.getMessage());
         }
 
         if (LOGGER.isDebugEnabled()) {

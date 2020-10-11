@@ -26,7 +26,9 @@
 					if (j.type === "folder") {
 						i = e.$element.find(".tree-folder:eq(0)").clone().show();
 						i.find(".tree-folder-name").html(j.name);
+						i.find("input[name=id]").val(j.id);
 						i.find("input[name=code]").val(j.code);
+						i.find("input[name=level]").val(j.level);
 						i.find(".tree-loader").html(e.options.loadingHTML);
 						var k = i.find(".tree-folder-header");
 						k.data(j);
@@ -37,7 +39,9 @@
 						if (j.type === "item") {
 							i = e.$element.find(".tree-item:eq(0)").clone().show();
 							i.find(".tree-item-name").html(j.name);
+							i.find("input[name=id]").val(j.id);
 							i.find("input[name=code]").val(j.code);
+							i.find("input[name=level]").val(j.level);
 							i.data(j);
 							if ("additionalParameters" in j && "item-selected" in j.additionalParameters
 								&& j.additionalParameters["item-selected"] === true) {

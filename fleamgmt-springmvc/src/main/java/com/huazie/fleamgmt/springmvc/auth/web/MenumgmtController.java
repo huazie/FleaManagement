@@ -4,9 +4,12 @@ import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.auth.pojo.OutputMenuInfo;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
 import com.huazie.frame.auth.base.function.entity.FleaMenu;
+import com.huazie.frame.auth.common.service.interfaces.IFleaFunctionModuleSV;
 import com.huazie.frame.auth.util.FleaMenuTree;
+import com.huazie.frame.auth.util.FueluxMenuTree;
 import com.huazie.frame.common.FleaSessionManager;
 import com.huazie.frame.common.IFleaUser;
+import com.huazie.frame.common.exception.CommonException;
 import com.huazie.frame.common.util.CollectionUtils;
 import com.huazie.frame.common.util.ObjectUtils;
 import com.huazie.frame.common.util.StringUtils;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +37,13 @@ import java.util.Map;
 public class MenumgmtController extends BusinessController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MenumgmtController.class);
+
+    private IFleaFunctionModuleSV fleaFunctionModuleSV;
+
+    @Resource(name = "fleaFunctionModuleSV")
+    public void setFleaFunctionModuleSV(IFleaFunctionModuleSV fleaFunctionModuleSV) {
+        this.fleaFunctionModuleSV = fleaFunctionModuleSV;
+    }
 
     /**
      * <p> 展示菜单树 </p>
@@ -52,10 +63,28 @@ public class MenumgmtController extends BusinessController {
 
         List<Map<String, Object>> menuTreeMapList = null;
 
+        try {
+            List<FleaMenu> menuList = fleaFunctionModuleSV.queryValidMenus(null);
+            Map<String, String> params = new HashMap<>();
+            params.put(FueluxMenuTree.FOLDER_ICON_CLASS, "red");
+            FueluxMenuTree fueluxMenuTree = new FueluxMenuTree("FleaFrameAuth", params);
+            fueluxMenuTree.addAll(menuList);
+            menuTreeMapList = fueluxMenuTree.toMapList();
+        } catch (CommonException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("【Spring】菜单树获取异常：\n", e);
+            }
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("菜单树获取异常：" + e.getMessage());
+        }
+
         if (LOGGER.isDebugEnabled()) {
-             LOGGER.debug("MenumgmtController##tree() Menu List = {}", menuTreeMapList);
+            LOGGER.debug("MenumgmtController##tree() Menu List = {}", menuTreeMapList);
             LOGGER.debug("MenumgmtController##tree() end");
         }
+
+        output.setMenuList(menuTreeMapList);
+
         return output;
     }
 
@@ -110,8 +139,11 @@ public class MenumgmtController extends BusinessController {
             }
 
         } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("【Spring】菜单搜索出现异常：\n", e);
+            }
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            output.setRetMess(e.getMessage());
+            output.setRetMess("菜单搜索出现异常：" + e.getMessage());
         }
 
         if (LOGGER.isDebugEnabled()) {
