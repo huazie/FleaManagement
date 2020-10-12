@@ -100,8 +100,8 @@
 											<i class="fa fa-hand-o-right blue"></i>
 											<span class="blue">父菜单信息</span>
 										</label>
-										<input type="text" id="parent" placeholder="父菜单名称【父菜单编码】"/>
-										<input class="form-control" type="hidden" id="parent_id" name="menu.parentId" />
+										<input class="form-control skip_over" type="text" id="parent" placeholder="父菜单名称【父菜单编码】" disabled="disabled" />
+										<input type="hidden" id="parent_id" name="menu.parentId" />
 									</div>
 
 									<div class="space-2"></div>
@@ -156,23 +156,24 @@
 											<span class="blue">菜单层级</span>
 										</label>
 
-										<select id="menu_level_desc" disabled="disabled">
+										<select class="form-control" id="menu_level" disabled="disabled">
+											<option value="0"></option>
 											<option value="1">一级菜单</option>
 											<option value="2">二级菜单</option>
 											<option value="3">三级菜单</option>
-											<option value="3">三级菜单</option>
+											<option value="4">四级菜单</option>
 										</select>
 									</div>
 
 									<div class="space-2"></div>
 
 									<div class="form-group">
-										<label for="description">
+										<label for="remarks">
 											<i class="fa fa-hand-o-right blue"></i>
 											<span class="blue">菜单描述</span>
 										</label>
 								
-										<textarea class="autosize-transition form-control" id="description" name="menu.description" placeholder="填写基本的描述信息"></textarea>
+										<textarea class="autosize-transition form-control" id="remarks" name="menu.remarks" placeholder="填写菜单相关的描述信息，留存备注"></textarea>
 									</div>
 									
 									<div class="space-2"></div>

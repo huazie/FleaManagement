@@ -104,16 +104,17 @@ define(function (require, exports, module) {
                                 }
 
                                 if (data) {
-                                    Huazie.dialog.rightClickBubble(data, obj, function () {
-                                        BindEvent.bindMenuManagementEvent();
+                                    Huazie.dialog.rightClickBubble(data, obj, function (dialog) {
+                                        BindEvent.bindMenuManagementEvent(dialog);
                                     });
                                 }
                             }
                         });
                     });
-
-                    BindEvent.bindSubmitEvent(moduleType); // 绑定提交事件
-                    BindEvent.bindResetEvent(moduleType); // 绑定重置事件
+                    // 绑定提交事件
+                    BindEvent.bindSubmitEvent(moduleType);
+                    // 绑定重置事件
+                    BindEvent.bindResetEvent(moduleType);
 
                 } else {
                     Huazie.dialog.tips("warning", result.retMess, 2);
@@ -129,49 +130,77 @@ define(function (require, exports, module) {
                 /**
                  * 菜单添加
                  */
-                add: function (menu) {
+                add: function (menu, dialog) {
                     var menuCode = menu["MENU_CODE"];
                     var menuName = menu["MENU_NAME"];
                     var parentInfo = menuName + "【" + menuCode + "】";
                     $("#parent").val(parentInfo);
                     $("#parent_id").val(menu["MENU_ID"]);
                     var menuLevel = Huazie.data.convertToInt(menu["MENU_LEVEL"], 0) + 1;
-                    $("#menu_level_desc").find("option[value='" + menuLevel +"']").attr("selected", true);
+                    $("#menu_level").find("option[value='" + menuLevel + "']").attr("selected", true).siblings().removeAttr("selected");
                     Huazie.dialog.tips("info", "正在添加新菜单，其父菜单为" + parentInfo, 3);
+                    dialog.close();
                 },
                 /**
                  * 菜单变更
                  */
-                update: function (menu) {
+                update: function (menu, dialog) {
                     Huazie.log("remove-->>" + menu);
                 },
                 /**
                  * 菜单下线
                  */
-                remove: function (menu) {
+                remove: function (menu, dialog) {
                     Huazie.log("remove-->>" + menu);
                 },
                 /**
                  * 重置
                  */
-                reset: function () {
-                    $("#menu_code").val("");
-                    $("#menu_name").val("");
-                    $("#menu_icon").val("");
-                    $("#menu_view").val("");
-                    $("#parent").val("");
-                    $("#parent_id").val("");
-                    $("#description").val("");
+                reset: function (moduleType) {
+                    if (moduleType === "add") { // 菜单新增
+                        $("#menu_code").val("");
+                        $("#menu_name").val("");
+                        $("#menu_icon").val("");
+                        $("#menu_view").val("");
+                        $("#parent").val("");
+                        $("#parent_id").val("");
+                        $("#remarks").val("");
+                        $("#menu_level").find("option[value='0']").attr("selected", true).siblings().removeAttr("selected");
+                    }
+                },
+                /**
+                 * 菜单新增受理提交
+                 */
+                addSubmit: function() {
+
+                    var menu = Huazie.form.serialize($("#menu_add"));
+
+                    Huazie.log(menu);
+
+                    //开始调新增菜单的操作
+                    Huazie.ajax.postJson(ReqUrlMap.get("authMenuAdd"), menu, function (data, status) {
+                        var result = data;
+                        if (status) {
+                            if (result.retCode === "Y") {
+                                Huazie.dialog.tips("info", result.retMess, 1);
+                                AuthModule.MenuManagementFuncModule().reset(); // 重置即清空上一次添加的菜单
+                            } else {
+                                Huazie.dialog.tips("warning", result.retMess, 2);
+                            }
+                        } else {
+                            Huazie.dialog.tips("warning", result.retMess, 2);
+                        }
+                    });
                 }
             }
         }
-    }
+    };
 
     var BindEvent = {
         /**
          * 绑定菜单管理点击事件
          */
-        bindMenuManagementEvent: function () {
+        bindMenuManagementEvent: function (dialog) {
             $("a[id^='function_']").off("click").on("click", function () {
                 var name = $(this).attr("name");
                 var menuId = $(this).find("input[name=id]").val();
@@ -184,9 +213,8 @@ define(function (require, exports, module) {
                     "MENU_NAME": menuName,
                     "MENU_LEVEL" : menuLevel
                 };
-
                 var func = eval("AuthModule.MenuManagementFuncModule()." + name);
-                func(menu); // 执行相应的功能
+                func(menu, dialog); // 执行相应的功能
             });
         },
         /**
@@ -194,36 +222,19 @@ define(function (require, exports, module) {
          */
         bindSubmitEvent: function (moduleType) {
             $("#submit").off("click").on("click", function () {
+                if (moduleType === "add") { // 菜单新增
+                    AuthModule.MenuManagementFuncModule().addSubmit();
+                } else if (moduleType === "change") { // 菜单变更
 
-                var menu = Huazie.form.serialize($("#menu_add"));
-
-                //开始调新增菜单的操作
-                Huazie.ajax.postJson(ReqUrlMap.get("authMenuAdd"), menu, function (data, status) {
-                    var result = data;
-                    if (status) {
-                        if (result.retCode === "Y") {
-                            Huazie.dialog.tips("info", result.retMess, 1);
-                            AuthModule.MenuManagementFuncModule().reset(); // 重置即清空上一次添加的菜单
-                        } else {
-                            Huazie.dialog.tips("warning", result.retMess, 2);
-                        }
-                    } else {
-                        Huazie.dialog.tips("warning", result.retMess, 2);
-                    }
-                });
-
-                Huazie.log(menu);
-
+                }
             });
         },
         /**
          * 绑定重置事件
          */
-        bindResetEvent: function (module) {
+        bindResetEvent: function (moduleType) {
             $("#reset").off("click").on("click", function () {
-
-                AuthModule.MenuManagementFuncModule().reset();
-
+                AuthModule.MenuManagementFuncModule().reset(moduleType);
             });
         }
 

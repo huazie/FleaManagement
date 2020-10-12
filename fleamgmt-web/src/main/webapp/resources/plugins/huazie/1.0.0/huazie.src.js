@@ -671,7 +671,7 @@ Huazie.dialog = {
             });
             d.show(obj);
             if (callback) {
-                callback();
+                callback(d);
             }
         });
     }
