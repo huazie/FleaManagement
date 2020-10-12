@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 
     exports.init = function (moduleType) {
 
-        // 加载菜单添加
+        // 加载菜单树
         AuthModule.loadMenuTree(moduleType);
 
     };
@@ -53,7 +53,10 @@ define(function (require, exports, module) {
                     }, function () {
                         $("#tree").rightClick(function (obj) {
                             var $thiz = $(obj);
+                            var menuId = $thiz.find("input[name=id]").val();
                             var menuCode = $thiz.find("input[name=code]").val();
+                            var menuName = $thiz.find("input[name=name]").val();
+                            var menuLevel = $thiz.find("input[name=level]").val();
                             if (menuCode) {
                                 Huazie.log(menuCode);
                                 // 获取folder还是item
@@ -67,7 +70,10 @@ define(function (require, exports, module) {
                                         "FUNCTION_ICON": "plus-circle",
                                         "FUNCTION_NAME": "菜单新增",
                                         "FUNCTION_EVENT": "add",
-                                        "MENU_CODE": menuCode
+                                        "MENU_ID" : menuId,
+                                        "MENU_CODE": menuCode,
+                                        "MENU_NAME": menuName,
+                                        "MENU_LEVEL" : menuLevel
                                     }];
                                 } else if (moduleType === "change") {
                                     data = [{
@@ -75,13 +81,19 @@ define(function (require, exports, module) {
                                         "FUNCTION_ICON": "refresh",
                                         "FUNCTION_NAME": "菜单变更",
                                         "FUNCTION_EVENT": "update",
-                                        "MENU_CODE": menuCode
+                                        "MENU_ID" : menuId,
+                                        "MENU_CODE": menuCode,
+                                        "MENU_NAME": menuName,
+                                        "MENU_LEVEL" : menuLevel
                                     },{
                                         "HAS_DIVIDER": false,
                                         "FUNCTION_ICON": "minus-circle",
                                         "FUNCTION_NAME": "菜单下线",
                                         "FUNCTION_EVENT": "remove",
-                                        "MENU_CODE": menuCode
+                                        "MENU_ID" : menuId,
+                                        "MENU_CODE": menuCode,
+                                        "MENU_NAME": menuName,
+                                        "MENU_LEVEL" : menuLevel
                                     }];
                                 }
 
@@ -117,21 +129,27 @@ define(function (require, exports, module) {
                 /**
                  * 菜单添加
                  */
-                add: function (menuCode) {
-                    $("#parent_id").val(menuCode);
-                    Huazie.dialog.tips("info", "已经设置新增菜单的父菜单编码为" + menuCode, 3);
+                add: function (menu) {
+                    var menuCode = menu["MENU_CODE"];
+                    var menuName = menu["MENU_NAME"];
+                    var parentInfo = menuName + "【" + menuCode + "】";
+                    $("#parent").val(parentInfo);
+                    $("#parent_id").val(menu["MENU_ID"]);
+                    var menuLevel = Huazie.data.convertToInt(menu["MENU_LEVEL"], 0) + 1;
+                    $("#menu_level_desc").find("option[value='" + menuLevel +"']").attr("selected", true);
+                    Huazie.dialog.tips("info", "正在添加新菜单，其父菜单为" + parentInfo, 3);
                 },
                 /**
                  * 菜单变更
                  */
-                update: function (menuCode) {
-                    console.log("remove-->>" + menuCode);
+                update: function (menu) {
+                    Huazie.log("remove-->>" + menu);
                 },
                 /**
                  * 菜单下线
                  */
-                remove: function (menuCode) {
-                    console.log("remove-->>" + menuCode);
+                remove: function (menu) {
+                    Huazie.log("remove-->>" + menu);
                 },
                 /**
                  * 重置
@@ -141,6 +159,7 @@ define(function (require, exports, module) {
                     $("#menu_name").val("");
                     $("#menu_icon").val("");
                     $("#menu_view").val("");
+                    $("#parent").val("");
                     $("#parent_id").val("");
                     $("#description").val("");
                 }
@@ -150,23 +169,31 @@ define(function (require, exports, module) {
 
     var BindEvent = {
         /**
-         * 绑定收藏夹点击事件
+         * 绑定菜单管理点击事件
          */
         bindMenuManagementEvent: function () {
-            $("a[id^='function_']").off("click");
-            $("a[id^='function_']").on("click", function () {
+            $("a[id^='function_']").off("click").on("click", function () {
                 var name = $(this).attr("name");
+                var menuId = $(this).find("input[name=id]").val();
                 var menuCode = $(this).find("input[name=code]").val();
+                var menuName = $(this).find("input[name=name]").val();
+                var menuLevel = $(this).find("input[name=level]").val();
+                var menu = {
+                    "MENU_ID" : menuId,
+                    "MENU_CODE": menuCode,
+                    "MENU_NAME": menuName,
+                    "MENU_LEVEL" : menuLevel
+                };
+
                 var func = eval("AuthModule.MenuManagementFuncModule()." + name);
-                func(menuCode); // 执行相应的功能
+                func(menu); // 执行相应的功能
             });
         },
         /**
          * 绑定提交事件
          */
         bindSubmitEvent: function (moduleType) {
-            $("#submit").off("click");
-            $("#submit").on("click", function () {
+            $("#submit").off("click").on("click", function () {
 
                 var menu = Huazie.form.serialize($("#menu_add"));
 
@@ -193,8 +220,7 @@ define(function (require, exports, module) {
          * 绑定重置事件
          */
         bindResetEvent: function (module) {
-            $("#reset").off("click");
-            $("#reset").on("click", function () {
+            $("#reset").off("click").on("click", function () {
 
                 AuthModule.MenuManagementFuncModule().reset();
 

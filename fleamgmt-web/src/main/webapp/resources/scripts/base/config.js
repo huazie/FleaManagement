@@ -56,12 +56,12 @@ var TplUrlMap = (function() {
 		"dialog"	: tplUrlPrefix[0] + "dialog/dialog.tpl",	// 通用弹出框tpl模板
 		"commonLi"	: tplUrlPrefix[0] + "common/common_li.tpl",	// 通用li模板
 		"commonDiv"	: tplUrlPrefix[0] + "common/common_div.tpl",// 通用div模板
-		"tree" 		: tplUrlPrefix[0] + "tree/menu-tree.tpl"			// 通用树模板
+		"tree" 		: tplUrlPrefix[0] + "tree/tree.tpl"			// 通用树模板
 	},{
 		"dialog"	: tplUrlPrefix[1] + "dialog/dialog.tpl", 	// 通用弹出框tpl模板
 		"commonLi"	: tplUrlPrefix[1] + "common/common_li.tpl",	// 通用li模板
 		"commonDiv"	: tplUrlPrefix[1] + "common/common_div.tpl",// 通用div模板
-		"tree" 		: tplUrlPrefix[1] + "tree/menu-tree.tpl"			// 通用树模板
+		"tree" 		: tplUrlPrefix[1] + "tree/tree.tpl"			// 通用树模板
 	}];
 	
 	return {

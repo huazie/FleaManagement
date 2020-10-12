@@ -28,7 +28,8 @@
 						i.find(".tree-folder-name").html(j.name);
 						i.find("input[name=id]").val(j.id);
 						i.find("input[name=code]").val(j.code);
-						i.find("input[name=level]").val(j.level);
+                        i.find("input[name=name]").val(j.name);
+                        i.find("input[name=level]").val(j.level);
 						i.find(".tree-loader").html(e.options.loadingHTML);
 						var k = i.find(".tree-folder-header");
 						k.data(j);

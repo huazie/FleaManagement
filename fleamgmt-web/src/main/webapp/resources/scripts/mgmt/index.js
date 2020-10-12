@@ -263,13 +263,13 @@ define(function (require, exports, module) {
                  * 设置
                  */
                 setting: function () {
-                    console.log("setting");
+                    Huazie.log("setting");
                 },
                 /**
                  * 个人资料
                  */
                 personalData: function () {
-                    console.log("personalData");
+                    Huazie.log("personalData");
                 },
                 /**
                  * 退出

@@ -1,5 +1,5 @@
 <!--
-
+    通用树模板
 -->
 <script id="tpl_common_tree" type="text/x-handlebars-template">
 	<div class="tree-folder" style="display:none;">
@@ -8,6 +8,7 @@
 			<div class="tree-folder-name"></div>
 			<input name="id" type="hidden" value="" />
 			<input name="code" type="hidden" value="" />
+			<input name="name" type="hidden" value="" />
 			<input name="level" type="hidden" value="" />
 			<input name="type" type="hidden" value="folder" />
 		</div>				

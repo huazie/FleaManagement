@@ -72,7 +72,10 @@
 		<a href="#" id="function_{{FUNCTION_EVENT}}" name="{{FUNCTION_EVENT}}" style="cursor:pointer;">
 			<i class="fa fa-{{FUNCTION_ICON}} fa-lg fa-fw"></i>
 			<span>{{FUNCTION_NAME}}</span>
+			<input name="id" type="hidden" value="{{MENU_ID}}" />
 			<input name="code" type="hidden" value="{{MENU_CODE}}" />
+            <input name="name" type="hidden" value="{{MENU_NAME}}" />
+            <input name="level" type="hidden" value="{{MENU_LEVEL}}" />
 		</a>
 	</div>
 	{{/common_list}}

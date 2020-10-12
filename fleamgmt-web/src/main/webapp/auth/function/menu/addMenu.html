@@ -98,10 +98,10 @@
 									<div class="form-group">
 										<label for="parent_id">
 											<i class="fa fa-hand-o-right blue"></i>
-											<span class="blue">父菜单编码</span>
+											<span class="blue">父菜单信息</span>
 										</label>
-
-										<input class="form-control" type="text" id="parent_id" name="menu.parentId" placeholder="比如控制台,菜单编码可以为'console'"/>
+										<input type="text" id="parent" placeholder="父菜单名称【父菜单编码】"/>
+										<input class="form-control" type="hidden" id="parent_id" name="menu.parentId" />
 									</div>
 
 									<div class="space-2"></div>
@@ -148,6 +148,22 @@
 										<input class="form-control" type="text" id="menu_view" name="menu.menuView" placeholder="指定菜单对应的视图URL（叶子菜单必填）"/>
 									</div>
 									
+									<div class="space-2"></div>
+
+									<div class="form-group">
+										<label>
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单层级</span>
+										</label>
+
+										<select id="menu_level_desc" disabled="disabled">
+											<option value="1">一级菜单</option>
+											<option value="2">二级菜单</option>
+											<option value="3">三级菜单</option>
+											<option value="3">三级菜单</option>
+										</select>
+									</div>
+
 									<div class="space-2"></div>
 
 									<div class="form-group">
@@ -243,6 +259,6 @@
 			});
 		
 		</script>
-	 
-</body>
+
+	</body>
 </html>
