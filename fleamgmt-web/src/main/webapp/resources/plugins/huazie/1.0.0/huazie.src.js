@@ -266,7 +266,6 @@ Huazie.tpl = {
             Huazie.ajax.getHtml(tplPath, function (htmlData, status) {
                 if (status) {
                     $('body').append(htmlData);
-                    Huazie.log(htmlData);
                     _self.isLoaded[tplPath] = true;
                     if (callback) {
                         callback();

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +109,7 @@ public class MenumgmtController extends BusinessController {
 
         try {
             // 获取菜单名
-            menuName = new String(menuName.getBytes("ISO-8859-1"), "UTF-8");
+            menuName = new String(menuName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("MenumgmtController##search(String) MenuName = {}", menuName);
             }

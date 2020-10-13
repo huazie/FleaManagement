@@ -86,7 +86,7 @@ define(function (require, exports, module) {
                                         "MENU_NAME": menuName,
                                         "MENU_LEVEL" : menuLevel
                                     },{
-                                        "HAS_DIVIDER": false,
+                                        "HAS_DIVIDER": true,
                                         "FUNCTION_ICON": "minus-circle",
                                         "FUNCTION_NAME": "菜单下线",
                                         "FUNCTION_EVENT": "remove",
@@ -176,6 +176,9 @@ define(function (require, exports, module) {
                     var menu = Huazie.form.serialize($("#menu_add"));
 
                     Huazie.log(menu);
+
+                    // 校验入参数据
+
 
                     //开始调新增菜单的操作
                     Huazie.ajax.postJson(ReqUrlMap.get("authMenuAdd"), menu, function (data, status) {
