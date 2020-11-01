@@ -38,7 +38,7 @@ public class UserInfoUtil {
                 userInfo.setRetMess("用户登录成功");
                 userInfo.setUserInfo(fleaUser.toMap());
                 FleaMenuTree fleaMenuTree = fleaUser.get(FleaMenuTree.MENU_TREE, FleaMenuTree.class);
-                userInfo.setMenuList(fleaMenuTree.toMapList());
+                userInfo.setMenuList(fleaMenuTree.toMapList(false));
             } else {
                 userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
                 userInfo.setRetMess("用户信息已失效");

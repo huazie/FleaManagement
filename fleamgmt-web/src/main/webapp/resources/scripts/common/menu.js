@@ -24,6 +24,11 @@ define(function (require, exports, module) {
             appendMenuPath(window.currentMenu[i]);
         }
 
+        var cMenu = {};
+        for (var i = 1; i <= level; i++) {
+            cMenu[i] = window.currentMenu[i];
+        }
+        window.currentMenu = cMenu;
     };
 
     /**

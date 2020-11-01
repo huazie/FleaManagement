@@ -68,9 +68,9 @@ public class MenumgmtController extends BusinessController {
             List<FleaMenu> menuList = fleaFunctionModuleSV.queryValidMenus(null);
             Map<String, String> params = new HashMap<>();
             params.put(FueluxMenuTree.FOLDER_ICON_CLASS, "red");
-            FueluxMenuTree fueluxMenuTree = new FueluxMenuTree("FleaFrameAuth", params);
+            FueluxMenuTree fueluxMenuTree = new FueluxMenuTree("Flea Menu", params);
             fueluxMenuTree.addAll(menuList);
-            menuTreeMapList = fueluxMenuTree.toMapList();
+            menuTreeMapList = fueluxMenuTree.toMapList(true);
         } catch (CommonException e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("【Spring】菜单树获取异常：\n", e);
