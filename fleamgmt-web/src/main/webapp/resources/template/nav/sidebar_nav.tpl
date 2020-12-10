@@ -1,4 +1,6 @@
-<!-- 菜单模板 -->
+<!--
+    菜单模板
+-->
 <script id="tpl_sidebar_nav" type="text/x-handlebars-template">
 
 	{{#common_list this}}
@@ -110,18 +112,3 @@
 	{{/common_list}}
 
 </script>
-
-<!--
-<li>
-	<a href="#">
-		<i class="fa fa-calendar fa-lg fa-fw"></i>
-
-		<span class="menu-text">
-			日历
-			<span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
-				<i class="fa fa-warning red bigger-130"></i>
-			</span>
-		</span>
-	</a>
-</li>
--->

@@ -60,7 +60,9 @@
 	</div>
 </script>
 
-<!-- 菜单栏弹出框模板 -->
+<!--
+    菜单栏弹出框模板
+-->
 <script id="tpl_dialog_menu" type="text/x-handlebars-template">
 	{{#common_list this}}
 	{{#if HAS_DIVIDER}}

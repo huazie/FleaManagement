@@ -26,5 +26,4 @@
         <input name="level" type="hidden" value="" />
 		<input name="type" type="hidden" value="item" />
 	</div>
-	
 </script>

@@ -1,20 +1,5 @@
 <!--
-	{
-		[{
-			"BTN_CLASS" : "btn-success", 
-			"BTN_ICON"  : "fa-signal"
-		},{
-			"BTN_CLASS" : "btn-info", 
-			"BTN_ICON"  : "fa-pencil"
-		},{
-			"BTN_CLASS" : "btn-warning", 
-			"BTN_ICON"  : "fa-group"
-		},{
-			"BTN_CLASS" : "btn-danger", 
-			"BTN_ICON"  : "fa-cogs"
-		}]
-	}
-
+    快捷侧边栏模板
 -->
 <script id="tpl_sidebar_shortcuts" type="text/x-handlebars-template">
 	<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">

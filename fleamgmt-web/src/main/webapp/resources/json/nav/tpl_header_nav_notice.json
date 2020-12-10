@@ -1,0 +1,40 @@
+{
+  "NAV_BG_COLOR": "purple",
+  "NAV_ICON": "fa-bell icon-animated-bell",
+  "NAV_BADGE_COLOR": "badge-important",
+  "NAV_BADGE_NUM": "8",
+  "NAV_DROPDOWN_MENU_COLOR": "navbar-pink",
+  "NAV_DROPDOWN_HEADER_ICON": "fa-warning",
+  "NAV_DROPDOWN_HEADER_TITLE": "通知",
+  "NAV_CONTENT": [
+    {
+      "NOTICE_ICON_COLOR": "btn-inverse",
+      "NOTICE_ICON": "fa-comment",
+      "NOTICE_TITLE": "新闻评论",
+      "NOTICE_BADGE": "badge-info",
+      "NOTICE_NUM": "12"
+    },
+    {
+      "NOTICE_ICON_COLOR": "btn-primary",
+      "NOTICE_ICON": "fa-user",
+      "NOTICE_TITLE": "用户数",
+      "NOTICE_BADGE": "",
+      "NOTICE_NUM": "10"
+    },
+    {
+      "NOTICE_ICON_COLOR": "btn-success",
+      "NOTICE_ICON": "fa-shopping-cart",
+      "NOTICE_TITLE": "新订单",
+      "NOTICE_BADGE": "badge-success",
+      "NOTICE_NUM": "8"
+    },
+    {
+      "NOTICE_ICON_COLOR": "btn-info",
+      "NOTICE_ICON": "fa-twitter",
+      "NOTICE_TITLE": "粉丝",
+      "NOTICE_BADGE": "badge-danger",
+      "NOTICE_NUM": "11"
+    }
+  ],
+  "NAV_DROPDOWN_BOTTOM_TITLE": "查看所有通知"
+}
