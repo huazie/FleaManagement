@@ -52,14 +52,14 @@ public class IndexController extends BusinessController {
     public OutputUserInfo getUserSession() {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexController##getUserSession() start");
+            LOGGER.debug("Start");
         }
 
         OutputUserInfo userInfo = UserInfoUtil.getUserInfo();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexController##getUserSession() OutputUserInfo = {}", userInfo);
-            LOGGER.debug("IndexController##getUserSession() end");
+            LOGGER.debug("OutputUserInfo = {}", userInfo);
+            LOGGER.debug("End");
         }
         return userInfo;
     }
@@ -75,7 +75,7 @@ public class IndexController extends BusinessController {
     public OutputCommonData quit(HttpSession httpSession) {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexController##quit() start");
+            LOGGER.debug("Start");
         }
 
         OutputCommonData output = new OutputCommonData();
@@ -102,7 +102,7 @@ public class IndexController extends BusinessController {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexController##quit() end");
+            LOGGER.debug("End");
         }
         return output;
     }

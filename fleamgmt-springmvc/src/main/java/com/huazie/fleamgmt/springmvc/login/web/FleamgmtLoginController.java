@@ -52,7 +52,7 @@ public class FleamgmtLoginController extends BusinessController {
                                   final HttpSession session) {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleamgmtLoginController##login(String, String, HttpServletRequest, HttpSession) start");
+            LOGGER.debug("Start");
         }
 
         OutputCommonData result = new OutputCommonData();
@@ -80,6 +80,10 @@ public class FleamgmtLoginController extends BusinessController {
                 FleaAuthLogger.asyncSaveLoginLog(fleaUserModuleSV, fleaAccount.getAccountId(), request);
                 result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
                 result.setRetMess("亲，恭喜您登录成功呦");
+
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(result.getRetMess());
+                }
             }
 
         } catch (CommonException e) {
@@ -91,7 +95,7 @@ public class FleamgmtLoginController extends BusinessController {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleamgmtLoginController##login(String, String, HttpServletRequest, HttpSession) end");
+            LOGGER.debug("End");
         }
 
         return result;
@@ -110,7 +114,7 @@ public class FleamgmtLoginController extends BusinessController {
             session.setAttribute(FleaRequestUtil.getUserSessionKey(), FleaSessionManager.getUserInfo());
         } catch (CommonException e) {
             if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("FleamgmtLoginController##initFleaUserSession() Init User Session occurs exception", e);
+                LOGGER.error("Init User Session occurs exception", e);
             }
         }
     }

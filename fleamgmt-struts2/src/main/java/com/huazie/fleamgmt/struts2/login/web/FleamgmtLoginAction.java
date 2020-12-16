@@ -61,7 +61,7 @@ public class FleamgmtLoginAction extends BaseAction {
     public String login() {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleamgmtLoginAction##login() start");
+            LOGGER.debug("Start");
         }
 
         try {
@@ -80,8 +80,12 @@ public class FleamgmtLoginAction extends BaseAction {
                         });
                 // 记录登陆日志 (异步)
                 FleaAuthLogger.asyncSaveLoginLog(fleaUserModuleSV, fleaAccount.getAccountId(), ServletActionContext.getRequest());
-                this.result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-                this.result.setRetMess("亲，恭喜您登录成功呦");
+                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+                result.setRetMess("亲，恭喜您登录成功呦");
+
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(result.getRetMess());
+                }
             }
 
         } catch (Exception e) {
@@ -93,7 +97,7 @@ public class FleamgmtLoginAction extends BaseAction {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleamgmtLoginAction##login() end");
+            LOGGER.debug("End");
         }
 
         return "json";
@@ -112,7 +116,7 @@ public class FleamgmtLoginAction extends BaseAction {
             aContext.getSession().put(FleaRequestUtil.getUserSessionKey(), FleaSessionManager.getUserInfo());
         } catch (CommonException e) {
             if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("FleamgmtLoginAction##initFleaUserSession() Init User Session occurs exception", e);
+                LOGGER.error("Init User Session occurs exception", e);
             }
         }
     }

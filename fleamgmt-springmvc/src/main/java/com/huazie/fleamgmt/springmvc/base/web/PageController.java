@@ -32,9 +32,9 @@ public class PageController {
      */
     @RequestMapping("/home")
     public String index() {
-        LOGGER.debug("JumpController##index() start");
-        LOGGER.debug("JumpController##index() Just For jumping to index.html");
-        LOGGER.debug("JumpController##index() end");
+        LOGGER.debug("Start");
+        LOGGER.debug("Just For jumping to index.html");
+        LOGGER.debug("End");
         return "index.html";
     }
 
@@ -46,8 +46,8 @@ public class PageController {
      */
     @RequestMapping("/menu")
     public String menu(@RequestParam("code") String menuCode) {
-        LOGGER.debug("JumpController##menu() start");
-        LOGGER.debug("JumpController##menu() Just For jumping to menu, MenuCode = {}", menuCode);
+        LOGGER.debug("Start");
+        LOGGER.debug("Just For jumping to menu, MenuCode = {}", menuCode);
 
         String menuView = "";
 
@@ -64,8 +64,8 @@ public class PageController {
             menuView = "/WEB-INF/error-404.html";
         }
 
-        LOGGER.debug("JumpController##menu() Just For jumping to menu, MenuView = {} ", menuView);
-        LOGGER.debug("JumpController##menu() end");
+        LOGGER.debug("Just For jumping to menu, MenuView = {} ", menuView);
+        LOGGER.debug("End");
         return menuView;
     }
 }

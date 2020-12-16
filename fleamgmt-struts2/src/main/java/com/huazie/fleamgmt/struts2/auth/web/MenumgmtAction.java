@@ -59,7 +59,7 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String add() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##add() start");
+            LOGGER.debug("Start");
         }
 
         if (menu != null) {
@@ -85,7 +85,7 @@ public class MenumgmtAction extends ActionSupport {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##add() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -99,11 +99,11 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String update() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##update() start");
+            LOGGER.debug("Start");
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##update() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -117,11 +117,11 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String remove() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() start");
+            LOGGER.debug("Start");
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -135,12 +135,12 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String treeMenus() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() start");
+            LOGGER.debug("Start");
         }
 
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -154,12 +154,12 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String search() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##search() start");
+            LOGGER.debug("Start");
         }
 
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##search() end");
+            LOGGER.debug("End");
         }
         return "json";
     }

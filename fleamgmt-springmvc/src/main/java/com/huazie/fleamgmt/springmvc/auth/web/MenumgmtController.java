@@ -59,7 +59,7 @@ public class MenumgmtController extends BusinessController {
         OutputMenuInfo output = new OutputMenuInfo();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenumgmtController##tree() start");
+            LOGGER.debug("Start");
         }
 
         List<Map<String, Object>> menuTreeMapList = null;
@@ -80,8 +80,8 @@ public class MenumgmtController extends BusinessController {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenumgmtController##tree() Menu List = {}", menuTreeMapList);
-            LOGGER.debug("MenumgmtController##tree() end");
+            LOGGER.debug("Menu List = {}", menuTreeMapList);
+            LOGGER.debug("End");
         }
 
         output.setMenuList(menuTreeMapList);
@@ -102,7 +102,7 @@ public class MenumgmtController extends BusinessController {
         OutputMenuInfo output = new OutputMenuInfo();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenumgmtController##search(String) start");
+            LOGGER.debug("Start");
         }
 
         List<Map<String, Object>> searchMenuMapList = null;
@@ -111,7 +111,7 @@ public class MenumgmtController extends BusinessController {
             // 获取菜单名
             menuName = new String(menuName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("MenumgmtController##search(String) MenuName = {}", menuName);
+                LOGGER.debug("MenuName = {}", menuName);
             }
 
             IFleaUser fleaUser = FleaSessionManager.getUserInfo();
@@ -148,8 +148,8 @@ public class MenumgmtController extends BusinessController {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenumgmtController##search(String) Menu List = {}", searchMenuMapList);
-            LOGGER.debug("MenumgmtController##search(String) end");
+            LOGGER.debug("Menu List = {}", searchMenuMapList);
+            LOGGER.debug("End");
         }
         return output;
     }

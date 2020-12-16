@@ -59,13 +59,13 @@ public class IndexAction extends ActionSupport {
     public String getUserSession() {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexAction##getUserSession() start");
+            LOGGER.debug("Start");
         }
 
         userInfo = UserInfoUtil.getUserInfo();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexAction##getUserSession() end");
+            LOGGER.debug("End");
         }
 
         return "json";
@@ -80,7 +80,7 @@ public class IndexAction extends ActionSupport {
     public String quit() {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexAction##quit() start");
+            LOGGER.debug("Start");
         }
 
         ActionContext aContext = ActionContext.getContext();
@@ -106,7 +106,7 @@ public class IndexAction extends ActionSupport {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("IndexAction##quit() end");
+            LOGGER.debug("End");
         }
 
         return "json";

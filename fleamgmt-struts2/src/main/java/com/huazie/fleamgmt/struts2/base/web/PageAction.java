@@ -26,9 +26,9 @@ public class PageAction extends ActionSupport {
      * @since 1.0.0
      */
     public String home() {
-        LOGGER.debug("JumpAction##index() start");
-        LOGGER.debug("JumpAction##index() Just For jumping to index.html");
-        LOGGER.debug("JumpAction##index() end");
+        LOGGER.debug("Start");
+        LOGGER.debug("Just For jumping to index.html");
+        LOGGER.debug("End");
         return "jumpToIndex";
     }
 }
