@@ -8,7 +8,7 @@
 define(function (require, exports, module) {
 
     exports.init = function () {
-        // ConsoleModule.loadMenuFavorite();
+        // ConsoleModule.loadMenufavorites();
     };
     /**
      * 控制台模块
@@ -17,12 +17,12 @@ define(function (require, exports, module) {
         /**
          * 加载收藏夹
          */
-        loadMenuFavorite: function () {
-            require.async("../common/favorite", function (menuFavorite) {
-                menuFavorite.findMenuFavorite(function (data) {
+        loadMenufavorites: function () {
+            require.async("../common/menu-favorites", function (menuFavorites) {
+                menuFavorites.findMenufavorites(function (data) {
                     Huazie.tpl.loadTpl(TplUrlMap.get("commonDiv"), function () {
-                        Huazie.tpl.loadTemp($("#menufavorite"), "#tpl_common_div_a", data);
-                        BindEvent.bindMenuFavoriteEvent();
+                        Huazie.tpl.loadTemp($("#menuFavorites"), "#tpl_common_div_a", data);
+                        BindEvent.bindMenufavoritesEvent();
                     });
                 });
             });
@@ -33,8 +33,8 @@ define(function (require, exports, module) {
         /**
          * 绑定收藏夹点击事件
          */
-        bindMenuFavoriteEvent: function () {
-            $("a[id^='favorite_']").on("click", function () {
+        bindMenufavoritesEvent: function () {
+            $("a[id^='favorites_']").on("click", function () {
                 var menuCode = $(this).attr("name");
 
                 require.async("../common/menu", function (fleaMenu) {

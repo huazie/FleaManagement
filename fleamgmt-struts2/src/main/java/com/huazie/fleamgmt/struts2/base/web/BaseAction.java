@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.struts2.base.web;
 
-import com.huazie.frame.common.pojo.OutputCommonData;
+import com.huazie.fleaframework.common.pojo.OutputCommonData;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**

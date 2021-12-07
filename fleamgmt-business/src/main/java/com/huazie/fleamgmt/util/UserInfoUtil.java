@@ -1,12 +1,12 @@
 package com.huazie.fleamgmt.util;
 
+import com.huazie.fleaframework.auth.util.FleaMenuTree;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
-import com.huazie.frame.auth.util.FleaMenuTree;
-import com.huazie.frame.common.FleaSessionManager;
-import com.huazie.frame.common.IFleaUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <p> 用户信息工具类 </p>
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class UserInfoUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoUtil.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(UserInfoUtil.class);
 
     private UserInfoUtil() {
     }

@@ -1,22 +1,22 @@
 package com.huazie.fleamgmt.springmvc.auth.web;
 
+import com.huazie.fleaframework.auth.base.function.entity.FleaMenu;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaFunctionModuleSV;
+import com.huazie.fleaframework.auth.util.FleaMenuTree;
+import com.huazie.fleaframework.auth.util.FueluxMenuTree;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
+import com.huazie.fleaframework.common.util.CollectionUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
+import com.huazie.fleaframework.common.util.StringUtils;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.auth.pojo.OutputMenuInfo;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
-import com.huazie.frame.auth.base.function.entity.FleaMenu;
-import com.huazie.frame.auth.common.service.interfaces.IFleaFunctionModuleSV;
-import com.huazie.frame.auth.util.FleaMenuTree;
-import com.huazie.frame.auth.util.FueluxMenuTree;
-import com.huazie.frame.common.FleaSessionManager;
-import com.huazie.frame.common.IFleaUser;
-import com.huazie.frame.common.exception.CommonException;
-import com.huazie.frame.common.util.CollectionUtils;
-import com.huazie.frame.common.util.ObjectUtils;
-import com.huazie.frame.common.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,7 +37,7 @@ import java.util.Map;
 @Controller
 public class MenumgmtController extends BusinessController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MenumgmtController.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(MenumgmtController.class);
 
     private IFleaFunctionModuleSV fleaFunctionModuleSV;
 
@@ -52,7 +52,7 @@ public class MenumgmtController extends BusinessController {
      * @return 菜单树信息
      * @since 1.0.0
      */
-    @RequestMapping("authMenu!tree.flea")
+    @GetMapping("authMenu!tree.flea")
     @ResponseBody
     public OutputMenuInfo tree() {
 
@@ -95,7 +95,7 @@ public class MenumgmtController extends BusinessController {
      * @return 菜单信息
      * @since 1.0.0
      */
-    @RequestMapping("authMenu!search.flea")
+    @GetMapping("authMenu!search.flea")
     @ResponseBody
     public OutputMenuInfo search(@RequestParam("menu.menuName") String menuName) {
 

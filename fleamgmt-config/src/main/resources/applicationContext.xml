@@ -13,7 +13,9 @@
        default-autowire="byName" default-lazy-init="false">
 
     <!-- 自动扫描-->
-    <context:component-scan base-package="com.huazie.**.dao.impl,com.huazie.**.service.impl,com.huazie.**.web,com.huazie.**.bean,com.huazie.**.client.core"/>
+    <context:component-scan base-package="com.huazie.**.dao.impl,com.huazie.**.service.impl,com.huazie.**.web,com.huazie.**.bean,com.huazie.**.client.core,com.huazie.**.aspect"/>
+
+    <bean id="fleaApplicationContext" class="com.huazie.fleaframework.common.FleaApplicationContext" lazy-init="false"/>
 
     <!--
         读取的配置文件
@@ -71,6 +73,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
             </map>
         </property>
     </bean>
@@ -94,6 +97,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
             </map>
         </property>
     </bean>
@@ -104,45 +108,16 @@
 
     <tx:annotation-driven transaction-manager="fleaAuthTransactionManager"/>
 
-    <!--
-        配置缓存管理MemCachedSpringCacheManager
-        配置缓存时间 configMap (key缓存对象名称 value缓存过期时间)
-    -->
-    <bean id="memCachedSpringCacheManager" class="com.huazie.frame.cache.memcached.MemCachedSpringCacheManager">
-        <property name="configMap">
-            <map>
-                <entry key="fleaparadetail" value="86400"/>
-                <entry key="fleajerseyi18nerrormapping" value="86400" />
-                <entry key="fleajerseyresservice" value="86400" />
-                <entry key="fleajerseyresclient" value="86400" />
-                <entry key="fleajerseyresource" value="86400" />
-            </map>
-        </property>
-    </bean>
-
-    <!--
-        配置缓存管理RedisSpringCacheManager
-        配置缓存时间 configMap (key缓存对象名称 value缓存过期时间)
-    -->
-    <bean id="redisSpringCacheManager" class="com.huazie.frame.cache.redis.RedisSpringCacheManager">
-        <property name="configMap">
-            <map>
-                <entry key="fleaparadetail" value="86400"/>
-                <entry key="fleajerseyi18nerrormapping" value="86400" />
-                <entry key="fleajerseyresservice" value="86400" />
-                <entry key="fleajerseyresclient" value="86400" />
-                <entry key="fleajerseyresource" value="86400" />
-            </map>
-        </property>
-    </bean>
-
     <!-- 配置核心Flea缓存管理类 RedisSpringCacheManager -->
-    <bean id="coreSpringCacheManager" class="com.huazie.frame.cache.core.CoreSpringCacheManager" />
+    <bean id="coreSpringCacheManager" class="com.huazie.fleaframework.cache.core.manager.CoreSpringCacheManager" />
 
     <!-- 开启缓存 -->
     <cache:annotation-driven cache-manager="coreSpringCacheManager" proxy-target-class="true"/>
 
     <!-- 导入调度任务 -->
     <!-- <import resource="spring-quartz.xml" /> -->
+
+    <!-- 织入使用注解定义的增强，需要引入AOP命名空间 -->
+    <aop:aspectj-autoproxy />
 
 </beans>

@@ -1,23 +1,22 @@
 package com.huazie.fleamgmt.springmvc.login.web;
 
+import com.huazie.fleaframework.auth.base.user.entity.FleaAccount;
+import com.huazie.fleaframework.auth.common.pojo.user.login.FleaUserLoginPOJO;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaUserModuleSV;
+import com.huazie.fleaframework.auth.util.FleaAuthLogger;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.pojo.OutputCommonData;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
+import com.huazie.fleaframework.common.util.ObjectUtils;
+import com.huazie.fleaframework.core.request.FleaRequestUtil;
+import com.huazie.fleaframework.jersey.client.core.FleaJerseyClientConfig;
+import com.huazie.fleaframework.jersey.common.FleaUserImplObjectFactory;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
-import com.huazie.frame.auth.base.user.entity.FleaAccount;
-import com.huazie.frame.auth.common.pojo.user.login.FleaUserLoginPOJO;
-import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
-import com.huazie.frame.auth.common.service.interfaces.IFleaUserModuleSV;
-import com.huazie.frame.auth.util.FleaAuthLogger;
-import com.huazie.frame.common.FleaSessionManager;
-import com.huazie.frame.common.exception.CommonException;
-import com.huazie.frame.common.pojo.OutputCommonData;
-import com.huazie.frame.common.util.ObjectUtils;
-import com.huazie.frame.core.request.FleaRequestUtil;
-import com.huazie.frame.jersey.client.core.FleaJerseyClientConfig;
-import com.huazie.frame.jersey.common.FleaUserImplObjectFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,7 +34,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class FleamgmtLoginController extends BusinessController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FleamgmtLoginController.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleamgmtLoginController.class);
 
     private IFleaUserModuleSV fleaUserModuleSV;
 
@@ -44,7 +43,7 @@ public class FleamgmtLoginController extends BusinessController {
         this.fleaUserModuleSV = fleaUserModuleSV;
     }
 
-    @RequestMapping("fleamgmtLogin!login.flea")
+    @PostMapping("fleamgmtLogin!login.flea")
     @ResponseBody
     public OutputCommonData login(@RequestParam("fleaUserLoginPOJO.accountCode") String accountCode,
                                   @RequestParam("fleaUserLoginPOJO.accountPwd") String accountPwd,
@@ -67,7 +66,7 @@ public class FleamgmtLoginController extends BusinessController {
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
                 // 初始化用户信息
                 fleaUserModuleSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(),
-                        FleaJerseyClientConfig.getSystemAcctId(Long.class), null,
+                        FleaJerseyClientConfig.getSystemAccountId(Long.class), null,
                         new FleaUserImplObjectFactory() {
                             @Override
                             public void initObject() {
