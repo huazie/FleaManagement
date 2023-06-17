@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>菜单新增</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../../../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../../../resources/plugins/font-awesome/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../../../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../../../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+
+		<!-- fonts 
+		<link rel="stylesheet" href="resources/css/fonts/fonts.css" />
+		-->
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../../../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../../../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../../../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" href="../../../resources/plugins/ace/css/ace-ie.css"/>
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="../../../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../../../resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="../../../resources/plugins/respond/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					菜单管理
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						 &nbsp;菜单新增
+					</small>
+				</h1>
+				<!-- 收藏模块  start-->
+				<div class="page-header-fav">
+					<a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+						<i class="fa fa-star-o fa-lg"></i>
+						<span>收藏</span>
+					</a>
+				</div>
+				<!-- 收藏模块  end -->
+			</div><!-- /.page-header -->
+			
+			<div class="row">
+				<div class="col-xs-12">
+
+					<div class="col-sm-3">
+
+						<div class="alert alert-block alert-success">
+							<button type="button" class="close" data-dismiss="alert">
+								<i class="fa fa-remove"></i>
+							</button>
+
+							<i class="fa fa-hand-o-right blue"></i>
+							亲，请先从菜单树中新增菜单哟！<br/>
+							<strong class="red">
+								<i class="fa fa-info-circle"></i> 提示 :
+							</strong>
+							【右击或长按父菜单】
+						</div>
+
+						<div class="widget-box">
+							<div class="widget-header header-color-blue2">
+								<h5 class="lighter smaller">
+									<i class="fa fa-list-alt fa-lg"></i>
+									菜单列表
+								</h5>
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main padding-8">
+									<div id="tree_add" class="tree"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-sm-9">
+						<div class="widget-box">
+							<div class="widget-header">
+								<h5 class="lighter smaller">
+									<i class="fa fa-plus-circle fa-lg"></i>
+									新增
+								</h5>
+							
+								<span class="widget-toolbar">
+									<a href="#" data-action="collapse">
+										<i class="fa fa-chevron-up"></i>
+									</a>
+								</span>
+							</div>
+							
+							<div class="widget-body">
+								<div id="menu_add" class="widget-main" fieldset="json">
+
+									<div class="form-group">
+										<label for="parent_id">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">父菜单信息</span>
+										</label>
+										<input class="form-control skip_over" type="text" id="parent" placeholder="父菜单名称【父菜单编码】" disabled="disabled" />
+										<input type="hidden" id="parent_id" name="parentId" />
+									</div>
+
+									<div class="space-2"></div>
+
+									<div class="form-group">
+										<label for="menu_code">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单编码</span>
+										</label>
+								
+										<input class="form-control" type="text" id="menu_code" name="menuCode" placeholder="比如首页,菜单编码可以为'index'"/>
+									</div>
+									
+									<div class="space-2"></div>
+									
+									<div class="form-group">
+										<label for="menu_name">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单名称</span>
+										</label>
+								
+										<input class="form-control" type="text" id="menu_name" name="menuName" placeholder="菜单显示在前台的名称描述"/>
+									</div>
+									
+									<div class="space-2"></div>
+									
+									<div class="form-group">
+										<label for="menu_icon">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单图标</span>
+										</label>
+								
+										<input class="form-control" type="text" id="menu_icon" name="menuIcon" placeholder="菜单图标（Font Awesome）"/>
+									</div>
+									
+									<div class="space-2"></div>
+									
+									<div class="form-group">
+										<label for="menu_view">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单视图</span>
+										</label>
+								
+										<input class="form-control" type="text" id="menu_view" name="menuView" placeholder="指定菜单对应的视图URL（叶子菜单必填）"/>
+									</div>
+									
+									<div class="space-2"></div>
+
+									<div class="form-group">
+										<label>
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单层级</span>
+										</label>
+
+										<select class="form-control" id="menu_level" name="menuLevel" disabled="disabled">
+											<option value="0"></option>
+											<option value="1">一级菜单</option>
+											<option value="2">二级菜单</option>
+											<option value="3">三级菜单</option>
+											<option value="4">四级菜单</option>
+										</select>
+                                        <input type="hidden" id="menu_sort" name="menuSort" />
+                                    </div>
+
+									<div class="space-2"></div>
+
+									<div class="form-group">
+										<label for="remarks">
+											<i class="fa fa-hand-o-right blue"></i>
+											<span class="blue">菜单描述</span>
+										</label>
+								
+										<textarea class="autosize-transition form-control" id="remarks" name="remarks" placeholder="填写菜单相关的描述信息，留存备注"></textarea>
+									</div>
+									
+									<div class="space-2"></div>
+									
+									<div class="row-fluid wizard-actions">
+										<button id="submit" class="btn btn-info" type="button">
+											<i class="fa fa-check bigger-110"></i>
+											提交
+										</button>
+										<button id="reset" class="btn btn-inverse" type="button">
+											<i class="fa fa-undo bigger-110"></i>
+											重置
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+					<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+				</a>
+			</div>	
+		</div>
+		
+		<!-- 基础脚本basic scripts -->
+		
+		<!--[if !IE]> -->
+		<script src="../../../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!--[if IE]>
+		<script src="..\..\..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../../../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../../../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../../../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../../../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../../../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../../../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../../../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../../../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../../../resources/plugins/fuelux/fuelux.tree.js"></script>
+		<script src="../../../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../../../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../../../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../../../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../../../resources/scripts/base/config.js"></script>
+		<script src="../../../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../../../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../../../resources/scripts/base/comm.js"></script>
+		<script src="../../../resources/scripts/common/click.js"></script>
+		
+		<!-- ace scripts -->
+		<script src="../../../resources/plugins/ace/js/ace-elements.js"></script>
+		<script src="../../../resources/plugins/ace/js/ace.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+		
+			$(function(){
+				
+				// ### start load auth-menu.js
+				seajs.use(SeaJsUrlMap.get("authMenu"), function(authMenu) {
+					authMenu.init("add");
+				}); // ### end load auth-menu.js
+				
+			});
+		
+		</script>
+
+	</body>
+</html>

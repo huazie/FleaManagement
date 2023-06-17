@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.module.auth.pojo;
 
-import com.huazie.frame.common.pojo.OutputCommonData;
+import com.huazie.fleaframework.common.pojo.OutputCommonData;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.List;

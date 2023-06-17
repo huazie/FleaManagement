@@ -1,8 +1,10 @@
 package com.huazie.fleamgmt.module.auth.pojo;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p> 菜单信息 业务入参 </p>
@@ -13,23 +15,37 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class InputMenuInfo implements Serializable {
 
-    private static final long serialVersionUID = 3883742212360452776L;
+    private static final long serialVersionUID = -5922687659962830797L;
 
-    private String menuCode;    // 菜单编码
+    private Long menuId; // 菜单编号
 
-    private String menuName;    // 菜单名称
+    private String menuCode; // 菜单编码
 
-    private String menuIcon;    // 菜单FontAwesome小图标
+    private String menuName; // 菜单名称
 
-    private int hasSubMenu;     // 是否有子菜单（0：没有子菜单 1：有子菜单）
+    private String menuIcon; // 菜单FontAwesome小图标
 
-    private String parentId;    // 子菜单的父编号
+    private Integer menuSort; // 菜单展示顺序(同一个父菜单下)
 
-    private String menuView;    // 菜单对应页面（含有子菜单的可以为空）
+    private String menuView; // 菜单对应页面（非叶子菜单的可以为空）
 
-    private int moduleType;     // 模块类型（1: 跳蚤管家）
+    private Integer menuLevel; // 菜单层级（1：一级菜单 2；二级菜单 3：三级菜单 4：四级菜单）
 
-    private String description; // 描述信息
+    private Long parentId; // 父菜单编号
+
+    private String remarks; // 备注
+
+    private List<SystemInfo> systemsInUse; // 在用的系统列表
+
+    private List<Map<String, String>> menuAttrs; // 菜单属性
+
+    public Long getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
+    }
 
     public String getMenuCode() {
         return menuCode;
@@ -55,20 +71,12 @@ public class InputMenuInfo implements Serializable {
         this.menuIcon = menuIcon;
     }
 
-    public int getHasSubMenu() {
-        return hasSubMenu;
+    public Integer getMenuSort() {
+        return menuSort;
     }
 
-    public void setHasSubMenu(int hasSubMenu) {
-        this.hasSubMenu = hasSubMenu;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+    public void setMenuSort(Integer menuSort) {
+        this.menuSort = menuSort;
     }
 
     public String getMenuView() {
@@ -79,20 +87,44 @@ public class InputMenuInfo implements Serializable {
         this.menuView = menuView;
     }
 
-    public int getModuleType() {
-        return moduleType;
+    public Integer getMenuLevel() {
+        return menuLevel;
     }
 
-    public void setModuleType(int moduleType) {
-        this.moduleType = moduleType;
+    public void setMenuLevel(Integer menuLevel) {
+        this.menuLevel = menuLevel;
     }
 
-    public String getDescription() {
-        return description;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public List<SystemInfo> getSystemsInUse() {
+        return systemsInUse;
+    }
+
+    public void setSystemsInUse(List<SystemInfo> systemsInUse) {
+        this.systemsInUse = systemsInUse;
+    }
+
+    public List<Map<String, String>> getMenuAttrs() {
+        return menuAttrs;
+    }
+
+    public void setMenuAttrs(List<Map<String, String>> menuAttrs) {
+        this.menuAttrs = menuAttrs;
     }
 
     @Override

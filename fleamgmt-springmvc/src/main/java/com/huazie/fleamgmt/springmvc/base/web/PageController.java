@@ -1,12 +1,12 @@
 package com.huazie.fleamgmt.springmvc.base.web;
 
-import com.huazie.frame.auth.base.function.entity.FleaMenu;
-import com.huazie.frame.auth.util.FleaMenuTree;
-import com.huazie.frame.common.FleaSessionManager;
-import com.huazie.frame.common.IFleaUser;
-import com.huazie.frame.common.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.huazie.fleaframework.auth.base.function.entity.FleaMenu;
+import com.huazie.fleaframework.auth.util.FleaMenuTree;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
+import com.huazie.fleaframework.common.util.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,32 +22,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/page")
 public class PageController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PageController.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(PageController.class);
 
     /**
-     * <p> 跳转首页 </p>
+     * 跳转首页
      *
-     * @return 首页字符串
+     * @return 首页
      * @since 1.0.0
      */
     @RequestMapping("/home")
     public String index() {
-        LOGGER.debug("JumpController##index() start");
-        LOGGER.debug("JumpController##index() Just For jumping to index.html");
-        LOGGER.debug("JumpController##index() end");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Just For jumping to index.html");
+        }
         return "index.html";
     }
 
     /**
-     * <p> 跳转菜单 </p>
+     * 根据菜单编码，跳转指定菜单
+     * <p> 如果菜单编码对应的菜单不在当前用户所授权的叶子菜单之中，
+     * 则默认返回 404的错误页面
      *
      * @return 指定菜单页面
      * @since 1.0.0
      */
     @RequestMapping("/menu")
     public String menu(@RequestParam("code") String menuCode) {
-        LOGGER.debug("JumpController##menu() start");
-        LOGGER.debug("JumpController##menu() Just For jumping to menu, MenuCode = {}", menuCode);
 
         String menuView = "";
 
@@ -64,8 +64,9 @@ public class PageController {
             menuView = "/WEB-INF/error-404.html";
         }
 
-        LOGGER.debug("JumpController##menu() Just For jumping to menu, MenuView = {} ", menuView);
-        LOGGER.debug("JumpController##menu() end");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Just For jumping to menu, MenuCode = {}, MenuView = {}", menuCode, menuView);
+        }
         return menuView;
     }
 }

@@ -1,14 +1,11 @@
 package com.huazie.fleamgmt.struts2.auth.web;
 
-import com.huazie.fleamgmt.constant.FleamgmtConstants;
+import com.huazie.fleaframework.auth.base.function.service.interfaces.IFleaMenuSV;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleamgmt.module.auth.pojo.InputMenuInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputMenuInfo;
-import com.huazie.frame.auth.base.function.entity.FleaMenu;
-import com.huazie.frame.auth.base.function.service.interfaces.IFleaMenuSV;
-import com.huazie.frame.common.util.ObjectUtils;
 import com.opensymphony.xwork2.ActionSupport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
@@ -25,7 +22,7 @@ public class MenumgmtAction extends ActionSupport {
 
     private static final long serialVersionUID = 5773270988602898517L;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MenumgmtAction.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(MenumgmtAction.class);
 
     @Resource(name = "fleaMenuSV")
     private IFleaMenuSV fleaMenuSV;
@@ -59,33 +56,11 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String add() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##add() start");
-        }
-
-        if (menu != null) {
-            String menuCode = menu.getMenuCode();
-            String menuName = menu.getMenuName();
-            String menuIcon = menu.getMenuIcon();
-            int hasSubMenu = menu.getHasSubMenu();
-            String menuView = menu.getMenuView();
-            String parentId = menu.getParentId();
-            int moduleType = menu.getModuleType();
-            String description = menu.getDescription();
-
-            FleaMenu parentMenu = fleaMenuSV.query(parentId);
-
-            int menuLevel = 1;
-            if (ObjectUtils.isNotEmpty(parentMenu)) {
-                menuLevel = parentMenu.getMenuLevel() + 1;
-            }
-
-        } else {
-            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            result.setRetMess("请求新增的菜单数据为空");
+            LOGGER.debug("Start");
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##add() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -99,11 +74,11 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String update() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##update() start");
+            LOGGER.debug("Start");
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##update() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -117,11 +92,11 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String remove() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() start");
+            LOGGER.debug("Start");
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -135,12 +110,12 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String treeMenus() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() start");
+            LOGGER.debug("Start");
         }
 
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##remove() end");
+            LOGGER.debug("End");
         }
         return "json";
     }
@@ -154,12 +129,12 @@ public class MenumgmtAction extends ActionSupport {
      */
     public String search() throws Exception {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##search() start");
+            LOGGER.debug("Start");
         }
 
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("MenuManagementAction##search() end");
+            LOGGER.debug("End");
         }
         return "json";
     }

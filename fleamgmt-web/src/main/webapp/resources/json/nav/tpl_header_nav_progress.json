@@ -1,0 +1,36 @@
+{
+  "NAV_BG_COLOR": "grey",
+  "NAV_ICON": "fa-tasks",
+  "NAV_BADGE_COLOR": "badge-grey",
+  "NAV_BADGE_NUM": "4",
+  "NAV_DROPDOWN_MENU_COLOR": "",
+  "NAV_DROPDOWN_HEADER_ICON": "fa-check",
+  "NAV_DROPDOWN_HEADER_TITLE": "未任务完成",
+  "NAV_CONTENT": [
+    {
+      "PROGRESS_BAR_NAME": "软件更新",
+      "PROGRESS_BAR_PERCENTTAGE": "65%",
+      "PROGRESS_BAR_STYLE": "",
+      "PROGRESS_BAR_STATE": ""
+    },
+    {
+      "PROGRESS_BAR_NAME": "硬件更新",
+      "PROGRESS_BAR_PERCENTTAGE": "35%",
+      "PROGRESS_BAR_STYLE": "",
+      "PROGRESS_BAR_STATE": "progress-bar-danger"
+    },
+    {
+      "PROGRESS_BAR_NAME": "单元测试",
+      "PROGRESS_BAR_PERCENTTAGE": "15%",
+      "PROGRESS_BAR_STYLE": "",
+      "PROGRESS_BAR_STATE": "progress-bar-warning"
+    },
+    {
+      "PROGRESS_BAR_NAME": "错误修复",
+      "PROGRESS_BAR_PERCENTTAGE": "90%",
+      "PROGRESS_BAR_STYLE": "progress-striped active",
+      "PROGRESS_BAR_STATE": "progress-bar-success"
+    }
+  ],
+  "NAV_DROPDOWN_BOTTOM_TITLE": "查看任务详情"
+}

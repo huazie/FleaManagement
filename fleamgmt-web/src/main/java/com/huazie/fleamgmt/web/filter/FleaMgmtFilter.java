@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.web.filter;
 
-import com.huazie.frame.core.filter.FleaFrameFilter;
+import com.huazie.fleaframework.core.filter.FleaFrameFilter;
 
 /**
  * <p> 跳蚤管家过滤器 </p>

@@ -360,8 +360,8 @@ jQuery(function() {
 (function(a, b) {
 	a.fn.ace_spinner = function(c) {
 		this.each(function() {
-			var f = c.icon_up || "fa-chevron-up";
-			var j = c.icon_down || "fa-chevron-down";
+			var f = c.icon_up || "fa fa-chevron-up";
+			var j = c.icon_down || "fa fa-chevron-down";
 			var h = c.on_sides || false;
 			var e = c.btn_up_class || "";
 			var g = c.btn_down_class || "";
@@ -484,29 +484,29 @@ jQuery(function() {
 })(window.jQuery);
 
 /**
- * 
- * 通用树
- * 
+ * <p> 通用树 </p>
+ *
  * @param a
  * @param b
  */
-(function(a, b) {
-	a.fn.ace_tree = function(d, callback) {
+(function (a, b) {
+	a.fn.ace_tree = function (d, callback) {
 		var c = {
-			"open-icon" : "fa-folder-open",
-			"close-icon" : "fa-folder",
-			selectable : true,
-			"selected-icon" : "fa-check",
-			"unselected-icon" : "dot-circle-o"
+			"open-icon": "fa-folder-open",
+			"close-icon": "fa-folder",
+			selectable: true,
+			"selected-icon": "fa-check",
+			"unselected-icon": "dot-circle-o"
 		};
 		c = a.extend({}, c, d);
-		this.each(function() {
+		this.each(function () {
 			var e = a(this);
-			Huazie.tpl.loadTpl(TplUrlMap.get("tree"), function(){
+			e.removeData("tree");
+			Huazie.tpl.loadTpl(TplUrlMap.get("tree"), function () {
 				Huazie.tpl.loadTemp(e, "#tpl_common_tree", c);
-				e.addClass(c.selectable == true ? "tree-selectable" : "tree-unselectable");
-				e.tree(c)
-				if(callback){
+				e.addClass(c.selectable === true ? "tree-selectable" : "tree-unselectable");
+				e.tree(c);
+				if (callback) {
 					callback();
 				}
 			});
@@ -564,11 +564,11 @@ jQuery(function() {
 				title : "Number list"
 			},
 			outdent : {
-				icon : "fa fa-indent-left",
+				icon : "fa fa-outdent",
 				title : "Reduce indent (Shift+Tab)"
 			},
 			indent : {
-				icon : "fa fa-indent-right",
+				icon : "fa fa-indent",
 				title : "Indent (Tab)"
 			},
 			justifyleft : {

@@ -220,7 +220,7 @@ Huazie.ajax = {
             error: function () {
                 var err = {};
                 err['retCode'] = "N";
-                err['retMess'] = "服务器开小差了,请您稍后重新尝试!!!";
+                err['retMess'] = "服务器开小差了，请您稍后重新尝试！！！";
                 callback(err, false);
             }
         });
@@ -266,7 +266,6 @@ Huazie.tpl = {
             Huazie.ajax.getHtml(tplPath, function (htmlData, status) {
                 if (status) {
                     $('body').append(htmlData);
-                    Huazie.log(htmlData);
                     _self.isLoaded[tplPath] = true;
                     if (callback) {
                         callback();
@@ -495,14 +494,24 @@ Huazie.msg = {
         return "Huazie.msg";
     },
     /**
-     * 按钮显示的通用文本
+     * 按钮显示的通用文本【小图标在左边】
      *
      * @param icon 按钮小图标
      * @param mess 按钮文本
      * @return {String}
      */
     btnText: function (icon, mess) {
-        return "<i class=\"fa fa-" + icon + " fa-lg\"></i>" + mess;
+        return "<i class=\"fa fa-" + icon + "\"></i>" + mess;
+    },
+    /**
+     * 按钮显示的通用文本【小图标在右边】
+     *
+     * @param icon 按钮小图标
+     * @param mess 按钮文本
+     * @return {String}
+     */
+    btnText1: function (icon, mess) {
+        return mess + "<i class=\"fa fa-" + icon + "\"></i>";
     },
     /**
      * tbody中显示的加载文本
@@ -543,23 +552,24 @@ Huazie.validate = {
      * @class regExp
      */
     regExp: {
-        num: "^([+-]?)\\d*\\.?\\d+$",		//数字
-        pNum: "^\\d+(\\.\\d+)?$",			//正数
-        nNum: "^(\\-?)\\d+(\\.\\d+)?$",	//负数
-        integer: "^-?[1-9]\\d*$",				//整数
-        pInteger: "^[1-9]\\d*$",				//正整数
-        nInteger: "^-[1-9]\\d*$",				//负整数
-        nnInteger: "^[1-9]\\d*|0$",				//非负整数（正整数 + 0）
-        npInteger: "^-[1-9]\\d*|0$",			//非正整数（负整数 + 0）
-        float: "^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$",	//浮点数
-        pFloat: "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$", 	//正浮点数
-        nFloat: "^-([1-9]\\d*.\\d*|0.\\d*[1-9]\\d*)$", 	//负浮点数
-        nnFloat: "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0$", 		//非负浮点数（正浮点数 + 0）
-        npFloat: "^(-([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*))|0?\\.0+|0$", 	//非正浮点数（负浮点数 + 0）
-        email: /^\w+((-\w)|\.\w+)*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/, //邮箱账号
-        password: /^(?=.*[a-zA-Z]+)(?=.*[0-9]+)[a-zA-Z0-9]+$/, 		//6~16位的字母和数字的组合
-        phone: /^(13[0-9]|14[7|5]|15[0-35-9]|18[0-25-9])\d{8}$/, 	//手机号码
-        url: "^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$"	 	//url
+        num: "^([+-]?)\\d*\\.?\\d+$",		// 数字
+        pNum: "^\\d+(\\.\\d+)?$",			// 正数
+        nNum: "^(\\-?)\\d+(\\.\\d+)?$",	    // 负数
+        integer: "^-?[1-9]\\d*$",			// 整数
+        pInteger: "^[1-9]\\d*$",			// 正整数
+        nInteger: "^-[1-9]\\d*$",			// 负整数
+        nnInteger: "^[1-9]\\d*|0$",			// 非负整数（正整数 + 0）
+        npInteger: "^-[1-9]\\d*|0$",		// 非正整数（负整数 + 0）
+        float: "^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$",	// 浮点数
+        pFloat: "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$", 	            // 正浮点数
+        nFloat: "^-([1-9]\\d*.\\d*|0.\\d*[1-9]\\d*)$", 	                // 负浮点数
+        nnFloat: "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0$", 		// 非负浮点数（正浮点数 + 0）
+        npFloat: "^(-([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*))|0?\\.0+|0$", // 非正浮点数（负浮点数 + 0）
+        phone: /^(13[0-9]|14[5-9]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[89])\d{8}$/, 	    // 手机号码
+        email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,         // 邮箱账号
+        url: "^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$",	// Http地址
+        password: /^(?=.*[a-zA-Z]+)(?=.*[0-9]+)[a-zA-Z0-9]{8,16}$/,     // 8~16位的字母、数字的组合，且必须有数字和字母，不含特殊字符
+        password1: /^(?=.*[a-zA-Z]+)(?=.*[0-9]+)[a-zA-Z0-9\W]{8,16}$/   // 8~16位的字母、数字的组合，且必须有数字和字母，可含特殊字符
     },
     /**
      * 正则表达式开始校验
@@ -610,9 +620,17 @@ Huazie.dialog = {
      */
     tips: function (icon, mess, time) {
         Huazie.tpl.loadTpl(TplUrlMap.get("dialog"), function () {
+            var messObj;
+            var messStr;
+            if (typeof mess === "object") {
+                messObj = mess;
+            } else if (typeof mess === "string") {
+                messStr = mess;
+            }
             var data = {
                 "ICON": icon,
-                "CONTENT": mess
+                "CONTENT": messStr,
+                "CONTENTS": messObj
             };
             var d = dialog({
                 fixed: true,
@@ -635,9 +653,17 @@ Huazie.dialog = {
      */
     confirm: function (icon, mess, confirmCallback, cancelCallback) {
         Huazie.tpl.loadTpl(TplUrlMap.get("dialog"), function () {
+            var messObj;
+            var messStr;
+            if (typeof mess === "object") {
+                messObj = mess;
+            } else if (typeof mess === "string") {
+                messStr = mess;
+            }
             var data = {
                 "ICON": icon,
-                "CONTENT": mess
+                "CONTENT": messStr,
+                "CONTENTS": messObj
             };
             var d = dialog({
                 fixed: true,
@@ -671,7 +697,7 @@ Huazie.dialog = {
             });
             d.show(obj);
             if (callback) {
-                callback();
+                callback(d);
             }
         });
     }

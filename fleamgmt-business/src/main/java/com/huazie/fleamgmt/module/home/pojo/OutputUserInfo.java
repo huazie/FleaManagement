@@ -1,6 +1,6 @@
 package com.huazie.fleamgmt.module.home.pojo;
 
-import com.huazie.frame.common.pojo.OutputCommonData;
+import com.huazie.fleaframework.common.pojo.OutputCommonData;
 
 import java.util.List;
 import java.util.Map;

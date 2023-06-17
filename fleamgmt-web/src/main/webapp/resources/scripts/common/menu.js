@@ -14,16 +14,11 @@ define(function (require, exports, module) {
 
         var level = menu["MENU_LEVEL"];
 
-        if (level === 1 || level === "1") {
-            window.currentMenu = {};
-        }
+        window.currentMenu = menu;
 
-        window.currentMenu[level] = menu;
-
-        for (var i = 1; i <= level; i++) {
-            appendMenuPath(window.currentMenu[i]);
-        }
-
+        Huazie.tpl.loadTpl(TplUrlMap.get("commonLi"), function () {
+            Huazie.tpl.loadTemp($("#breadcrumb"), "#tpl_common_li_1", menu);
+        });
     };
 
     /**
@@ -32,22 +27,6 @@ define(function (require, exports, module) {
     exports.clearMenuPath = function () {
         $("#breadcrumb").html('');
     };
-
-    /**
-     * 追加menu的路径
-     *
-     * @param menu 菜单
-     */
-    function appendMenuPath(menu) {
-        Huazie.tpl.loadTpl(TplUrlMap.get("commonLi"), function () {
-            var level = menu["MENU_LEVEL"];
-            if (level === 1 || level === "1") {
-                Huazie.tpl.loadTemp($("#breadcrumb"), "#tpl_common_li_1", menu);
-            } else {
-                Huazie.tpl.appendTemp($("#breadcrumb"), "#tpl_common_li_1", menu); // 追加
-            }
-        });
-    }
 
     /**
      * 打开指定的菜单

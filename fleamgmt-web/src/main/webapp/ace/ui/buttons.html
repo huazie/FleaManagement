@@ -1,0 +1,4126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>按钮 & 图标</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- 基础样式 basic styles -->
+        <link rel="stylesheet" href="../../resources/plugins/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/font-awesome/css/font-awesome.css"/>
+
+        <!-- page specific plugin styles -->
+
+        <!-- fonts -->
+
+        <!-- ace styles -->
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-rtl.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-skins.css"/>
+
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-ie.css"/>
+        <![endif]-->
+
+        <!-- inline styles related to this page -->
+
+        <!-- ace settings handler -->
+        <script src="../../resources/plugins/ace/js/ace-extra.js"></script>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="../../resources/plugins/html5shiv/html5shiv.js"></script>
+        <script src="../../resources/plugins/respond/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+        <div class="page-content">
+            <div class="page-header">
+                <h1 style="float: none;">
+                    Buttons &amp; Icon
+                    <small>
+                        <i class="fa fa-angle-double-right"></i>
+                        Common Buttons &amp; Icons
+                    </small>
+                </h1>
+            </div><!-- /.page-header -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="header smaller lighter green">Application Buttons</h3>
+
+                            <p>
+                                <a href="#" class="btn btn-default btn-app radius-4">
+                                    <i class="fa fa-cog bigger-230"></i>
+                                    Default
+                                    <span class="badge badge-pink">+3</span>
+                                </a>
+
+                                <a href="#" class="btn btn-app btn-primary no-radius">
+                                    <i class="fa fa-edit bigger-230"></i>
+                                    编辑
+                                    <span class="badge badge-warning badge-left">11</span>
+                                </a>
+
+                                <a href="#" class="btn btn-app btn-success">
+                                    <i class="fa fa-refresh bigger-230"></i>
+                                    Reload
+                                </a>
+
+                                <button class="btn btn-app btn-warning">
+                                    <i class="fa fa-undo bigger-230"></i>
+                                    Undo
+                                </button>
+
+                                <a href="#" class="btn btn-app btn-info btn-sm no-radius">
+                                    <i class="fa fa-envelope bigger-200"></i>
+                                    Mailbox
+                                    <span class="label label-inverse arrowed-in">6+</span>
+                                </a>
+
+                                <button class="btn btn-app btn-danger btn-sm">
+                                    <i class="fa fa-trash bigger-200"></i>
+                                    Delete
+                                </button>
+
+                                <button class="btn btn-app btn-purple btn-sm">
+                                    <i class="fa fa-cloud-upload bigger-200"></i>
+                                    Upload
+                                </button>
+
+                                <button class="btn btn-app btn-pink btn-sm">
+                                    <i class="fa fa-share-alt bigger-200"></i>
+                                    Share
+                                </button>
+
+                                <button class="btn btn-app btn-inverse btn-xs">
+                                    <i class="fa fa-lock bigger-160"></i>
+                                    Lock
+                                </button>
+
+                                <button class="btn btn-app btn-grey btn-xs radius-4">
+                                    <i class="fa fa-save bigger-160"></i>
+                                    Save
+                                    <span class="badge badge-transparent">
+                                        <i class="light-red fa fa-asterisk"></i>
+                                    </span>
+                                </button>
+
+                                <button class="btn btn-app btn-light btn-xs">
+                                    <i class="fa fa-print bigger-160"></i>
+                                    Print
+                                </button>
+
+                                <a href="#" class="btn btn-app btn-yellow btn-xs">
+                                    <i class="fa fa-shopping-cart bigger-160"></i>
+                                    Shop
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space"></div>
+
+                    <div class="row">
+                        <div class="col-sm-6" id="default-buttons">
+                            <h3 class="row-fluid header smaller lighter purple">
+                                <span class="span7"> Default Buttons </span><!-- /span -->
+
+                                <span class="span5">
+                                    <label class="pull-right inline">
+                                        <small class="muted">Border:</small>
+
+                                        <input id="id-button-borders" checked="" type="checkbox" class="ace ace-switch ace-switch-5" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </span><!-- /span -->
+                            </h3>
+
+                            <p>
+                                <button class="btn">Default </button>
+                                <button class="btn btn-primary">Primary</button>
+                                <button class="btn btn-info">Info</button>
+                                <button class="btn btn-success">Success</button>
+                            </p>
+
+                            <p>
+                                <button class="btn btn-warning">Warning</button>
+                                <button class="btn btn-danger">Danger</button>
+                                <button class="btn btn-inverse">Inverse</button>
+                                <button class="btn btn-pink">Pink</button>
+                            </p>
+
+                            <p>
+                                <button class="btn btn-purple">Purple</button>
+                                <button class="btn btn-yellow">Yellow</button>
+                                <button class="btn btn-grey">Grey</button>
+                                <button class="btn btn-light">Light</button>
+                                <button class="btn btn-white">White</button>
+                                <button class="btn btn-link">Link</button>
+                            </p>
+                            <h3 class="header smaller lighter green">Button with Icons</h3>
+
+                            <p>
+                                <button class="btn">
+                                    <i class="fa fa-pencil align-top bigger-125"></i>
+                                    Default
+                                </button>
+
+                                <button class="btn btn-primary">
+                                    <i class="fa fa-beaker align-top bigger-125"></i>
+                                    Primary
+                                </button>
+
+                                <button class="btn btn-info">
+                                    Info
+                                    <i class="fa fa-print  align-top bigger-125 icon-on-right"></i>
+                                </button>
+                            </p>
+
+                            <p>
+                                <button class="btn btn-lg btn-success">
+                                    <i class="fa fa-check"></i>
+                                    Success
+                                </button>
+
+                                <button class="btn btn-sm btn-warning">
+                                    <i class="fa fa-fire bigger-110"></i>
+                                    <span class="bigger-110 no-text-shadow">Warning</span>
+                                </button>
+
+                                <button class="btn btn-xs btn-danger">
+                                    <i class="fa fa-bolt bigger-110"></i>
+
+                                    Danger
+                                    <i class="fa fa-arrow-right icon-on-right"></i>
+                                </button>
+                            </p>
+
+                            <p>
+                                <button class="btn btn-info">
+                                    <i class="fa fa-signal icon-only bigger-150"></i>
+                                </button>
+
+                                <button class="btn btn-warning btn-xs">
+                                    <i class="fa fa-wrench bigger-110 icon-only"></i>
+                                </button>
+
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fa fa-reply icon-only"></i>
+                                </button>
+
+                                <button class="btn btn-grey btn-lg">
+                                    <i class="fa fa-trash fa-2x icon-only"></i>
+                                </button>
+                            </p>
+                        </div><!-- /span -->
+
+                        <div class="col-sm-6">
+                            <h3 class="header smaller lighter red">Button Sizing</h3>
+
+                            <p>
+                                <button class="btn btn-minier btn-yellow">Minier</button>
+                                <button class="btn btn-xs">Mini</button>
+                                <button class="btn btn-sm btn-primary">Small</button>
+                                <button class="btn btn-info">Default</button>
+                                <button class="btn btn-lg btn-success">Large Size</button>
+                            </p>
+
+                            <p>
+                                <button class="btn btn-warning btn-lg">Large Size</button>
+                                <button class="btn btn-danger">Default</button>
+                                <button class="btn btn-sm btn-inverse">Small</button>
+                                <button class="btn btn-xs btn-pink">Pink</button>
+                                <button class="btn btn-minier btn-purple">Purple</button>
+                            </p>
+                            <h3 class="header smaller lighter grey">Disabled Buttons</h3>
+
+                            <p>
+                                <button class="btn disabled">Default </button>
+                                <button class="btn disabled btn-primary">Primary</button>
+                                <button class="btn disabled btn-info">Info</button>
+                                <button class="btn disabled btn-success">Success</button>
+                            </p>
+
+                            <hr />
+                            <p>
+                                <button class="btn btn-danger btn-block">Block Button</button>
+                            </p>
+                        </div><!-- /span -->
+                    </div><!-- /row -->
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3 class="header smaller lighter blue">Button Groups</h3>
+
+                            <p></p>
+                            <div class="btn-group">
+                                <button class="btn">1</button>
+                                <button class="btn">2</button>
+                                <button class="btn">3</button>
+                            </div>
+
+
+                            <p></p>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button class="btn btn-light">1</button>
+                                    <button class="btn btn-light">2</button>
+                                    <button class="btn btn-light">3</button>
+                                    <button class="btn btn-light">4</button>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="btn">5</button>
+                                    <button class="btn">6</button>
+                                    <button class="btn">7</button>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="btn btn-grey">8</button>
+                                </div>
+                            </div>
+
+
+                            <p></p>
+                            <div class="btn-group btn-group-vertical">
+                                <button class="btn" type="button">
+                                    <i class="icon-only fa fa-align-left"></i>
+                                </button>
+
+                                <button class="btn" type="button">
+                                    <i class="icon-only fa fa-align-center"></i>
+                                </button>
+
+                                <button class="btn" type="button">
+                                    <i class="icon-only fa fa-align-right"></i>
+                                </button>
+
+                                <button class="btn" type="button">
+                                    <i class="icon-only fa fa-align-justify"></i>
+                                </button>
+                            </div>
+
+                            <div class="space-6"></div>
+
+
+                            <p>
+                                <button id="loading-btn" type="button" class="btn btn-success" data-loading-text="Loading...">Loading state</button>
+                                <button type="button" class="btn btn-primary" data-toggle="button">Single Toggle</button>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="button">Small</button>
+                                <button type="button" class="btn btn-xs btn-info" data-toggle="button">Mini</button>
+                            </p>
+
+                            <p></p>
+                            <div>
+                                <span>Checkbox: &nbsp;</span>
+
+                                <div data-toggle="buttons" class="btn-group">
+                                    <label class="btn btn-sm">
+                                        <input type="checkbox" value="1" />
+                                        <i class="icon-only fa fa-bold bigger-110"></i>
+                                    </label>
+
+                                    <label class="btn btn-sm">
+                                        <input type="checkbox" value="2" />
+                                        <i class="icon-only fa fa-italic bigger-110"></i>
+                                    </label>
+
+                                    <label class="btn btn-sm">
+                                        <input type="checkbox" value="3" />
+                                        <i class="icon-only fa fa-underline bigger-110"></i>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <p></p>
+                            <div>
+                                <span>Radio: &nbsp;</span>
+
+                                <div data-toggle="buttons" class="btn-group">
+                                    <label class="btn btn-primary">
+                                        <input type="radio" value="1" />
+                                        <i class="icon-only fa fa-align-left"></i>
+                                    </label>
+
+                                    <label class="btn btn-primary">
+                                        <input type="radio" value="2" />
+                                        <i class="icon-only fa fa-align-center"></i>
+                                    </label>
+
+                                    <label class="btn btn-primary">
+                                        <input type="radio" value="3" />
+                                        <i class="icon-only fa fa-align-right"></i>
+                                    </label>
+                                </div>
+
+                                <label class="btn btn-primary" data-toggle="button">
+                                    <i class="icon-only fa fa-align-justify"></i>
+                                </label>
+                            </div>
+
+                        </div><!-- /span -->
+
+                        <div class="col-sm-6">
+                            <h3 class="header smaller lighter green">Button Dropdown</h3>
+
+                            <p></p>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn dropdown-toggle">
+                                        Action
+                                        <span class="fa fa-caret-down icon-on-right"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-default">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                                        Action
+                                        <i class="fa fa-angle-down icon-on-right"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-sm btn-danger dropdown-toggle">
+                                        Danger
+                                        <i class="fa fa-angle-down icon-on-right"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-danger">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle">
+                                        Warning
+                                        <span class="fa fa-caret-down icon-on-right"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-warning">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-lg dropdown-toggle">
+                                        Success large
+                                        <i class="fa fa-angle-down icon-on-right"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-success pull-right">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
+                                        Info small
+                                        <span class="fa fa-caret-down icon-on-right"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-info pull-right">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-inverse btn-xs dropdown-toggle">
+                                        Inverse mini
+                                        <span class="fa fa-caret-down icon-on-right"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-inverse">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div>
+
+                            <hr />
+
+
+                            <p></p>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button class="btn">Action</button>
+
+                                    <button data-toggle="dropdown" class="btn dropdown-toggle">
+                                        <span class="fa fa-caret-down icon-only"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-yellow">Some Action</button>
+
+                                    <button data-toggle="dropdown" class="btn btn-sm btn-yellow dropdown-toggle">
+                                        <i class="fa fa-angle-down icon-only"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-yellow">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group dropup">
+                                    <button class="btn btn-xs btn-danger">Danger</button>
+
+                                    <button data-toggle="dropdown" class="btn btn-xs btn-danger dropdown-toggle">
+                                        <span class="fa fa-caret-down icon-only"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-danger">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div>
+
+                            <div class="space-2"></div>
+
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button class="btn btn-lg btn-warning">Warning</button>
+
+                                    <button data-toggle="dropdown" class="btn btn-lg btn-warning dropdown-toggle">
+                                        <span class="fa fa-caret-down icon-only smaller-90"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-warning">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button class="btn btn-success">Success</button>
+
+                                    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle">
+                                        <span class="fa fa-caret-down icon-only"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-success">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+
+                                <div class="btn-group">
+                                    <button class="btn btn-info">Info</button>
+
+                                    <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
+                                        <span class="fa fa-caret-down icon-only"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-info pull-right">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div>
+
+                            <div class="space-2"></div>
+
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <button class="btn btn-inverse">Inverse</button>
+
+                                    <button data-toggle="dropdown" class="btn btn-inverse dropdown-toggle">
+                                        <span class="fa fa-caret-down icon-only"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-inverse">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div>
+
+                        </div><!-- /span -->
+                    </div><!-- /row -->
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3 class="header smaller lighter green">Lables & Badges</h3>
+
+                            <p>
+                                <span class="label">Default</span>
+                                <span class="label label-success arrowed">Success</span>
+
+                                <span class="label label-warning">
+                                    <i class="fa fa-warning-sign bigger-120"></i>
+                                    Warning
+                                </span>
+                                <span class="label label-danger arrowed-in">Danger</span>
+                                <span class="label label-info arrowed-in-right arrowed">Info</span>
+                                <span class="label label-inverse">Inverse</span>
+                            </p>
+
+                            <p>
+                                <span class="badge">1</span>
+                                <span class="badge badge-grey">1</span>
+                                <span class="badge badge-success">2</span>
+                                <span class="badge badge-warning">4</span>
+                                <span class="badge badge-danger">6</span>
+                                <span class="badge badge-info">8</span>
+                                <span class="badge badge-purple">3</span>
+                                <span class="badge badge-inverse">10</span>
+                                <span class="badge badge-pink">11</span>
+                                <span class="badge badge-yellow">2</span>
+                            </p>
+
+                            <p>
+                                <span class="label label-lg label-pink arrowed-right">Large</span>
+                                <span class="label label-lg label-yellow arrowed-in">Yellow</span>
+                                <span class="label label-lg label-purple arrowed">Purple</span>
+                            </p>
+
+                            <p>
+                                <span class="label label-xlg label-primary arrowed arrowed-right">Larger</span>
+                                <span class="label label-xlg label-grey arrowed-in-right arrowed-in">Grey</span>
+                                <span class="label label-xlg label-light arrowed-in-right">Light</span>
+                            </p>
+
+                            <p>
+                                <span class="label label-sm label-primary arrowed arrowed-right">Smaller</span>
+                            </p>
+                        </div><!-- /span -->
+
+                        <div class="col-sm-6">
+                            <h3 class="header smaller lighter red">Pagination</h3>
+
+                            <div>
+                                <ul class="pagination">
+                                    <li class="disabled">
+                                        <a href="#">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+
+                                    <li class="active">
+                                        <a href="#">1</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">2</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">3</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">4</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">5</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p></p>
+                            <ul class="pager">
+                                <li class="previous">
+                                    <a href="#">&larr; Older</a>
+                                </li>
+
+                                <li class="next">
+                                    <a href="#">Newer &rarr;</a>
+                                </li>
+                            </ul>
+
+                        </div><!-- /span -->
+                    </div><!-- /row -->
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="header smaller lighter blue">
+                                786 Scalable FontAwesome Icons
+                                <small>
+                                    <a href="https://fontawesome.com.cn/v4/icons" target="_blank">
+                                        (see all icons
+                                        <i class="fa fa-external-link"></i>
+                                        )
+                                    </a>
+                                </small>
+                            </h3>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-500px"></i>500px
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-address-book"></i>address-book
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-address-book-o"></i>address-book-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-address-card"></i>address-card
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-address-card-o"></i>address-card-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-adjust"></i>adjust
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-adn"></i>adn
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-align-center"></i>align-center
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-align-justify"></i>align-justify
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-align-left"></i>align-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-align-right"></i>align-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-amazon"></i>amazon
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ambulance"></i>ambulance
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-american-sign-language-interpreting"></i>american-sign-language-interpreting
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-anchor"></i>anchor
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-android"></i>android
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angellist"></i>angellist
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-double-down"></i>angle-double-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-double-left"></i>angle-double-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-double-right"></i>angle-double-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-double-up"></i>angle-double-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-down"></i>angle-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-left"></i>angle-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-right"></i>angle-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-angle-up"></i>angle-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-apple"></i>apple
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-archive"></i>archive
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-area-chart"></i>area-chart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-down"></i>arrow-circle-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-left"></i>arrow-circle-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-o-down"></i>arrow-circle-o-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-o-left"></i>arrow-circle-o-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-o-right"></i>arrow-circle-o-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-o-up"></i>arrow-circle-o-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-right"></i>arrow-circle-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-circle-up"></i>arrow-circle-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-down"></i>arrow-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-left"></i>arrow-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-right"></i>arrow-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrow-up"></i>arrow-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrows"></i>arrows
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrows-alt"></i>arrows-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrows-h"></i>arrows-h
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-arrows-v"></i>arrows-v
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-asl-interpreting"></i>asl-interpreting
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-assistive-listening-systems"></i>assistive-listening-systems
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-asterisk"></i>asterisk
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-at"></i>at
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-audio-description"></i>audio-description
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-automobile"></i>automobile
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-backward"></i>backward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-balance-scale"></i>balance-scale
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ban"></i>ban
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bandcamp"></i>bandcamp
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bank"></i>bank
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bar-chart"></i>bar-chart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bar-chart-o"></i>bar-chart-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-barcode"></i>barcode
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bars"></i>bars
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bath"></i>bath
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bathtub"></i>bathtub
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery"></i>battery
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-0"></i>battery-0
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-1"></i>battery-1
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-2"></i>battery-2
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-3"></i>battery-3
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-4"></i>battery-4
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-empty"></i>battery-empty
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-full"></i>battery-full
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-half"></i>battery-half
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-quarter"></i>battery-quarter
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-battery-three-quarters"></i>battery-three-quarters
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bed"></i>bed
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-beer"></i>beer
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-behance"></i>behance
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-behance-square"></i>behance-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bell"></i>bell
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bell-o"></i>bell-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bell-slash"></i>bell-slash
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bell-slash-o"></i>bell-slash-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bicycle"></i>bicycle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-binoculars"></i>binoculars
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-birthday-cake"></i>birthday-cake
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bitbucket"></i>bitbucket
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bitbucket-square"></i>bitbucket-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bitcoin"></i>bitcoin
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-black-tie"></i>black-tie
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-blind"></i>blind
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bluetooth"></i>bluetooth
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bluetooth-b"></i>bluetooth-b
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bold"></i>bold
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bolt"></i>bolt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bomb"></i>bomb
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-book"></i>book
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bookmark"></i>bookmark
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bookmark-o"></i>bookmark-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-braille"></i>braille
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-briefcase"></i>briefcase
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-btc"></i>btc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bug"></i>bug
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-building"></i>building
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-building-o"></i>building-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bullhorn"></i>bullhorn
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bullseye"></i>bullseye
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-bus"></i>bus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-buysellads"></i>buysellads
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cab"></i>cab
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calculator"></i>calculator
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calendar"></i>calendar
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calendar-check-o"></i>calendar-check-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calendar-minus-o"></i>calendar-minus-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calendar-o"></i>calendar-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calendar-plus-o"></i>calendar-plus-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-calendar-times-o"></i>calendar-times-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-camera"></i>camera
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-camera-retro"></i>camera-retro
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-car"></i>car
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-down"></i>caret-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-left"></i>caret-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-right"></i>caret-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-square-o-down"></i>caret-square-o-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-square-o-left"></i>caret-square-o-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-square-o-right"></i>caret-square-o-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-square-o-up"></i>caret-square-o-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-caret-up"></i>caret-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cart-arrow-down"></i>cart-arrow-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cart-plus"></i>cart-plus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc"></i>cc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-amex"></i>cc-amex
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-diners-club"></i>cc-diners-club
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-discover"></i>cc-discover
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-jcb"></i>cc-jcb
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-mastercard"></i>cc-mastercard
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-paypal"></i>cc-paypal
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-stripe"></i>cc-stripe
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cc-visa"></i>cc-visa
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-certificate"></i>certificate
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chain"></i>chain
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chain-broken"></i>chain-broken
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-check"></i>check
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-check-circle"></i>check-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-check-circle-o"></i>check-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-check-square"></i>check-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-check-square-o"></i>check-square-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-circle-down"></i>chevron-circle-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-circle-left"></i>chevron-circle-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-circle-right"></i>chevron-circle-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-circle-up"></i>chevron-circle-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-down"></i>chevron-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-left"></i>chevron-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-right"></i>chevron-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chevron-up"></i>chevron-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-child"></i>child
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-chrome"></i>chrome
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-circle"></i>circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-circle-o"></i>circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-circle-o-notch"></i>circle-o-notch
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-circle-thin"></i>circle-thin
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-clipboard"></i>clipboard
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-clock-o"></i>clock-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-clone"></i>clone
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-close"></i>close
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cloud"></i>cloud
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cloud-download"></i>cloud-download
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cloud-upload"></i>cloud-upload
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cny"></i>cny
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-code"></i>code
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-code-fork"></i>code-fork
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-codepen"></i>codepen
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-codiepie"></i>codiepie
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-coffee"></i>coffee
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cog"></i>cog
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cogs"></i>cogs
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-columns"></i>columns
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-comment"></i>comment
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-comment-o"></i>comment-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-commenting"></i>commenting
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-commenting-o"></i>commenting-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-comments"></i>comments
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-comments-o"></i>comments-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-compass"></i>compass
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-compress"></i>compress
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-connectdevelop"></i>connectdevelop
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-contao"></i>contao
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-copy"></i>copy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-copyright"></i>copyright
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-creative-commons"></i>creative-commons
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-credit-card"></i>credit-card
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-credit-card-alt"></i>credit-card-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-crop"></i>crop
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-crosshairs"></i>crosshairs
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-css3"></i>css3
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cube"></i>cube
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cubes"></i>cubes
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-cut"></i>cut
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-cutlery"></i>cutlery
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dashboard"></i>dashboard
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dashcube"></i>dashcube
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-database"></i>database
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-deaf"></i>deaf
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-deafness"></i>deafness
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dedent"></i>dedent
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-delicious"></i>delicious
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-desktop"></i>desktop
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-deviantart"></i>deviantart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-diamond"></i>diamond
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-digg"></i>digg
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dollar"></i>dollar
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dot-circle-o"></i>dot-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-download"></i>download
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dribbble"></i>dribbble
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-drivers-license"></i>drivers-license
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-drivers-license-o"></i>drivers-license-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-dropbox"></i>dropbox
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-drupal"></i>drupal
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-edge"></i>edge
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-edit"></i>edit
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eercast"></i>eercast
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eject"></i>eject
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ellipsis-h"></i>ellipsis-h
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ellipsis-v"></i>ellipsis-v
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-empire"></i>empire
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-envelope"></i>envelope
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-envelope-o"></i>envelope-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-envelope-open"></i>envelope-open
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-envelope-open-o"></i>envelope-open-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-envelope-square"></i>envelope-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-envira"></i>envira
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eraser"></i>eraser
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-etsy"></i>etsy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eur"></i>eur
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-euro"></i>euro
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-exchange"></i>exchange
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-exclamation"></i>exclamation
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-exclamation-circle"></i>exclamation-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-exclamation-triangle"></i>exclamation-triangle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-expand"></i>expand
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-expeditedssl"></i>expeditedssl
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-external-link"></i>external-link
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-external-link-square"></i>external-link-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eye"></i>eye
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eye-slash"></i>eye-slash
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-eyedropper"></i>eyedropper
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fa"></i>fa
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-facebook"></i>facebook
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-facebook-f"></i>facebook-f
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-facebook-official"></i>facebook-official
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-facebook-square"></i>facebook-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fast-backward"></i>fast-backward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fast-forward"></i>fast-forward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fax"></i>fax
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-feed"></i>feed
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-female"></i>female
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fighter-jet"></i>fighter-jet
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file"></i>file
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-archive-o"></i>file-archive-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-audio-o"></i>file-audio-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-code-o"></i>file-code-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-excel-o"></i>file-excel-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-image-o"></i>file-image-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-movie-o"></i>file-movie-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-o"></i>file-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-pdf-o"></i>file-pdf-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-photo-o"></i>file-photo-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-picture-o"></i>file-picture-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-powerpoint-o"></i>file-powerpoint-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-sound-o"></i>file-sound-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-text"></i>file-text
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-text-o"></i>file-text-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-video-o"></i>file-video-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-word-o"></i>file-word-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-file-zip-o"></i>file-zip-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-files-o"></i>files-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-film"></i>film
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-filter"></i>filter
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fire"></i>fire
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fire-extinguisher"></i>fire-extinguisher
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-firefox"></i>firefox
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-first-order"></i>first-order
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-flag"></i>flag
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-flag-checkered"></i>flag-checkered
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-flag-o"></i>flag-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-flash"></i>flash
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-flask"></i>flask
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-flickr"></i>flickr
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-floppy-o"></i>floppy-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-folder"></i>folder
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-folder-o"></i>folder-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-folder-open"></i>folder-open
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-folder-open-o"></i>folder-open-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-font"></i>font
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-font-awesome"></i>font-awesome
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fonticons"></i>fonticons
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-fort-awesome"></i>fort-awesome
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-forumbee"></i>forumbee
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-forward"></i>forward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-foursquare"></i>foursquare
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-free-code-camp"></i>free-code-camp
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-frown-o"></i>frown-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-futbol-o"></i>futbol-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gamepad"></i>gamepad
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gavel"></i>gavel
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gbp"></i>gbp
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ge"></i>ge
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gear"></i>gear
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gears"></i>gears
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-genderless"></i>genderless
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-get-pocket"></i>get-pocket
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gg"></i>gg
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gg-circle"></i>gg-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gift"></i>gift
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-git"></i>git
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-git-square"></i>git-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-github"></i>github
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-github-alt"></i>github-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-github-square"></i>github-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gitlab"></i>gitlab
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gittip"></i>gittip
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-glass"></i>glass
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-glide"></i>glide
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-glide-g"></i>glide-g
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-globe"></i>globe
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-google"></i>google
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-google-plus"></i>google-plus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-google-plus-circle"></i>google-plus-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-google-plus-official"></i>google-plus-official
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-google-plus-square"></i>google-plus-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-google-wallet"></i>google-wallet
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-graduation-cap"></i>graduation-cap
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-gratipay"></i>gratipay
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-grav"></i>grav
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-group"></i>group
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-h-square"></i>h-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hacker-news"></i>hacker-news
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-grab-o"></i>hand-grab-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-lizard-o"></i>hand-lizard-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-o-down"></i>hand-o-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-o-left"></i>hand-o-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-o-right"></i>hand-o-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-o-up"></i>hand-o-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-paper-o"></i>hand-paper-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-peace-o"></i>hand-peace-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-pointer-o"></i>hand-pointer-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-rock-o"></i>hand-rock-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-scissors-o"></i>hand-scissors-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-spock-o"></i>hand-spock-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hand-stop-o"></i>hand-stop-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-handshake-o"></i>handshake-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hard-of-hearing"></i>hard-of-hearing
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hashtag"></i>hashtag
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hdd-o"></i>hdd-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-header"></i>header
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-headphones"></i>headphones
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-heart"></i>heart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-heart-o"></i>heart-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-heartbeat"></i>heartbeat
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-history"></i>history
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-home"></i>home
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hospital-o"></i>hospital-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hotel"></i>hotel
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass"></i>hourglass
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-1"></i>hourglass-1
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-2"></i>hourglass-2
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-3"></i>hourglass-3
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-end"></i>hourglass-end
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-half"></i>hourglass-half
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-o"></i>hourglass-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-hourglass-start"></i>hourglass-start
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-houzz"></i>houzz
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-html5"></i>html5
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-i-cursor"></i>i-cursor
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-id-badge"></i>id-badge
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-id-card"></i>id-card
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-id-card-o"></i>id-card-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ils"></i>ils
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-image"></i>image
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-imdb"></i>imdb
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-inbox"></i>inbox
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-indent"></i>indent
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-industry"></i>industry
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-info"></i>info
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-info-circle"></i>info-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-inr"></i>inr
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-instagram"></i>instagram
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-institution"></i>institution
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-internet-explorer"></i>internet-explorer
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-intersex"></i>intersex
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ioxhost"></i>ioxhost
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-italic"></i>italic
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-joomla"></i>joomla
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-jpy"></i>jpy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-jsfiddle"></i>jsfiddle
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-key"></i>key
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-keyboard-o"></i>keyboard-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-krw"></i>krw
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-language"></i>language
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-laptop"></i>laptop
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-lastfm"></i>lastfm
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-lastfm-square"></i>lastfm-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-leaf"></i>leaf
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-leanpub"></i>leanpub
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-legal"></i>legal
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-lemon-o"></i>lemon-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-level-down"></i>level-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-level-up"></i>level-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-life-bouy"></i>life-bouy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-life-buoy"></i>life-buoy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-life-ring"></i>life-ring
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-life-saver"></i>life-saver
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-lightbulb-o"></i>lightbulb-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-line-chart"></i>line-chart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-link"></i>link
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-linkedin"></i>linkedin
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-linkedin-square"></i>linkedin-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-linode"></i>linode
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-linux"></i>linux
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-list"></i>list
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-list-alt"></i>list-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-list-ol"></i>list-ol
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-list-ul"></i>list-ul
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-location-arrow"></i>location-arrow
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-lock"></i>lock
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-long-arrow-down"></i>long-arrow-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-long-arrow-left"></i>long-arrow-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-long-arrow-right"></i>long-arrow-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-long-arrow-up"></i>long-arrow-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-low-vision"></i>low-vision
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-magic"></i>magic
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-magnet"></i>magnet
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mail-forward"></i>mail-forward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mail-reply"></i>mail-reply
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mail-reply-all"></i>mail-reply-all
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-male"></i>male
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-map"></i>map
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-map-marker"></i>map-marker
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-map-o"></i>map-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-map-pin"></i>map-pin
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-map-signs"></i>map-signs
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mars"></i>mars
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mars-double"></i>mars-double
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mars-stroke"></i>mars-stroke
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mars-stroke-h"></i>mars-stroke-h
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mars-stroke-v"></i>mars-stroke-v
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-maxcdn"></i>maxcdn
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-meanpath"></i>meanpath
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-medium"></i>medium
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-medkit"></i>medkit
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-meetup"></i>meetup
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-meh-o"></i>meh-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mercury"></i>mercury
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-microchip"></i>microchip
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-microphone"></i>microphone
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-microphone-slash"></i>microphone-slash
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-minus"></i>minus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-minus-circle"></i>minus-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-minus-square"></i>minus-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-minus-square-o"></i>minus-square-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mixcloud"></i>mixcloud
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mobile"></i>mobile
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mobile-phone"></i>mobile-phone
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-modx"></i>modx
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-money"></i>money
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-moon-o"></i>moon-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mortar-board"></i>mortar-board
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-motorcycle"></i>motorcycle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-mouse-pointer"></i>mouse-pointer
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-music"></i>music
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-navicon"></i>navicon
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-neuter"></i>neuter
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-newspaper-o"></i>newspaper-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-object-group"></i>object-group
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-object-ungroup"></i>object-ungroup
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-odnoklassniki"></i>odnoklassniki
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-odnoklassniki-square"></i>odnoklassniki-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-opencart"></i>opencart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-openid"></i>openid
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-opera"></i>opera
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-optin-monster"></i>optin-monster
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-outdent"></i>outdent
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pagelines"></i>pagelines
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paint-brush"></i>paint-brush
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paper-plane"></i>paper-plane
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paper-plane-o"></i>paper-plane-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paperclip"></i>paperclip
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paragraph"></i>paragraph
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paste"></i>paste
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pause"></i>pause
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pause-circle"></i>pause-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pause-circle-o"></i>pause-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paw"></i>paw
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-paypal"></i>paypal
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pencil"></i>pencil
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pencil-square"></i>pencil-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pencil-square-o"></i>pencil-square-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-percent"></i>percent
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-phone"></i>phone
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-phone-square"></i>phone-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-photo"></i>photo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-picture-o"></i>picture-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pie-chart"></i>pie-chart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pied-piper"></i>pied-piper
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pied-piper-alt"></i>pied-piper-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pied-piper-pp"></i>pied-piper-pp
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pinterest"></i>pinterest
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pinterest-p"></i>pinterest-p
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-pinterest-square"></i>pinterest-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-plane"></i>plane
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-play"></i>play
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-play-circle"></i>play-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-play-circle-o"></i>play-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-plug"></i>plug
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-plus"></i>plus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-plus-circle"></i>plus-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-plus-square"></i>plus-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-plus-square-o"></i>plus-square-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-podcast"></i>podcast
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-power-off"></i>power-off
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-print"></i>print
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-product-hunt"></i>product-hunt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-puzzle-piece"></i>puzzle-piece
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-qq"></i>qq
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-qrcode"></i>qrcode
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-question"></i>question
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-question-circle"></i>question-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-question-circle-o"></i>question-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-quora"></i>quora
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-quote-left"></i>quote-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-quote-right"></i>quote-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ra"></i>ra
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-random"></i>random
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ravelry"></i>ravelry
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rebel"></i>rebel
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-recycle"></i>recycle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-reddit"></i>reddit
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-reddit-alien"></i>reddit-alien
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-reddit-square"></i>reddit-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-refresh"></i>refresh
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-registered"></i>registered
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-remove"></i>remove
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-renren"></i>renren
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-reorder"></i>reorder
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-repeat"></i>repeat
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-reply"></i>reply
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-reply-all"></i>reply-all
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-resistance"></i>resistance
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-retweet"></i>retweet
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rmb"></i>rmb
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-road"></i>road
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rocket"></i>rocket
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rotate-left"></i>rotate-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rotate-right"></i>rotate-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rouble"></i>rouble
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rss"></i>rss
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rss-square"></i>rss-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rub"></i>rub
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ruble"></i>ruble
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-rupee"></i>rupee
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-s15"></i>s15
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-safari"></i>safari
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-save"></i>save
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-scissors"></i>scissors
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-scribd"></i>scribd
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-search"></i>search
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-search-minus"></i>search-minus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-search-plus"></i>search-plus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sellsy"></i>sellsy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-send"></i>send
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-send-o"></i>send-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-server"></i>server
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-share"></i>share
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-share-alt"></i>share-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-share-alt-square"></i>share-alt-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-share-square"></i>share-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-share-square-o"></i>share-square-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shekel"></i>shekel
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sheqel"></i>sheqel
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shield"></i>shield
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ship"></i>ship
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shirtsinbulk"></i>shirtsinbulk
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shopping-bag"></i>shopping-bag
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shopping-basket"></i>shopping-basket
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shopping-cart"></i>shopping-cart
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-shower"></i>shower
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sign-in"></i>sign-in
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sign-language"></i>sign-language
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sign-out"></i>sign-out
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-signal"></i>signal
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-signing"></i>signing
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-simplybuilt"></i>simplybuilt
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-sitemap"></i>sitemap
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-skyatlas"></i>skyatlas
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-skype"></i>skype
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-slack"></i>slack
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sliders"></i>sliders
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-slideshare"></i>slideshare
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-smile-o"></i>smile-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-snapchat"></i>snapchat
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-snapchat-ghost"></i>snapchat-ghost
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-snapchat-square"></i>snapchat-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-snowflake-o"></i>snowflake-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-soccer-ball-o"></i>soccer-ball-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort"></i>sort
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-alpha-asc"></i>sort-alpha-asc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-alpha-desc"></i>sort-alpha-desc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-amount-asc"></i>sort-amount-asc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-amount-desc"></i>sort-amount-desc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-asc"></i>sort-asc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-desc"></i>sort-desc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-down"></i>sort-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-numeric-asc"></i>sort-numeric-asc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-numeric-desc"></i>sort-numeric-desc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sort-up"></i>sort-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-soundcloud"></i>soundcloud
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-space-shuttle"></i>space-shuttle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-spinner"></i>spinner
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-spoon"></i>spoon
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-spotify"></i>spotify
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-square"></i>square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-square-o"></i>square-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stack-exchange"></i>stack-exchange
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stack-overflow"></i>stack-overflow
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-star"></i>star
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-star-half"></i>star-half
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-star-half-empty"></i>star-half-empty
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-star-half-full"></i>star-half-full
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-star-half-o"></i>star-half-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-star-o"></i>star-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-steam"></i>steam
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-steam-square"></i>steam-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-step-backward"></i>step-backward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-step-forward"></i>step-forward
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stethoscope"></i>stethoscope
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sticky-note"></i>sticky-note
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sticky-note-o"></i>sticky-note-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stop"></i>stop
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stop-circle"></i>stop-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stop-circle-o"></i>stop-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-street-view"></i>street-view
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-strikethrough"></i>strikethrough
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stumbleupon"></i>stumbleupon
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-stumbleupon-circle"></i>stumbleupon-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-subscript"></i>subscript
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-subway"></i>subway
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-suitcase"></i>suitcase
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-sun-o"></i>sun-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-superpowers"></i>superpowers
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-superscript"></i>superscript
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-support"></i>support
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-table"></i>table
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tablet"></i>tablet
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tachometer"></i>tachometer
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tag"></i>tag
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tags"></i>tags
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tasks"></i>tasks
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-taxi"></i>taxi
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-telegram"></i>telegram
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-television"></i>television
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tencent-weibo"></i>tencent-weibo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-terminal"></i>terminal
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-text-height"></i>text-height
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-text-width"></i>text-width
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-th"></i>th
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-th-large"></i>th-large
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-th-list"></i>th-list
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-themeisle"></i>themeisle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer"></i>thermometer
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-0"></i>thermometer-0
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-1"></i>thermometer-1
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-2"></i>thermometer-2
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-3"></i>thermometer-3
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-4"></i>thermometer-4
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-empty"></i>thermometer-empty
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-full"></i>thermometer-full
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-half"></i>thermometer-half
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-quarter"></i>thermometer-quarter
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thermometer-three-quarters"></i>thermometer-three-quarters
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thumb-tack"></i>thumb-tack
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thumbs-down"></i>thumbs-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thumbs-o-down"></i>thumbs-o-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thumbs-o-up"></i>thumbs-o-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-thumbs-up"></i>thumbs-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-ticket"></i>ticket
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-times"></i>times
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-times-circle"></i>times-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-times-circle-o"></i>times-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-times-rectangle"></i>times-rectangle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-times-rectangle-o"></i>times-rectangle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tint"></i>tint
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-toggle-down"></i>toggle-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-toggle-left"></i>toggle-left
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-toggle-off"></i>toggle-off
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-toggle-on"></i>toggle-on
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-toggle-right"></i>toggle-right
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-toggle-up"></i>toggle-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-trademark"></i>trademark
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-train"></i>train
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-transgender"></i>transgender
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-transgender-alt"></i>transgender-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-trash"></i>trash
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-trash-o"></i>trash-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tree"></i>tree
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-trello"></i>trello
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tripadvisor"></i>tripadvisor
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-trophy"></i>trophy
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-truck"></i>truck
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-try"></i>try
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tty"></i>tty
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tumblr"></i>tumblr
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tumblr-square"></i>tumblr-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-turkish-lira"></i>turkish-lira
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-tv"></i>tv
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-twitch"></i>twitch
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-twitter"></i>twitter
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-twitter-square"></i>twitter-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-umbrella"></i>umbrella
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-underline"></i>underline
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-undo"></i>undo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-universal-access"></i>universal-access
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-university"></i>university
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-unlink"></i>unlink
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-unlock"></i>unlock
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-unlock-alt"></i>unlock-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-unsorted"></i>unsorted
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-upload"></i>upload
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-usb"></i>usb
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-usd"></i>usd
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user"></i>user
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-circle"></i>user-circle
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-circle-o"></i>user-circle-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-md"></i>user-md
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-o"></i>user-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-plus"></i>user-plus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-secret"></i>user-secret
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-user-times"></i>user-times
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-users"></i>users
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-vcard"></i>vcard
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-vcard-o"></i>vcard-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-venus"></i>venus
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-venus-double"></i>venus-double
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-venus-mars"></i>venus-mars
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-viacoin"></i>viacoin
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-viadeo"></i>viadeo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-viadeo-square"></i>viadeo-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-video-camera"></i>video-camera
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-vimeo"></i>vimeo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-vimeo-square"></i>vimeo-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-vine"></i>vine
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-vk"></i>vk
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-volume-control-phone"></i>volume-control-phone
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-volume-down"></i>volume-down
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-volume-off"></i>volume-off
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-volume-up"></i>volume-up
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-warning"></i>warning
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wechat"></i>wechat
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-weibo"></i>weibo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-weixin"></i>weixin
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-whatsapp"></i>whatsapp
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wheelchair"></i>wheelchair
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wheelchair-alt"></i>wheelchair-alt
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wifi"></i>wifi
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wikipedia-w"></i>wikipedia-w
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-window-close"></i>window-close
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-window-close-o"></i>window-close-o
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-window-maximize"></i>window-maximize
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-window-minimize"></i>window-minimize
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-window-restore"></i>window-restore
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-windows"></i>windows
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-won"></i>won
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wordpress"></i>wordpress
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wpbeginner"></i>wpbeginner
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wpexplorer"></i>wpexplorer
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wpforms"></i>wpforms
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-wrench"></i>wrench
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-xing"></i>xing
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-xing-square"></i>xing-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-y-combinator"></i>y-combinator
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-y-combinator-square"></i>y-combinator-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-yahoo"></i>yahoo
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-yc"></i>yc
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-yc-square"></i>yc-square
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-yelp"></i>yelp
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-yen"></i>yen
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-yoast"></i>yoast
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-youtube"></i>youtube
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-youtube-play"></i>youtube-play
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-youtube-square"></i>youtube-square
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.page-content -->
+
+        <!-- 基础脚本basic scripts -->
+
+        <!--[if !IE]> -->
+        <script src="..\..\resources\plugins\jquery\2.0.3\jquery-2.0.3.min.js"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script src="..\..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+        <![endif]-->
+
+        <!--[if !IE]> -->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>" + "<" + "/script>");
+        </script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>" + "<" + "/script>");
+        </script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            if ("ontouchend" in document) document.write("<script src='../../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+        <script src="../../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!-- ace scripts -->
+        <script src="../../resources/plugins/ace/js/ace-elements.js"></script>
+        <script src="../../resources/plugins/ace/js/ace.js"></script>
+
+        <!-- inline scripts related to this page -->
+        <script type="text/javascript">
+            jQuery(function($) {
+                $('#loading-btn').on(ace.click_event, function () {
+                    var btn = $(this);
+                    btn.button('loading')
+                    setTimeout(function () {
+                        btn.button('reset')
+                    }, 2000)
+                });
+
+                $('#id-button-borders').attr('checked' , 'checked').on('click', function(){
+                    $('#default-buttons .btn').toggleClass('no-border');
+                });
+            })
+        </script>
+
+    </body>
+</html>

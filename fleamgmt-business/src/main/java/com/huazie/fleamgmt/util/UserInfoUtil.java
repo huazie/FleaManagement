@@ -1,16 +1,12 @@
 package com.huazie.fleamgmt.util;
 
+import com.huazie.fleaframework.auth.util.FleaMenuTree;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.home.pojo.OutputUserInfo;
-import com.huazie.frame.auth.base.function.entity.FleaMenu;
-import com.huazie.frame.auth.common.service.interfaces.IFleaAuthSV;
-import com.huazie.frame.auth.util.FleaMenuTree;
-import com.huazie.frame.common.FleaSessionManager;
-import com.huazie.frame.common.IFleaUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * <p> 用户信息工具类 </p>
@@ -21,7 +17,7 @@ import java.util.List;
  */
 public class UserInfoUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoUtil.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(UserInfoUtil.class);
 
     private UserInfoUtil() {
     }
@@ -42,7 +38,7 @@ public class UserInfoUtil {
                 userInfo.setRetMess("用户登录成功");
                 userInfo.setUserInfo(fleaUser.toMap());
                 FleaMenuTree fleaMenuTree = fleaUser.get(FleaMenuTree.MENU_TREE, FleaMenuTree.class);
-                userInfo.setMenuList(fleaMenuTree.toMapList());
+                userInfo.setMenuList(fleaMenuTree.toMapList(false));
             } else {
                 userInfo.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
                 userInfo.setRetMess("用户信息已失效");

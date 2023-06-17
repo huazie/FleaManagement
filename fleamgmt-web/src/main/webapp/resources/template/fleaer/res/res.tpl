@@ -1,4 +1,6 @@
-<!-- 图片相关模板-->
+<!--
+    图片相关模板
+-->
 <script id="tpl_res_pic" type="text/x-handlebars-template">
 	<h4 class="lighter block grey">
 		<i class="fa fa-picture-o blue fa-lg"></i>

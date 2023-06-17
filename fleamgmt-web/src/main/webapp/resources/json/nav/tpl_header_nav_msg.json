@@ -1,0 +1,33 @@
+{
+  "NAV_BG_COLOR": "green",
+  "NAV_ICON": "fa-envelope-o fa-fw icon-animated-vertical",
+  "NAV_BADGE_COLOR": "badge-success",
+  "NAV_BADGE_NUM": "5",
+  "NAV_DROPDOWN_MENU_COLOR": "",
+  "NAV_DROPDOWN_HEADER_ICON": "fa-envelope-o fa-fw",
+  "NAV_DROPDOWN_HEADER_TITLE": "消息",
+  "NAV_CONTENT": [
+    {
+      "MSG_IMG_SRC": "resources/images/avatars/avatar.png",
+      "MSG_IMG_ALT": "Alex's Avatar",
+      "MSG_TITLE_NAME": "Alex",
+      "MSG_TITLE_TEXT": "不知道写啥 ...",
+      "MSG_TIME_TEXT": "1分钟以前"
+    },
+    {
+      "MSG_IMG_SRC": "resources/images/avatars/avatar3.png",
+      "MSG_IMG_ALT": "Susan's Avatar",
+      "MSG_TITLE_NAME": "Susan",
+      "MSG_TITLE_TEXT": "不知道翻译..",
+      "MSG_TIME_TEXT": "20分钟以前"
+    },
+    {
+      "MSG_IMG_SRC": "resources/images/avatars/avatar4.png",
+      "MSG_IMG_ALT": "Bob's Avatar",
+      "MSG_TITLE_NAME": "Bob",
+      "MSG_TITLE_TEXT": "到底是不是英文 ...",
+      "MSG_TIME_TEXT": "下午3:15"
+    }
+  ],
+  "NAV_DROPDOWN_BOTTOM_TITLE": "查看所有消息"
+}

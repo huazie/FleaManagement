@@ -10,7 +10,7 @@
 		
 		<!-- 基础样式 basic styles -->
 		<link rel="stylesheet" href="resources/plugins/bootstrap/css/bootstrap.min.css"  />
-		<link rel="stylesheet" href="resources/plugins/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="resources/plugins/font-awesome/css/font-awesome.css" />
 
 		
 		<!--  特别样式  page specific plugin styles -->
@@ -38,8 +38,8 @@
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
-		<script src="resources/plugins/ace/js/html5shiv.js"></script>
-		<script src="resources/plugins/ace/js/respond.min.js"></script>
+		<script src="resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="resources/plugins/respond/respond.min.js"></script>
 		<![endif]-->
 		
 	</head>
@@ -54,7 +54,7 @@
 						
 							<div class="center">
 								<h1>
-									<img style="margin:0;padding:0;" src="resources/images/header_logo.png">
+									<img class="no-margin no-padding" src="resources/images/header_logo.png">
 								</h1>
 							</div>
 					
@@ -73,14 +73,14 @@
 											
 											<label class="block clearfix">
 												<span class="block input-icon input-icon-right">
-													<input id="name" type="text" class="form-control" placeholder="邮箱或手机号" value="huazie" />
+													<input id="name" type="text" class="form-control" placeholder="邮箱或手机号" value="" />
 													<i class="fa fa-user fa-lg"></i>
 												</span>
 											</label>
 			
 											<label class="block clearfix">
 												<span class="block input-icon input-icon-right">
-													<input id="password" type="password" class="form-control" placeholder="密码" value="2020#huazie"/>
+													<input id="password" type="password" class="form-control" placeholder="密码" value=""/>
 													<i class="fa fa-lock fa-lg"></i>
 												</span>
 											</label>
@@ -103,6 +103,12 @@
 												<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
 													<i class="fa fa-arrow-left"></i>
 													忘记密码？
+												</a>
+											</div>
+											<div>
+												<a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
+													新用户注册
+													<i class="fa fa-arrow-right"></i>
 												</a>
 											</div>
 										</div>
@@ -152,7 +158,7 @@
 											<div class="space-8"></div>
 											
 											<div class="clearfix">
-												<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+												<button id="send" type="button" class="width-35 pull-right btn btn-sm btn-danger">
 													<i class="fa fa-lightbulb-o fa-lg"></i>
 													发送
 												</button>
@@ -168,18 +174,85 @@
 									</div><!-- /widget-body -->
 								</div><!-- /forgot-box -->
 
-							</div><!-- /position-relative -->
+								<div id="signup-box" class="signup-box widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header green lighter bigger">
+												<i class="fa fa-group blue"></i>
+												新用户注册
+											</h4>
 
-							<div class="center" style="margin: 112% 0 0 0">
-								<h4>
-									<span class="white">&copy; 跳客联盟</span>
-								</h4>
-							</div>
+											<form>
+												<fieldset>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input id="signup_name" type="text" class="form-control" placeholder="邮箱或手机号" />
+															<i class="fa fa-user fa-lg"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input id="signup_pwd" type="password" class="form-control" placeholder="密码" />
+															<i class="fa fa-lock fa-lg"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input id="signup_confirm_pwd" type="password" class="form-control" placeholder="确认密码" />
+															<i class="fa fa-lock fa-lg"></i>
+														</span>
+													</label>
+
+													<label class="block">
+														<input id="agreement" type="checkbox" class="ace" />
+														<span class="lbl">
+															我接受
+															<a href="#">《用户协议》</a>
+														</span>
+													</label>
+
+													<div class="space-12"></div>
+
+													<div class="clearfix">
+														<button id="reset" type="reset" class="width-30 pull-left btn btn-sm">
+															<i class="fa fa-refresh"></i>
+															重置
+														</button>
+
+														<button id="signup" type="button" class="width-65 pull-right btn btn-sm btn-success">
+															注册
+															<i class="fa fa-arrow-right"></i>
+														</button>
+													</div>
+												</fieldset>
+											</form>
+										</div>
+
+										<div class="toolbar center">
+											<a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
+												<i class="fa fa-arrow-left"></i>
+												返回登录
+											</a>
+										</div>
+									</div><!-- /widget-body -->
+								</div><!-- /signup-box -->
+							</div><!-- /position-relative -->
 						</div>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
 			</div>
 		</div><!-- /.main-container -->
+
+		<div class="footer">
+			<h4>
+				<span class="white">Copyright &copy; 2017-2023 跳客联盟</span>
+			</h4>
+			<h4>
+				<span class="white">Author By Huazie</span>
+			</h4>
+		</div>
 		
 		<!-- 基础脚本basic scripts -->
 		
