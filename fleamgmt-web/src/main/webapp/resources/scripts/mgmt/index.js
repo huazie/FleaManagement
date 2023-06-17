@@ -200,7 +200,7 @@ define(function (require, exports, module) {
                 var $navTop = $("#nav-top");
                 Huazie.tpl.loadTemp($navTop, "#tpl_header_nav_progress", json);
                 Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_notice", json1);
-                Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_msg", json2);
+                //Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_msg", json2);
                 Huazie.tpl.appendTemp($navTop, "#tpl_header_nav_user", user_json);
                 BindEvent.bindUserFuncEvent();
             });
@@ -379,9 +379,7 @@ define(function (require, exports, module) {
                 var $thiz = $(this);
                 var menu = Huazie.form.serialize($thiz);
 
-                var level = menu["MENU_LEVEL"];
-
-                if (window.currentMenu[level] && window.currentMenu[level]["MENU_CODE"] === menu["MENU_CODE"]) {
+                if (window.currentMenu && window.currentMenu["MENU_CODE"] === menu["MENU_CODE"]) {
                     return;
                 }
 

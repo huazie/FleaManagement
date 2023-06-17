@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>可拖拽列表</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- 基础样式 basic styles -->
+        <link rel="stylesheet" href="../../resources/plugins/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/font-awesome/css/font-awesome.css"/>
+
+        <!-- page specific plugin styles -->
+
+        <!-- ace styles -->
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-rtl.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-skins.css"/>
+
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-ie.css"/>
+        <![endif]-->
+
+        <!-- inline styles related to this page -->
+
+        <!-- ace settings handler -->
+        <script src="../../resources/plugins/ace/js/ace-extra.js"></script>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="../../resources/plugins/html5shiv/html5shiv.js"></script>
+        <script src="../../resources/plugins/respond/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+        <div class="page-content">
+            <div class="page-header">
+                <h1>
+                    Nestable lists
+                    <small>
+                        <i class="fa fa-angle-double-right"></i>
+                        Drag &amp; drop hierarchical list
+                    </small>
+                </h1>
+            </div><!-- /.page-header -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dd" id="nestable">
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="1">
+                                        <div class="dd-handle">
+                                            Item 1
+                                            <i class="pull-right bigger-130 fa fa-warning orange2"></i>
+                                        </div>
+                                    </li>
+
+                                    <li class="dd-item" data-id="2">
+                                        <div class="dd-handle">Item 2</div>
+
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="3">
+                                                <div class="dd-handle">
+                                                    Item 3
+                                                    <a data-rel="tooltip" data-placement="left" title="Change Event Date" href="#" class="badge badge-primary radius-5 tooltip-info pull-right white no-hover-underline">
+                                                        <i class="bigger-120 fa fa-calendar"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+
+                                            <li class="dd-item" data-id="4">
+                                                <div class="dd-handle">
+                                                    <span class="orange">Item 4</span>
+                                                    <span class="lighter grey">
+                                                        &nbsp; with some description
+                                                    </span>
+                                                </div>
+                                            </li>
+
+                                            <li class="dd-item" data-id="5">
+                                                <div class="dd-handle">
+                                                    Item 5
+                                                    <div class="pull-right action-buttons">
+                                                        <a class="blue" href="#">
+                                                            <i class="fa fa-pencil bigger-130"></i>
+                                                        </a>
+
+                                                        <a class="red" href="#">
+                                                            <i class="fa fa-trash bigger-130"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <ol class="dd-list">
+                                                    <li class="dd-item item-orange" data-id="6">
+                                                        <div class="dd-handle"> Item 6 </div>
+                                                    </li>
+
+                                                    <li class="dd-item item-red" data-id="7">
+                                                        <div class="dd-handle">Item 7</div>
+                                                    </li>
+
+                                                    <li class="dd-item item-blue2" data-id="8">
+                                                        <div class="dd-handle">Item 8</div>
+                                                    </li>
+                                                </ol>
+                                            </li>
+
+                                            <li class="dd-item" data-id="9">
+                                                <div class="dd-handle btn-yellow no-hover">Item 9</div>
+                                            </li>
+
+                                            <li class="dd-item" data-id="10">
+                                                <div class="dd-handle">Item 10</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+
+                                    <li class="dd-item" data-id="11">
+                                        <div class="dd-handle">
+                                            Item 11
+                                            <span class="sticker">
+                                                <span class="label label-success arrowed-in">
+                                                    <i class="fa fa-check bigger-110"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+
+                                    <li class="dd-item" data-id="12">
+                                        <div class="dd-handle">Item 12</div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="vspace-sm-16"></div>
+
+                        <div class="col-sm-6">
+                            <div class="dd dd-draghandle">
+                                <ol class="dd-list">
+                                    <li class="dd-item dd2-item" data-id="13">
+                                        <div class="dd-handle dd2-handle">
+                                            <i class="normal-icon fa fa-comments blue bigger-130"></i>
+
+                                            <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                        </div>
+                                        <div class="dd2-content">Click on an icon to start dragging</div>
+                                    </li>
+
+                                    <li class="dd-item dd2-item" data-id="14">
+                                        <div class="dd-handle dd2-handle">
+                                            <i class="normal-icon fa fa-clock-o pink bigger-130"></i>
+
+                                            <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                        </div>
+                                        <div class="dd2-content">Recent Posts</div>
+                                    </li>
+
+                                    <li class="dd-item dd2-item" data-id="15">
+                                        <div class="dd-handle dd2-handle">
+                                            <i class="normal-icon fa fa-signal orange bigger-130"></i>
+
+                                            <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                        </div>
+                                        <div class="dd2-content">Statistics</div>
+
+                                        <ol class="dd-list">
+                                            <li class="dd-item dd2-item" data-id="16">
+                                                <div class="dd-handle dd2-handle">
+                                                    <i class="normal-icon fa fa-user red bigger-130"></i>
+
+                                                    <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                                </div>
+                                                <div class="dd2-content">Active Users</div>
+                                            </li>
+
+                                            <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                <div class="dd-handle dd2-handle btn-info">
+                                                    <i class="normal-icon fa fa-edit bigger-130"></i>
+
+                                                    <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                                </div>
+                                                <div class="dd2-content btn-info no-hover">Published Articles</div>
+                                            </li>
+
+                                            <li class="dd-item dd2-item" data-id="18">
+                                                <div class="dd-handle dd2-handle">
+                                                    <i class="normal-icon fa fa-eye green bigger-130"></i>
+
+                                                    <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                                </div>
+                                                <div class="dd2-content">Visitors</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+
+                                    <li class="dd-item dd2-item" data-id="19">
+                                        <div class="dd-handle dd2-handle">
+                                            <i class="normal-icon fa fa-reorder blue bigger-130"></i>
+
+                                            <i class="drag-icon fa fa-arrows bigger-125"></i>
+                                        </div>
+                                        <div class="dd2-content">Menu</div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.page-content -->
+
+        <!-- 基础脚本basic scripts -->
+
+        <!--[if !IE]> -->
+        <script src="..\..\resources\plugins\jquery\2.0.3\jquery-2.0.3.min.js"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script src="..\..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+        <![endif]-->
+
+        <!--[if !IE]> -->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>" + "<" + "/script>");
+        </script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>" + "<" + "/script>");
+        </script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            if ("ontouchend" in document) document.write("<script src='../../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+        <script src="../../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!--[if lte IE 8]>
+        <script src="../../resources/plugins/excanvas/js/excanvas.min.js"></script>
+        <![endif]-->
+
+        <!-- page specific plugin scripts -->
+        <script src="../../resources/plugins/jquery/nestable/jquery.nestable.min.js"></script>
+
+        <!-- ace scripts -->
+        <script src="../../resources/plugins/ace/js/ace-elements.js"></script>
+        <script src="../../resources/plugins/ace/js/ace.js"></script>
+
+        <!-- inline scripts related to this page -->
+        <script type="text/javascript">
+            jQuery(function($){
+
+                $('.dd').nestable();
+
+                $('.dd-handle a').on('mousedown', function(e){
+                    e.stopPropagation();
+                });
+
+                $('[data-rel="tooltip"]').tooltip();
+
+            });
+        </script>
+
+    </body>
+</html>

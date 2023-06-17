@@ -360,8 +360,8 @@ jQuery(function() {
 (function(a, b) {
 	a.fn.ace_spinner = function(c) {
 		this.each(function() {
-			var f = c.icon_up || "fa-chevron-up";
-			var j = c.icon_down || "fa-chevron-down";
+			var f = c.icon_up || "fa fa-chevron-up";
+			var j = c.icon_down || "fa fa-chevron-down";
 			var h = c.on_sides || false;
 			var e = c.btn_up_class || "";
 			var g = c.btn_down_class || "";
@@ -501,6 +501,7 @@ jQuery(function() {
 		c = a.extend({}, c, d);
 		this.each(function () {
 			var e = a(this);
+			e.removeData("tree");
 			Huazie.tpl.loadTpl(TplUrlMap.get("tree"), function () {
 				Huazie.tpl.loadTemp(e, "#tpl_common_tree", c);
 				e.addClass(c.selectable === true ? "tree-selectable" : "tree-unselectable");
@@ -563,11 +564,11 @@ jQuery(function() {
 				title : "Number list"
 			},
 			outdent : {
-				icon : "fa fa-indent-left",
+				icon : "fa fa-outdent",
 				title : "Reduce indent (Shift+Tab)"
 			},
 			indent : {
-				icon : "fa fa-indent-right",
+				icon : "fa fa-indent",
 				title : "Indent (Tab)"
 			},
 			justifyleft : {

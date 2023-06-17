@@ -1,6 +1,7 @@
 package com.huazie.fleamgmt.springmvc.home.web;
 
 import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.pojo.OutputCommonData;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
@@ -43,29 +44,21 @@ public class MenuFavoritesController extends BusinessController {
      */
     @GetMapping("menuFavorites!isFavorites.flea")
     @ResponseBody
-    public OutputCommonData isFavorites(@RequestParam("menuCode") String menuCode) {
+    public OutputCommonData isFavorites(@RequestParam("menuCode") String menuCode) throws CommonException {
 
         OutputCommonData output = new OutputCommonData();
 
-        try {
-            Long accountId = FleaSessionManager.getAccountId();
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.debug("AccountId = {}", accountId);
-            }
-            FleaMenuFavorites fleaMenuFavorites = springBean.queryValidFleaMenuFavorites(accountId, menuCode);
-            if (ObjectUtils.isNotEmpty(fleaMenuFavorites)) {
-                output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-                output.setRetMess(fleaMenuFavorites.getMenuName() + "已经被收藏");
-            } else {
-                output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-                output.setRetMess(menuCode + "还未被收藏");
-            }
-        } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("【Spring】：\n", e);
-            }
+        Long accountId = FleaSessionManager.getAccountId();
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("AccountId = {}", accountId);
+        }
+        FleaMenuFavorites fleaMenuFavorites = springBean.queryValidFleaMenuFavorites(accountId, menuCode);
+        if (ObjectUtils.isNotEmpty(fleaMenuFavorites)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+            output.setRetMess(fleaMenuFavorites.getMenuName() + "已经被收藏");
+        } else {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            output.setRetMess("用户退出异常：" + e.getMessage());
+            output.setRetMess(menuCode + "还未被收藏");
         }
 
         return output;

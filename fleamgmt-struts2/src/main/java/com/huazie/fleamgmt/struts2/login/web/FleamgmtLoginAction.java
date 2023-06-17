@@ -5,12 +5,13 @@ import com.huazie.fleaframework.auth.common.pojo.user.login.FleaUserLoginPOJO;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaUserModuleSV;
 import com.huazie.fleaframework.auth.util.FleaAuthLogger;
 import com.huazie.fleaframework.common.FleaSessionManager;
-import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleaframework.common.util.ObjectUtils;
 import com.huazie.fleaframework.core.request.FleaRequestUtil;
-import com.huazie.fleaframework.jersey.client.core.FleaJerseyClientConfig;
+import com.huazie.fleaframework.jersey.common.FleaJerseyConfig;
 import com.huazie.fleaframework.jersey.common.FleaUserImplObjectFactory;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.struts2.base.web.BaseAction;
@@ -69,11 +70,10 @@ public class FleamgmtLoginAction extends BaseAction {
 
             if (ObjectUtils.isNotEmpty(fleaAccount)) {
                 // 初始化用户信息
-                fleaUserModuleSV.initUserInfo(fleaAccount.getUserId(), fleaAccount.getAccountId(),
-                        FleaJerseyClientConfig.getSystemAccountId(Long.class), null,
-                        new FleaUserImplObjectFactory() {
+                fleaUserModuleSV.initUserInfo(fleaAccount.getAccountId(), FleaJerseyConfig.getSystemAccountId(Long.class),
+                        null, new FleaUserImplObjectFactory() {
                             @Override
-                            public void initObject() {
+                            public void initObject(IFleaUser fleaUser) {
                                 initFleaUserSession();
                             }
                         });

@@ -7,7 +7,7 @@
 
 		<!-- 基础样式 basic styles -->
 		<link rel="stylesheet" href="../../../resources/plugins/bootstrap/css/bootstrap.min.css"  />
-		<link rel="stylesheet" href="../../../resources/plugins/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../../../resources/plugins/font-awesome/css/font-awesome.css" />
 
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="../../../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
@@ -33,8 +33,8 @@
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
-		<script src="../../../resources/plugins/ace/js/html5shiv.js"></script>
-		<script src="../../../resources/plugins/ace/js/respond.min.js"></script>
+		<script src="../../../resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="../../../resources/plugins/respond/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -60,7 +60,22 @@
 			
 			<div class="row">
 				<div class="col-xs-12">
+
 					<div class="col-sm-3">
+
+						<div class="alert alert-block alert-success">
+							<button type="button" class="close" data-dismiss="alert">
+								<i class="fa fa-remove"></i>
+							</button>
+
+							<i class="fa fa-hand-o-right blue"></i>
+							亲，请先从菜单树中新增菜单哟！<br/>
+							<strong class="red">
+								<i class="fa fa-info-circle"></i> 提示 :
+							</strong>
+							【右击或长按父菜单】
+						</div>
+
 						<div class="widget-box">
 							<div class="widget-header header-color-blue2">
 								<h5 class="lighter smaller">
@@ -71,7 +86,7 @@
 
 							<div class="widget-body">
 								<div class="widget-main padding-8">
-									<div id="tree" class="tree"></div>
+									<div id="tree_add" class="tree"></div>
 								</div>
 							</div>
 						</div>
@@ -101,7 +116,7 @@
 											<span class="blue">父菜单信息</span>
 										</label>
 										<input class="form-control skip_over" type="text" id="parent" placeholder="父菜单名称【父菜单编码】" disabled="disabled" />
-										<input type="hidden" id="parent_id" name="menu.parentId" />
+										<input type="hidden" id="parent_id" name="parentId" />
 									</div>
 
 									<div class="space-2"></div>
@@ -112,7 +127,7 @@
 											<span class="blue">菜单编码</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_code" name="menu.menuCode" placeholder="比如首页,菜单编码可以为'index'"/>
+										<input class="form-control" type="text" id="menu_code" name="menuCode" placeholder="比如首页,菜单编码可以为'index'"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -123,7 +138,7 @@
 											<span class="blue">菜单名称</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_name" name="menu.menuName" placeholder="菜单显示在前台的名称描述"/>
+										<input class="form-control" type="text" id="menu_name" name="menuName" placeholder="菜单显示在前台的名称描述"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -134,7 +149,7 @@
 											<span class="blue">菜单图标</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_icon" name="menu.menuIcon" placeholder="菜单图标（Font Awesome）"/>
+										<input class="form-control" type="text" id="menu_icon" name="menuIcon" placeholder="菜单图标（Font Awesome）"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -145,7 +160,7 @@
 											<span class="blue">菜单视图</span>
 										</label>
 								
-										<input class="form-control" type="text" id="menu_view" name="menu.menuView" placeholder="指定菜单对应的视图URL（叶子菜单必填）"/>
+										<input class="form-control" type="text" id="menu_view" name="menuView" placeholder="指定菜单对应的视图URL（叶子菜单必填）"/>
 									</div>
 									
 									<div class="space-2"></div>
@@ -156,14 +171,15 @@
 											<span class="blue">菜单层级</span>
 										</label>
 
-										<select class="form-control" id="menu_level" name="menu.menuLevel" disabled="disabled">
+										<select class="form-control" id="menu_level" name="menuLevel" disabled="disabled">
 											<option value="0"></option>
 											<option value="1">一级菜单</option>
 											<option value="2">二级菜单</option>
 											<option value="3">三级菜单</option>
 											<option value="4">四级菜单</option>
 										</select>
-									</div>
+                                        <input type="hidden" id="menu_sort" name="menuSort" />
+                                    </div>
 
 									<div class="space-2"></div>
 
@@ -173,7 +189,7 @@
 											<span class="blue">菜单描述</span>
 										</label>
 								
-										<textarea class="autosize-transition form-control" id="remarks" name="menu.remarks" placeholder="填写菜单相关的描述信息，留存备注"></textarea>
+										<textarea class="autosize-transition form-control" id="remarks" name="remarks" placeholder="填写菜单相关的描述信息，留存备注"></textarea>
 									</div>
 									
 									<div class="space-2"></div>

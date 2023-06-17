@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>树菜单</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- 基础样式 basic styles -->
+        <link rel="stylesheet" href="../../resources/plugins/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/font-awesome/css/font-awesome.css"/>
+
+        <!-- page specific plugin styles -->
+
+        <!-- ace styles -->
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-rtl.css"/>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-skins.css"/>
+
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="../../resources/plugins/ace/css/ace-ie.css"/>
+        <![endif]-->
+
+        <!-- inline styles related to this page -->
+
+        <!-- ace settings handler -->
+        <script src="../../resources/plugins/ace/js/ace-extra.js"></script>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="../../resources/plugins/html5shiv/html5shiv.js"></script>
+        <script src="../../resources/plugins/respond/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+        <div class="page-content">
+            <div class="page-header">
+                <h1 style="float: none;">
+                    Treeview
+                    <small>
+                        <i class="fa fa-angle-double-right"></i>
+                        with selectable items(single &amp; multiple) and custom icons
+                    </small>
+                </h1>
+            </div><!-- /.page-header -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="widget-box">
+                                <div class="widget-header header-color-blue2">
+                                    <h4 class="lighter smaller">Choose Categories</h4>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main padding-8">
+                                        <div id="tree1" class="tree"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="widget-box">
+                                <div class="widget-header header-color-green2">
+                                    <h4 class="lighter smaller">Browse Files</h4>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main padding-8">
+                                        <div id="tree2" class="tree"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.page-content -->
+
+        <!-- 基础脚本basic scripts -->
+
+        <!--[if !IE]> -->
+        <script src="..\..\resources\plugins\jquery\2.0.3\jquery-2.0.3.min.js"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script src="..\..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+        <![endif]-->
+
+        <!--[if !IE]> -->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>" + "<" + "/script>");
+        </script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>" + "<" + "/script>");
+        </script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            if ("ontouchend" in document) document.write("<script src='../../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+        <script src="../../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+        <script src="../../resources/plugins/fuelux/fuelux.tree.js"></script>
+        <script src="../../resources/plugins/fuelux/data/fuelux.tree-sampledata.js"></script>
+        <script src="../../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+        <script src="../../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+        <script src="../../resources/scripts/base/config.js"></script>
+        <script src="../../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+
+        <!-- ace scripts -->
+        <script src="../../resources/plugins/ace/js/ace-elements.js"></script>
+        <script src="../../resources/plugins/ace/js/ace.js"></script>
+
+        <!-- inline scripts related to this page -->
+        <script type="text/javascript">
+            jQuery(function($){
+                $('#tree1').ace_tree({
+                    dataSource: treeDataSource ,
+                    multiSelect:true,
+                    loadingHTML:'<div class="tree-loading"><i class="fa fa-refresh icon-spin blue"></i></div>',
+                    'open-icon' : 'fa-minus',
+                    'close-icon' : 'fa-plus',
+                    'selectable' : true,
+                    'selected-icon' : 'fa-check',
+                    'unselected-icon' : 'fa-remove'
+                });
+
+                $('#tree2').ace_tree({
+                    dataSource: treeDataSource2 ,
+                    loadingHTML:'<div class="tree-loading"><i class="fa fa-refresh icon-spin blue"></i></div>',
+                    'open-icon' : 'fa-folder-open',
+                    'close-icon' : 'fa-folder',
+                    'selectable' : false,
+                    'selected-icon' : null,
+                    'unselected-icon' : null
+                });
+            });
+
+        </script>
+
+    </body>
+</html>

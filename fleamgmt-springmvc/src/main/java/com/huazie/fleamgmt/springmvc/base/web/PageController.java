@@ -25,29 +25,29 @@ public class PageController {
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(PageController.class);
 
     /**
-     * <p> 跳转首页 </p>
+     * 跳转首页
      *
-     * @return 首页字符串
+     * @return 首页
      * @since 1.0.0
      */
     @RequestMapping("/home")
     public String index() {
-        LOGGER.debug("Start");
-        LOGGER.debug("Just For jumping to index.html");
-        LOGGER.debug("End");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Just For jumping to index.html");
+        }
         return "index.html";
     }
 
     /**
-     * <p> 跳转菜单 </p>
+     * 根据菜单编码，跳转指定菜单
+     * <p> 如果菜单编码对应的菜单不在当前用户所授权的叶子菜单之中，
+     * 则默认返回 404的错误页面
      *
      * @return 指定菜单页面
      * @since 1.0.0
      */
     @RequestMapping("/menu")
     public String menu(@RequestParam("code") String menuCode) {
-        LOGGER.debug("Start");
-        LOGGER.debug("Just For jumping to menu, MenuCode = {}", menuCode);
 
         String menuView = "";
 
@@ -64,8 +64,9 @@ public class PageController {
             menuView = "/WEB-INF/error-404.html";
         }
 
-        LOGGER.debug("Just For jumping to menu, MenuView = {} ", menuView);
-        LOGGER.debug("End");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Just For jumping to menu, MenuCode = {}, MenuView = {}", menuCode, menuView);
+        }
         return menuView;
     }
 }

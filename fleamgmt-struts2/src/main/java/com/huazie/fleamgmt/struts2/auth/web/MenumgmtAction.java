@@ -1,11 +1,8 @@
 package com.huazie.fleamgmt.struts2.auth.web;
 
-import com.huazie.fleaframework.auth.base.function.entity.FleaMenu;
 import com.huazie.fleaframework.auth.base.function.service.interfaces.IFleaMenuSV;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
-import com.huazie.fleaframework.common.util.ObjectUtils;
-import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.auth.pojo.InputMenuInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputMenuInfo;
 import com.opensymphony.xwork2.ActionSupport;
@@ -60,28 +57,6 @@ public class MenumgmtAction extends ActionSupport {
     public String add() throws Exception {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Start");
-        }
-
-        if (menu != null) {
-            String menuCode = menu.getMenuCode();
-            String menuName = menu.getMenuName();
-            String menuIcon = menu.getMenuIcon();
-            int hasSubMenu = menu.getHasSubMenu();
-            String menuView = menu.getMenuView();
-            String parentId = menu.getParentId();
-            int moduleType = menu.getModuleType();
-            String description = menu.getDescription();
-
-            FleaMenu parentMenu = fleaMenuSV.query(parentId);
-
-            int menuLevel = 1;
-            if (ObjectUtils.isNotEmpty(parentMenu)) {
-                menuLevel = parentMenu.getMenuLevel() + 1;
-            }
-
-        } else {
-            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            result.setRetMess("请求新增的菜单数据为空");
         }
 
         if (LOGGER.isDebugEnabled()) {

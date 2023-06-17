@@ -20,7 +20,13 @@
 		<div class="space-8"></div>
 		
 		<div class="clearfix">
+            {{#if CONTENT}}
 			<span class="center">{{CONTENT}}</span>
+			{{else}}
+			{{#common_list CONTENTS}}
+			<div class="center">{{MESSAGE}}</div>
+			{{/common_list}}
+			{{/if}}
 		</div>
 	</div>
 </script>
@@ -54,7 +60,13 @@
 		<div class="space-10"></div>
 		
 		<div class="clearfix">
+		    {{#if CONTENT}}
 			<span class="center">{{CONTENT}}</span>
+			{{else}}
+			{{#common_list CONTENTS}}
+			<span class="center">{{MESSAGE}}</span>
+			{{/common_list}}
+			{{/if}}
 		</div>
 		
 	</div>
@@ -78,6 +90,7 @@
 			<input name="code" type="hidden" value="{{MENU_CODE}}" />
             <input name="name" type="hidden" value="{{MENU_NAME}}" />
             <input name="level" type="hidden" value="{{MENU_LEVEL}}" />
+            <input name="sort" type="hidden" value="{{MENU_SORT}}" />
 		</a>
 	</div>
 	{{/common_list}}

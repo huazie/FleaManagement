@@ -19,6 +19,32 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+[class^="fa-"]:before, [class*=" fa-"]:before {
+  text-decoration: inherit;
+  display: inline-block;
+  speak: none;
+}
+
+a [class^="fa-"], a [class*=" fa-"] {
+  display: inline;
+}
+
+[class^="fa-"].icon-fixed-width, [class*=" fa-"].icon-fixed-width {
+  display: inline-block;
+  width: 1.1428571428571428em;
+  text-align: right;
+  padding-right: 0.2857142857142857em;
+}
+
+[class^="fa-"].icon-fixed-width.icon-large, [class*=" fa-"].icon-fixed-width.icon-large {
+  width: 1.4285714285714286em;
+}
+
+[class^="fa-"].hide, [class*=" fa-"].hide {
+  display: none;
+}
+
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
   font-size: 1.33333333em;
@@ -89,6 +115,19 @@
 .fa.pull-right {
   margin-left: .3em;
 }
+
+[class^="fa-"], [class*=" fa-"] {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
+}
+
 .fa-spin {
   -webkit-animation: fa-spin 2s infinite linear;
   animation: fa-spin 2s infinite linear;

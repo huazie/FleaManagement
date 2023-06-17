@@ -2,10 +2,10 @@
 	var b = function (e, d) {
 		this.$element = a(e);
 		this.options = a.extend({}, a.fn.tree.defaults, d);
-		this.$element.on("click", ".tree-item", a.proxy(function (f) {
+		this.$element.off("click", ".tree-item").on("click", ".tree-item", a.proxy(function (f) {
 			this.selectItem(f.currentTarget)
 		}, this));
-		this.$element.on("click", ".tree-folder-header", a.proxy(function (f) {
+		this.$element.off("click", ".tree-folder-header").on("click", ".tree-folder-header", a.proxy(function (f) {
 			this.selectFolder(f.currentTarget)
 		}, this));
 		this.render()
@@ -30,6 +30,7 @@
 						i.find("input[name=code]").val(j.code);
                         i.find("input[name=name]").val(j.name);
                         i.find("input[name=level]").val(j.level);
+                        i.find("input[name=count]").val(j.count);
 						i.find(".tree-loader").html(e.options.loadingHTML);
 						var k = i.find(".tree-folder-header");
 						k.data(j);
