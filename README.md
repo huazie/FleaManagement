@@ -1,13 +1,14 @@
-# mgmt 
+# fleamgmt 
 
 #### 介绍
-跳蚤管家，跳蚤市场的后台管理系统
+跳蚤管家，一款基于ACE框架的后台管理系统
 
 #### 软件架构
-1. 数据库使用MySQL
-2. 数据库操作使用基于JPA开发的flea-frame-db，支持分表操作
-3. 缓存操作使用flea-frame-cache，可支持同时部署多个memcached和redis服务端
-4. 前后台交互使用Spring MVC承载
+1. 后端框架基于 Flea Framework 和 Spring Framework
+2. 前端框架基于 Ace Framework
+2. 数据库操作使用基于 JPA 开发的flea-db，支持分库分表
+3. 缓存操作使用基于 flea-cache，可支持同时接入不同缓存，如MemCached和Redis
+4. 前后台交互使用 Spring MVC 承载
 
 #### 参与贡献
 1. huazie
