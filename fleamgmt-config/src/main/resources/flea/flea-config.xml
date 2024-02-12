@@ -7,6 +7,10 @@
         <config-item key="expiry_time_forever" desc="失效时间(永久)">29991231235959</config-item>
     </config-items>
 
+    <!--<config-items key="flea-url-config" desc="Flea URL配置">-->
+        <!--<config-item key="taobao_ip_url" desc="淘宝IP地址信息查询URL">https://ip.taobao.com/outGetIpInfo?accessKey=alibaba-inc&amp;ip=</config-item>-->
+    <!--</config-items>-->
+
     <!-- flea-common -->
     <config-items key="flea-i18n-config" desc="Flea国际化相关配置">
         <config-item key="error" desc="error国际化资源特殊配置，指定路径和文件前缀，逗号分隔">flea/i18n,flea_i18n</config-item>

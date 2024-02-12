@@ -1,5 +1,6 @@
 
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaUserModuleSV;
+import com.huazie.fleaframework.auth.util.FleaAuthLogger;
 import com.huazie.fleaframework.common.IFleaUser;
 import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
@@ -43,5 +44,11 @@ public class AuthTest {
     @Test
     public void saveLoginLog() {
         fleaUserModuleSV.saveLoginLog(10000L, null);
+    }
+
+    @Test
+    public void testAsyncSaveLoginLog() throws InterruptedException {
+        FleaAuthLogger.asyncSaveLoginLog(fleaUserModuleSV, 10000L, null);
+        Thread.sleep(5000);
     }
 }
