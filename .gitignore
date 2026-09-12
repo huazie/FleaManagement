@@ -5,3 +5,4 @@ fleamgmt-web/target/
 fleamgmt-config/target/
 fleamgmt-struts2/target/
 fleamgmt-springmvc/target/
+/.workbuddy
