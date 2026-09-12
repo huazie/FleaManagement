@@ -8,6 +8,8 @@ define(function (require, exports, module) {
 
     // 用户登录
     ReqUrlMap.put("fleamgmtLogin", "fleamgmtLogin!login.flea");
+    // 检查用户Session是否初始化完成
+    ReqUrlMap.put("fleamgmtCheckSession", "fleamgmtLogin!checkSession.flea");
 
     var signup = require("./signup.js");
 
@@ -61,9 +63,11 @@ define(function (require, exports, module) {
                 var result = data;
                 if (status) {
                     if (result.retCode === "Y") {
-                        Huazie.dialog.tips("info", result.retMess, 2);
-                        $thiz.removeClass("disabled").html(Huazie.msg.btnText("unlock fa-lg", "登录"));
-                        location.href = ReqUrlMap.get("fleamgmtHome");
+                        Huazie.dialog.tips("info", result.retMess, 1);
+                        // 不恢复按钮，保持禁用状态并显示跳转中，直到真正跳转
+                        $thiz.addClass("disabled").html(Huazie.msg.btnText("key fa-lg", "正在跳转..."));
+                        // 轮询等待 Session 初始化完成后再跳转首页
+                        waitForSessionAndRedirect($thiz);
                     } else if (result.retCode === "N") {
                         Huazie.dialog.tips("warning", result.retMess, 2);
                         $("#name").val('');
@@ -77,5 +81,31 @@ define(function (require, exports, module) {
             });
         });
     };
+
+    // 轮询等待 Session 初始化完成
+    function waitForSessionAndRedirect($btn) {
+        var maxRetry = 10;  // 最多重试10次
+        var retryInterval = 500;  // 每次间隔500ms
+        var retryCount = 0;
+
+        function doCheck() {
+            retryCount++;
+            Huazie.ajax.getJson(ReqUrlMap.get("fleamgmtCheckSession"), function (data, status) {
+                if (status && data.retCode === "Y") {
+                    // Session 就绪，跳转首页
+                    location.href = ReqUrlMap.get("fleamgmtHome");
+                } else if (retryCount >= maxRetry) {
+                    // 超过最大重试次数，恢复按钮，提示用户
+                    $btn.removeClass("disabled").html(Huazie.msg.btnText("lock fa-lg", "登录"));
+                    Huazie.dialog.tips("warning", "跳转超时，请重新登录", 2);
+                } else {
+                    // 继续等待
+                    setTimeout(doCheck, retryInterval);
+                }
+            });
+        }
+
+        doCheck();
+    }
 
 });
