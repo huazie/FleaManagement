@@ -332,7 +332,7 @@ Huazie.browser = {
      * Current object name
      *
      * @method toString
-     * @return {String} 'Huazie.validate'
+     * @return {String} 'Huazie.browser'
      */
     toString: function () {
         return "Huazie.browser";
