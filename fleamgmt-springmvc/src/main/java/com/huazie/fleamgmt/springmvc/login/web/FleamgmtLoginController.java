@@ -38,6 +38,21 @@ public class FleamgmtLoginController extends BusinessController {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleamgmtLoginController.class);
 
+    /** 用户Session异步初始化状态标记 */
+    private static final String SESSION_INIT_STATE_KEY = "FLEAMGMT_SESSION_INIT_STATE";
+
+    /** 初始化已提交，尚未完成 */
+    private static final String SESSION_INIT_STATE_DOING = "0";
+
+    /** 初始化完成 */
+    private static final String SESSION_INIT_STATE_DONE = "1";
+
+    /** 初始化失败 */
+    private static final String SESSION_INIT_STATE_FAILED = "2";
+
+    /** checkSession 返回码：初始化失败（区别于 Y/N） */
+    private static final String RETURN_CODE_FAILED = "F";
+
     private IFleaUserModuleSV fleaUserModuleSV;
 
     @Resource(name = "fleaUserModuleSV")
@@ -51,6 +66,9 @@ public class FleamgmtLoginController extends BusinessController {
 
         // 用户登录验证
         FleaAccount fleaAccount = fleaUserModuleSV.login(fleaUserLoginPOJO);
+
+        // 标记异步初始化开始，供 checkSession 识别进行中状态
+        session.setAttribute(SESSION_INIT_STATE_KEY, SESSION_INIT_STATE_DOING);
 
         // 异步初始化用户信息（含菜单等耗时数据）
         // 通过 FleaUserImplObjectFactory 回调，在异步任务完成后将用户信息写入 Session
@@ -87,20 +105,21 @@ public class FleamgmtLoginController extends BusinessController {
     public OutputCommonData checkSession(final HttpSession session) {
         OutputCommonData result = new OutputCommonData();
 
-        try {
-            Object userInfo = session.getAttribute(FleaRequestUtil.getUserSessionKey());
-            if (userInfo != null) {
-                // Session 中已有用户信息，说明异步初始化已完成
-                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
-                result.setRetMess("用户Session初始化完成");
-            } else {
-                // 尚未完成
-                result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-                result.setRetMess("用户Session初始化中，请稍候...");
-            }
-        } catch (Exception e) {
+        // 初始化状态：Y 就绪 / N 进行中 / F 失败
+        Object state = session.getAttribute(SESSION_INIT_STATE_KEY);
+
+        if (SESSION_INIT_STATE_DONE.equals(state) && session.getAttribute(FleaRequestUtil.getUserSessionKey()) != null) {
+            // Session 中已有用户信息，说明异步初始化已完成
+            result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+            result.setRetMess("用户Session初始化完成");
+        } else if (SESSION_INIT_STATE_FAILED.equals(state)) {
+            // 异步初始化失败
+            result.setRetCode(RETURN_CODE_FAILED);
+            result.setRetMess("用户Session初始化失败，请重新登录");
+        } else {
+            // 尚未完成（状态缺失视为进行中，兼容服务重启等场景）
             result.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            result.setRetMess("检查用户Session异常：" + e.getMessage());
+            result.setRetMess("用户Session初始化中，请稍候...");
         }
 
         return result;
@@ -118,7 +137,15 @@ public class FleamgmtLoginController extends BusinessController {
             // 将用户的信息写入到session中,并在跳转到主界面获取这个用户的信息
             // 这是用户的浏览器与web服务器建立的一次会话,会话结束后,该信息也就消失了
             session.setAttribute(FleaRequestUtil.getUserSessionKey(), fleaUser);
+            // 标记初始化完成，供 checkSession 判定就绪
+            session.setAttribute(SESSION_INIT_STATE_KEY, SESSION_INIT_STATE_DONE);
         } catch (Exception e) {
+            // 写入失败时标记初始化失败（Session 已失效等场景下该标记可能写不进去，由前端轮询超时兜底）
+            try {
+                session.setAttribute(SESSION_INIT_STATE_KEY, SESSION_INIT_STATE_FAILED);
+            } catch (Exception ignored) {
+                // Session 已失效，无法写入失败标记
+            }
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("Init User Session occurs exception", e);
             }

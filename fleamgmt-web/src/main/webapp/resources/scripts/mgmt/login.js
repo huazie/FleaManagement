@@ -94,6 +94,10 @@ define(function (require, exports, module) {
                 if (status && data.retCode === "Y") {
                     // Session 就绪，跳转首页
                     location.href = ReqUrlMap.get("fleamgmtHome");
+                } else if (status && data.retCode === "F") {
+                    // 服务端明确返回初始化失败，立即停止轮询
+                    $btn.removeClass("disabled").html(Huazie.msg.btnText("lock fa-lg", "登录"));
+                    Huazie.dialog.tips("warning", data.retMess || "登录初始化失败，请重新登录", 2);
                 } else if (retryCount >= maxRetry) {
                     // 超过最大重试次数，恢复按钮，提示用户
                     $btn.removeClass("disabled").html(Huazie.msg.btnText("lock fa-lg", "登录"));
