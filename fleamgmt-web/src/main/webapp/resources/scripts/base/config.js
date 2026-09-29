@@ -127,6 +127,12 @@ var SeaJsUrlMap = (function () {
         "menu": seaJsUrlPrefix[0] + "common/menu",							// 公共菜单模块js
         "menuFavorites": seaJsUrlPrefix[0] + "common/menu-favorites",		// 菜单收藏夹js
         "authMenu": seaJsUrlPrefix[0] + "auth/function/menu/auth-menu",		// 菜单管理模块js
+        "authOperation": seaJsUrlPrefix[0] + "auth/function/operation/auth-operation",	// 操作管理模块js
+        "authElement": seaJsUrlPrefix[0] + "auth/function/element/auth-element",		// 元素管理模块js
+        "authResource": seaJsUrlPrefix[0] + "auth/function/resource/auth-resource",	// 资源管理模块js
+        "authUser": seaJsUrlPrefix[0] + "auth/user/auth-user",				// 用户模块管理js
+        "authRole": seaJsUrlPrefix[0] + "auth/role/auth-role",				// 角色模块管理js
+        "authPrivilege": seaJsUrlPrefix[0] + "auth/privilege/auth-privilege",	// 权限模块管理js
         "uploadRes": seaJsUrlPrefix[0] + "mgmt/res/res-upload",				// 上传物品模块js
         "auditRes": seaJsUrlPrefix[0] + "mgmt/res/res-audit",				// 物品审核模块js
         "searchRes": seaJsUrlPrefix[0] + "mgmt/res/res-search",				// 物品浏览模块js
@@ -138,6 +144,12 @@ var SeaJsUrlMap = (function () {
         "menu": seaJsUrlPrefix[1] + "common/menu",							// 公共菜单模块js
         "menuFavorites": seaJsUrlPrefix[1] + "common/menu-favorites",		// 菜单收藏夹js
         "authMenu": seaJsUrlPrefix[1] + "auth/function/menu/auth-menu",		// 菜单管理模块js
+        "authOperation": seaJsUrlPrefix[1] + "auth/function/operation/auth-operation",	// 操作管理模块js
+        "authElement": seaJsUrlPrefix[1] + "auth/function/element/auth-element",		// 元素管理模块js
+        "authResource": seaJsUrlPrefix[1] + "auth/function/resource/auth-resource",	// 资源管理模块js
+        "authUser": seaJsUrlPrefix[1] + "auth/user/auth-user",				// 用户模块管理js
+        "authRole": seaJsUrlPrefix[1] + "auth/role/auth-role",				// 角色模块管理js
+        "authPrivilege": seaJsUrlPrefix[1] + "auth/privilege/auth-privilege",	// 权限模块管理js
         "uploadRes": seaJsUrlPrefix[1] + "mgmt/res/res-upload",				// 上传物品模块js
         "auditRes": seaJsUrlPrefix[1] + "mgmt/res/res-audit",				// 物品审核模块js
         "searchRes": seaJsUrlPrefix[1] + "mgmt/res/res-search",				// 物品浏览模块js

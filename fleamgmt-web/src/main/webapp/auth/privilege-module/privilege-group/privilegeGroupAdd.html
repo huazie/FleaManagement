@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>权限组新增</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css"/>
+		<![endif]-->
+
+		<style>
+			/* 候选授权项列表 */
+			.candidate-list {
+				max-height: 300px;
+				overflow-y: auto;
+				border: 1px solid #e5e5e5;
+				border-radius: 3px;
+				padding: 4px 6px;
+			}
+
+			.candidate-item {
+				display: block;
+				font-weight: normal;
+				margin: 0;
+				padding: 4px 2px;
+				border-bottom: 1px dashed #eee;
+				cursor: pointer;
+			}
+
+			.candidate-item:last-child {
+				border-bottom: none;
+			}
+
+			.candidate-item:hover {
+				background-color: #f5f8fa;
+			}
+
+			.candidate-item .lbl {
+				margin-left: 4px;
+			}
+
+			/* 已选清单 */
+			.selected-list {
+				min-height: 32px;
+				line-height: 26px;
+				padding: 4px;
+				border: 1px dashed #d5d5d5;
+				border-radius: 3px;
+			}
+
+			.selected-list .label {
+				margin-right: 4px;
+				display: inline-block;
+			}
+		</style>
+
+		<!-- ace settings handler -->
+		<script src="../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="../resources/plugins/respond/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					权限模块管理
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						&nbsp;权限组管理
+					</small>
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						 &nbsp;权限组新增
+					</small>
+				</h1>
+				<!-- 收藏模块  start-->
+				<div class="page-header-fav">
+					<a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+						<i class="fa fa-star-o fa-lg"></i>
+						<span>收藏</span>
+					</a>
+				</div>
+				<!-- 收藏模块  end -->
+			</div><!-- /.page-header -->
+			
+			<div class="row">
+				<div class="col-xs-12">
+
+
+					<div class="col-sm-3">
+
+						<div class="alert alert-block alert-success">
+							<button type="button" class="close" data-dismiss="alert">
+								<i class="fa fa-remove"></i>
+							</button>
+
+							<i class="fa fa-hand-o-right blue"></i>
+							亲，请在右侧表单中新增权限组哟！<br/><strong class="red"><i class="fa fa-info-circle"></i> 提示 :</strong>【同一功能类型下框架只认一个主权限组】
+						</div>
+
+						<div class="widget-box">
+							<div class="widget-header header-color-blue2">
+								<h5 class="lighter smaller">
+									<i class="fa fa-list-alt fa-lg"></i>
+									权限组列表
+								</h5>
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main padding-8">
+									<div id="tree_privilegeGroupAdd" class="tree"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-sm-9">
+						<div class="widget-box">
+							<div class="widget-header">
+								<h5 class="lighter smaller">
+									<i class="fa fa-plus-circle fa-lg"></i>
+									权限组新增
+								</h5>
+							
+								<span class="widget-toolbar">
+									<a href="#" data-action="collapse">
+										<i class="fa fa-chevron-up"></i>
+									</a>
+								</span>
+							</div>
+							
+							<div class="widget-body">
+								<div id="privilege_group_add" class="widget-main" fieldset="json">
+								<div class="form-group">
+									<label for="privilegeGroupName">
+										<i class="fa fa-hand-o-right blue"></i>
+										<span class="blue">权限组名称</span> <span class="red">*</span>
+									</label>
+
+									<input class="form-control" type="text" id="privilegeGroupName" name="privilegeGroupName" placeholder="权限组显示名称" />
+								</div>
+
+								<div class="space-2"></div>
+
+								<div class="form-group">
+									<label for="privilegeGroupDesc">
+										<i class="fa fa-hand-o-right blue"></i>
+										<span class="blue">权限组描述</span>
+									</label>
+
+									<textarea class="autosize-transition form-control" id="privilegeGroupDesc" name="privilegeGroupDesc" placeholder="填写该权限组对应的业务含义"></textarea>
+								</div>
+
+								<div class="space-2"></div>
+
+								<div class="form-group">
+									<label for="isMain">
+										<i class="fa fa-hand-o-right blue"></i>
+										<span class="blue">是否主权限组</span>
+									</label>
+
+									<select class="form-control" id="isMain" name="isMain">
+										<option value="0">非主权限组</option>
+										<option value="1">主权限组</option>
+									</select>
+								</div>
+
+								<div class="space-2"></div>
+
+								<div class="form-group">
+									<label for="functionType">
+										<i class="fa fa-hand-o-right blue"></i>
+										<span class="blue">功能类型</span>
+									</label>
+
+									<select class="form-control" id="functionType" name="functionType">
+										<option value="MENU">菜单</option>
+										<option value="OPERATION">操作</option>
+										<option value="ELEMENT">元素</option>
+										<option value="RESOURCE">资源</option>
+									</select>
+								</div>
+
+								<div class="space-2"></div>
+
+								<div class="form-group">
+									<label for="remarks">
+										<i class="fa fa-hand-o-right blue"></i>
+										<span class="blue">备注</span>
+									</label>
+
+									<textarea class="autosize-transition form-control" id="remarks" name="remarks" placeholder="填写权限组相关的描述信息，留存备注"></textarea>
+								</div>
+
+								<div class="space-2"></div>
+
+									<div class="row-fluid wizard-actions">
+										<button id="submit" class="btn btn-info" type="button">
+											<i class="fa fa-check bigger-110"></i>
+											提交
+										</button>
+										<button id="reset" class="btn btn-inverse" type="button">
+											<i class="fa fa-undo bigger-110"></i>
+											重置
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+					<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+				</a>
+			</div>	
+		</div>
+		
+		<!-- 基础脚本basic scripts -->
+		
+		<!--[if !IE]> -->
+		<script src="../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!--[if IE]>
+		<script src="..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../resources/plugins/fuelux/fuelux.tree.js"></script>
+		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../resources/scripts/base/config.js"></script>
+		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../resources/scripts/base/comm.js"></script>
+		<script src="../resources/scripts/common/click.js"></script>
+		
+		<!-- ace scripts -->
+		<script src="../resources/plugins/ace/js/ace-elements.js"></script>
+		<script src="../resources/plugins/ace/js/ace.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+		
+			$(function(){
+				
+				// ### start load authPrivilege.js
+				seajs.use(SeaJsUrlMap.get("authPrivilege"), function(authPrivilege) {
+					authPrivilege.init("privilegeGroupAdd");
+				}); // ### end load authPrivilege.js
+				
+			});
+		
+		</script>
+
+	</body>
+</html>

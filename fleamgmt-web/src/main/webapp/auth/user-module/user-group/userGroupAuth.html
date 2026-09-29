@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>用户组授权</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+		<link rel="stylesheet" href="../resources/plugins/jqGrid/css/ui.jqgrid.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css"/>
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+		<style>
+		/* 穿梭框工具条 */
+		.shuttle-toolbar {
+			margin-bottom: 8px;
+		}
+
+		.shuttle-toolbar .shuttle-search {
+			display: inline-block;
+			width: 55%;
+			vertical-align: middle;
+		}
+
+		.shuttle-toolbar .btn-group {
+			vertical-align: middle;
+			margin-left: 6px;
+		}
+
+		.shuttle-panel-title {
+			font-weight: bold;
+			margin-bottom: 6px;
+			color: #478fca;
+		}
+
+		/* 候选数据列表 */
+		.shuttle-list {
+			height: 260px;
+			overflow-y: auto;
+			border: 1px solid #e5e5e5;
+			border-radius: 3px;
+			padding: 4px 8px;
+		}
+
+		.shuttle-item {
+			display: block;
+			font-weight: normal;
+			margin: 0;
+			padding: 4px 2px;
+			border-bottom: 1px dashed #eee;
+			cursor: pointer;
+		}
+
+		.shuttle-item:last-child {
+			border-bottom: none;
+		}
+
+		.shuttle-item:hover {
+			background-color: #f5f8fa;
+		}
+
+		.shuttle-item .lbl {
+			margin-left: 4px;
+		}
+
+		/* 授权清单 */
+		.selected-list {
+			min-height: 34px;
+			line-height: 26px;
+			padding: 4px;
+			border: 1px dashed #d5d5d5;
+			border-radius: 3px;
+		}
+
+		.selected-list .label {
+			margin-right: 4px;
+			display: inline-block;
+		}
+
+		.shuttle-remove {
+			cursor: pointer;
+		}
+
+		/* 标签页 */
+		#auth_tabs .nav-tabs {
+			margin-bottom: 0;
+		}
+
+		#auth_tabs .tab-content {
+			padding: 14px;
+			border: 1px solid #ddd;
+			border-top: none;
+			border-radius: 0 0 4px 4px;
+			background-color: #fff;
+		}
+		/* ==================== 窄屏适配（<768px，与 Bootstrap xs 同断点） ==================== */
+		/* 表格搜索框桌面端不显示，仅小屏承担筛选职责 */
+		.grid-mobile-search {
+			display: none;
+		}
+
+		@media only screen and (max-width: 767px) {
+
+			/* 兜底：组件内部（分页栏）已自带横滑，整页不应再出现横向滚动条 */
+			body {
+				overflow-x: hidden;
+			}
+
+			/* 顶层栅格行的负外边距在小屏会左右各顶出 3px（实测 .row 宽 381 > 视口 375），清零消除整页横滑 */
+			.page-content > .row {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			/* 页头：主标题收紧，面包屑与「收藏」文字收起，避免换行 */
+			.page-header h1 {
+				font-size: 16px;
+			}
+
+			.page-header h1 small {
+				display: none;
+			}
+
+			.page-header-fav span {
+				display: none;
+			}
+
+			/* 卡片头：右侧提示文字在小屏会把标题挤掉，隐藏 */
+			.widget-header .widget-toolbar > small {
+				display: none;
+			}
+
+			/* 统计卡：小屏三卡并排，去掉大图标，仅留数值与标签 */
+			.stat-card {
+				padding: 8px 4px;
+				text-align: center;
+			}
+
+			.stat-card .stat-icon {
+				display: none;
+			}
+
+			.stat-card .pull-right {
+				float: none !important;
+			}
+
+			.stat-card .stat-value {
+				font-size: 18px;
+			}
+
+			.stat-card .stat-label {
+				font-size: 11px;
+			}
+
+			/* 表格搜索框：小屏出现 */
+			.grid-mobile-search {
+				display: block;
+				margin-bottom: 6px;
+			}
+
+			/* jqGrid 筛选行：小屏控件仅 26px 宽，无法输入，整体隐藏 */
+			.ui-jqgrid .ui-search-toolbar {
+				display: none;
+			}
+
+			/* jqGrid 分页栏：内容天然宽于容器，改为就地横滑，避免撑破页面 */
+			.ui-jqgrid .ui-jqgrid-pager {
+				height: auto !important;
+				overflow-x: auto;
+				overflow-y: hidden;
+				-webkit-overflow-scrolling: touch;
+			}
+
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-table {
+				width: auto !important;
+			}
+
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-table td {
+				white-space: nowrap;
+			}
+
+			/* 每页条数选择器小屏无意义，且是撑宽分页栏的主因之一 */
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-selbox {
+				display: none;
+			}
+
+			/* 分页栏左右两侧（刷新/每页条数、记录数）在小屏会把总宽撑到容器外，
+			   收起后只留中间的分页导航，消除组件内的横向滚动条 */
+			.ui-jqgrid .ui-jqgrid-pager td[id$="_pager_left"],
+			.ui-jqgrid .ui-jqgrid-pager td[id$="_pager_right"] {
+				display: none;
+			}
+
+			/* 表格本体：字号与内边距收紧，小屏一屏多看两行 */
+			.ui-jqgrid {
+				font-size: 12px;
+			}
+
+			.ui-jqgrid .ui-jqgrid-htable th,
+			.ui-jqgrid tr.jqgrow td {
+				/* 手指点选需要更大的行高，同时兼顾一屏可见行数 */
+				padding: 5px 2px;
+			}
+
+			/* 穿梭框：搜索框独占一行，列表矮一截，底部按钮整行 */
+			.shuttle-toolbar .shuttle-search {
+				display: block;
+				width: 100%;
+				margin-bottom: 6px;
+			}
+
+			.shuttle-toolbar .btn-group {
+				margin-left: 0;
+			}
+
+			.shuttle-list {
+				height: 190px;
+			}
+
+			/* 候选/清单条目加高，便于手指点选 */
+			.shuttle-item {
+				padding: 8px 4px;
+			}
+
+			.shuttle-actions .btn {
+				display: block;
+				width: 100%;
+				margin: 0 0 6px 0;
+			}
+
+			/* 表单底部按钮：小屏留出换行间距 */
+			.wizard-actions .btn {
+				margin-bottom: 6px;
+			}
+		}
+
+		</style>
+
+		<!-- ace settings handler -->
+		<script src="../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="../resources/plugins/respond/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					用户模块管理
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						&nbsp;用户组管理
+					</small>
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						 &nbsp;用户组授权
+					</small>
+				</h1>
+				<!-- 收藏模块  start-->
+				<div class="page-header-fav">
+					<a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+						<i class="fa fa-star-o fa-lg"></i>
+						<span>收藏</span>
+					</a>
+				</div>
+				<!-- 收藏模块  end -->
+			</div><!-- /.page-header -->
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="widget-box">
+						<div class="widget-header header-color-blue2">
+							<h5 class="lighter smaller">
+								<i class="fa fa-list-alt fa-lg"></i>
+								用户组列表（点击行选择授权主体）
+							</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main padding-8">
+								<table id="auth_owner_grid"></table>
+								<div id="auth_owner_pager"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="space-8"></div>
+
+					<div class="widget-box" id="auth_panel">
+						<div class="widget-header header-color-green">
+							<h5 class="lighter smaller">
+								<i class="fa fa-key fa-lg"></i>
+								用户组授权
+							</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div class="alert alert-info">
+									<i class="fa fa-hand-o-right blue"></i>
+									当前授权主体：<strong id="auth_owner_label">未选择</strong>
+
+									<br />
+
+									<i class="fa fa-info-circle"></i>
+									已默认选中首个用户组，可在上方表格中切换授权主体；下方按维度授权，每个维度单独保存。
+								</div>
+
+								<div class="tabbable" id="auth_tabs">
+									<ul class="nav nav-tabs"></ul>
+									<div class="tab-content"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+						<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- 基础脚本basic scripts -->
+		
+		<!--[if !IE]> -->
+		<script src="../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!--[if IE]>
+		<script src="..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../resources/plugins/jqGrid/js/jquery.jqGrid.min.js"></script>
+		<script src="../resources/plugins/jqGrid/i18n/grid.locale-zh.js"></script>
+		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../resources/scripts/base/config.js"></script>
+		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../resources/scripts/base/comm.js"></script>
+		<script src="../resources/scripts/common/click.js"></script>
+		
+		<!-- ace scripts -->
+		<script src="../resources/plugins/ace/js/ace-elements.js"></script>
+		<script src="../resources/plugins/ace/js/ace.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+		
+			$(function(){
+				
+				// ### start load authUser.js
+				seajs.use(SeaJsUrlMap.get("authUser"), function(authUser) {
+					authUser.init("userGroupAuth");
+				}); // ### end load authUser.js
+				
+			});
+		
+		</script>
+
+	</body>
+</html>
