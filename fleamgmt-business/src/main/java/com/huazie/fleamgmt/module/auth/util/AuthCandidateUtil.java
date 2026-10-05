@@ -537,4 +537,402 @@ public final class AuthCandidateUtil {
         return rowList;
     }
 
+    /**
+     * <p> 角色明细行列表（角色变更表格用） </p>
+     *
+     * <p> 与 {@link #roles(IFleaRoleSV)} 同源（仅返回在用角色），
+     * 额外携带角色组名称，便于表格直接展示归属。 </p>
+     *
+     * @param fleaRoleSV      角色服务
+     * @param fleaRoleGroupSV 角色组服务（用于把 group_id 翻译成角色组名称）
+     * @return 角色明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> roleRows(IFleaRoleSV fleaRoleSV,
+                                                     IFleaRoleGroupSV fleaRoleGroupSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaRole> roleList = fleaRoleSV.queryRolesInUse(null, null);
+        if (CollectionUtils.isEmpty(roleList)) {
+            return rowList;
+        }
+
+        // 角色组编号 -> 角色组名称
+        Map<Long, String> roleGroupNameMap = roleGroupNameMap(fleaRoleGroupSV);
+
+        for (FleaRole fleaRole : roleList) {
+            if (ObjectUtils.isEmpty(fleaRole)) {
+                continue;
+            }
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("roleId", fleaRole.getRoleId());
+            rowMap.put("roleName", fleaRole.getRoleName());
+            rowMap.put("roleDesc", fleaRole.getRoleDesc());
+            rowMap.put("groupId", fleaRole.getGroupId());
+            rowMap.put("groupName", roleGroupNameMap.get(fleaRole.getGroupId()));
+            rowMap.put("roleState", fleaRole.getRoleState());
+            rowMap.put("remarks", fleaRole.getRemarks());
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 角色组明细行列表（角色组变更表格用） </p>
+     *
+     * <p> 在角色组基础信息之外，附带该组下的在用角色数量（memberCount），
+     * 便于页面在表格中直观呈现分组规模。 </p>
+     *
+     * @param fleaRoleGroupSV 角色组服务
+     * @param fleaRoleSV      角色服务（用于统计各组角色数）
+     * @return 角色组明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> roleGroupRows(IFleaRoleGroupSV fleaRoleGroupSV,
+                                                          IFleaRoleSV fleaRoleSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaRoleGroup> roleGroupList = fleaRoleGroupSV.queryRoleGroupsInUse(null);
+        if (CollectionUtils.isEmpty(roleGroupList)) {
+            return rowList;
+        }
+
+        // 角色组编号 -> 成员角色数
+        Map<Long, Integer> memberCountMap = roleGroupMemberCount(roleList(fleaRoleSV));
+
+        for (FleaRoleGroup fleaRoleGroup : roleGroupList) {
+            if (ObjectUtils.isEmpty(fleaRoleGroup)) {
+                continue;
+            }
+
+            Integer memberCount = memberCountMap.get(fleaRoleGroup.getRoleGroupId());
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("roleGroupId", fleaRoleGroup.getRoleGroupId());
+            rowMap.put("roleGroupName", fleaRoleGroup.getRoleGroupName());
+            rowMap.put("roleGroupDesc", fleaRoleGroup.getRoleGroupDesc());
+            rowMap.put("roleGroupState", fleaRoleGroup.getRoleGroupState());
+            rowMap.put("remarks", fleaRoleGroup.getRemarks());
+            rowMap.put("memberCount", (memberCount == null) ? 0 : memberCount);
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 权限明细行列表（权限变更表格用） </p>
+     *
+     * <p> 与 {@link #privileges(IFleaPrivilegeSV)} 同源（仅返回在用权限），
+     * 额外携带权限组名称，便于表格直接展示归属。 </p>
+     *
+     * @param fleaPrivilegeSV      权限服务
+     * @param fleaPrivilegeGroupSV 权限组服务（用于把 group_id 翻译成权限组名称）
+     * @return 权限明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> privilegeRows(IFleaPrivilegeSV fleaPrivilegeSV,
+                                                          IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaPrivilege> privilegeList = fleaPrivilegeSV.queryPrivilegesInUse(null, null);
+        if (CollectionUtils.isEmpty(privilegeList)) {
+            return rowList;
+        }
+
+        // 权限组编号 -> 权限组名称
+        Map<Long, String> privilegeGroupNameMap = privilegeGroupNameMap(fleaPrivilegeGroupSV);
+
+        for (FleaPrivilege fleaPrivilege : privilegeList) {
+            if (ObjectUtils.isEmpty(fleaPrivilege)) {
+                continue;
+            }
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("privilegeId", fleaPrivilege.getPrivilegeId());
+            rowMap.put("privilegeName", fleaPrivilege.getPrivilegeName());
+            rowMap.put("privilegeDesc", fleaPrivilege.getPrivilegeDesc());
+            rowMap.put("groupId", fleaPrivilege.getGroupId());
+            rowMap.put("groupName", privilegeGroupNameMap.get(fleaPrivilege.getGroupId()));
+            rowMap.put("privilegeState", fleaPrivilege.getPrivilegeState());
+            rowMap.put("remarks", fleaPrivilege.getRemarks());
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 权限组明细行列表（权限组变更表格用） </p>
+     *
+     * <p> 在权限组基础信息之外，附带该组下的在用权限数量（memberCount）。
+     * 额外返回 isMain / functionType，供表格区分「四类权限组」语义分类。 </p>
+     *
+     * @param fleaPrivilegeGroupSV 权限组服务
+     * @param fleaPrivilegeSV      权限服务（用于统计各组权限数）
+     * @return 权限组明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> privilegeGroupRows(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV,
+                                                               IFleaPrivilegeSV fleaPrivilegeSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeGroupSV.queryPrivilegeGroupsInUse(null, null, null);
+        if (CollectionUtils.isEmpty(privilegeGroupList)) {
+            return rowList;
+        }
+
+        // 权限组编号 -> 成员权限数
+        Map<Long, Integer> memberCountMap = privilegeGroupMemberCount(privilegeList(fleaPrivilegeSV));
+
+        for (FleaPrivilegeGroup fleaPrivilegeGroup : privilegeGroupList) {
+            if (ObjectUtils.isEmpty(fleaPrivilegeGroup)) {
+                continue;
+            }
+
+            Integer memberCount = memberCountMap.get(fleaPrivilegeGroup.getPrivilegeGroupId());
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("privilegeGroupId", fleaPrivilegeGroup.getPrivilegeGroupId());
+            rowMap.put("privilegeGroupName", fleaPrivilegeGroup.getPrivilegeGroupName());
+            rowMap.put("privilegeGroupDesc", fleaPrivilegeGroup.getPrivilegeGroupDesc());
+            rowMap.put("privilegeGroupState", fleaPrivilegeGroup.getPrivilegeGroupState());
+            rowMap.put("isMain", fleaPrivilegeGroup.getIsMain());
+            rowMap.put("functionType", fleaPrivilegeGroup.getFunctionType());
+            rowMap.put("remarks", fleaPrivilegeGroup.getRemarks());
+            rowMap.put("memberCount", (memberCount == null) ? 0 : memberCount);
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 操作明细行列表（操作变更表格用） </p>
+     *
+     * @param fleaFunctionModuleSV 功能模块服务
+     * @return 操作明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> operationRows(IFleaFunctionModuleSV fleaFunctionModuleSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaOperation> operationList = fleaFunctionModuleSV.queryValidOperations(null);
+        if (CollectionUtils.isEmpty(operationList)) {
+            return rowList;
+        }
+
+        for (FleaOperation fleaOperation : operationList) {
+            if (ObjectUtils.isEmpty(fleaOperation)) {
+                continue;
+            }
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("operationId", fleaOperation.getOperationId());
+            rowMap.put("operationCode", fleaOperation.getOperationCode());
+            rowMap.put("operationName", fleaOperation.getOperationName());
+            rowMap.put("operationDesc", fleaOperation.getOperationDesc());
+            rowMap.put("operationState", fleaOperation.getOperationState());
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 元素明细行列表（元素变更表格用） </p>
+     *
+     * @param fleaFunctionModuleSV 功能模块服务
+     * @return 元素明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> elementRows(IFleaFunctionModuleSV fleaFunctionModuleSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaElement> elementList = fleaFunctionModuleSV.queryValidElements(null);
+        if (CollectionUtils.isEmpty(elementList)) {
+            return rowList;
+        }
+
+        for (FleaElement fleaElement : elementList) {
+            if (ObjectUtils.isEmpty(fleaElement)) {
+                continue;
+            }
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("elementId", fleaElement.getElementId());
+            rowMap.put("elementCode", fleaElement.getElementCode());
+            rowMap.put("elementName", fleaElement.getElementName());
+            rowMap.put("elementType", fleaElement.getElementType());
+            rowMap.put("elementDesc", fleaElement.getElementDesc());
+            rowMap.put("elementState", fleaElement.getElementState());
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 资源明细行列表（资源变更表格用） </p>
+     *
+     * @param fleaFunctionModuleSV 功能模块服务
+     * @return 资源明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> resourceRows(IFleaFunctionModuleSV fleaFunctionModuleSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaResource> resourceList = fleaFunctionModuleSV.queryValidResources(null);
+        if (CollectionUtils.isEmpty(resourceList)) {
+            return rowList;
+        }
+
+        for (FleaResource fleaResource : resourceList) {
+            if (ObjectUtils.isEmpty(fleaResource)) {
+                continue;
+            }
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("resourceId", fleaResource.getResourceId());
+            rowMap.put("resourceCode", fleaResource.getResourceCode());
+            rowMap.put("resourceName", fleaResource.getResourceName());
+            rowMap.put("resourceDesc", fleaResource.getResourceDesc());
+            rowMap.put("resourceState", fleaResource.getResourceState());
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 角色组编号 -> 名称 映射 </p>
+     *
+     * @param fleaRoleGroupSV 角色组服务
+     * @return 映射 Map
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    private static Map<Long, String> roleGroupNameMap(IFleaRoleGroupSV fleaRoleGroupSV) throws CommonException {
+
+        Map<Long, String> nameMap = new HashMap<>();
+
+        List<FleaRoleGroup> roleGroupList = fleaRoleGroupSV.queryRoleGroupsInUse(null);
+        if (CollectionUtils.isNotEmpty(roleGroupList)) {
+            for (FleaRoleGroup fleaRoleGroup : roleGroupList) {
+                if (ObjectUtils.isNotEmpty(fleaRoleGroup)) {
+                    nameMap.put(fleaRoleGroup.getRoleGroupId(), fleaRoleGroup.getRoleGroupName());
+                }
+            }
+        }
+
+        return nameMap;
+    }
+
+    /**
+     * <p> 权限组编号 -> 名称 映射 </p>
+     *
+     * @param fleaPrivilegeGroupSV 权限组服务
+     * @return 映射 Map
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    private static Map<Long, String> privilegeGroupNameMap(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) throws CommonException {
+
+        Map<Long, String> nameMap = new HashMap<>();
+
+        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeGroupSV.queryPrivilegeGroupsInUse(null, null, null);
+        if (CollectionUtils.isNotEmpty(privilegeGroupList)) {
+            for (FleaPrivilegeGroup fleaPrivilegeGroup : privilegeGroupList) {
+                if (ObjectUtils.isNotEmpty(fleaPrivilegeGroup)) {
+                    nameMap.put(fleaPrivilegeGroup.getPrivilegeGroupId(), fleaPrivilegeGroup.getPrivilegeGroupName());
+                }
+            }
+        }
+
+        return nameMap;
+    }
+
+    /**
+     * <p> 统计角色组下的在用角色数量 </p>
+     *
+     * @param roleList 角色列表（在用）
+     * @return 角色组编号 -> 角色数
+     * @since 1.0.0
+     */
+    private static Map<Long, Integer> roleGroupMemberCount(List<FleaRole> roleList) {
+
+        Map<Long, Integer> countMap = new HashMap<>();
+        if (CollectionUtils.isEmpty(roleList)) {
+            return countMap;
+        }
+
+        for (FleaRole fleaRole : roleList) {
+            if (ObjectUtils.isEmpty(fleaRole) || fleaRole.getGroupId() == null) {
+                continue;
+            }
+
+            Integer count = countMap.get(fleaRole.getGroupId());
+            countMap.put(fleaRole.getGroupId(), (count == null) ? 1 : count + 1);
+        }
+
+        return countMap;
+    }
+
+    /**
+     * <p> 统计权限组下的在用权限数量 </p>
+     *
+     * @param privilegeList 权限列表（在用）
+     * @return 权限组编号 -> 权限数
+     * @since 1.0.0
+     */
+    private static Map<Long, Integer> privilegeGroupMemberCount(List<FleaPrivilege> privilegeList) {
+
+        Map<Long, Integer> countMap = new HashMap<>();
+        if (CollectionUtils.isEmpty(privilegeList)) {
+            return countMap;
+        }
+
+        for (FleaPrivilege fleaPrivilege : privilegeList) {
+            if (ObjectUtils.isEmpty(fleaPrivilege) || fleaPrivilege.getGroupId() == null) {
+                continue;
+            }
+
+            Integer count = countMap.get(fleaPrivilege.getGroupId());
+            countMap.put(fleaPrivilege.getGroupId(), (count == null) ? 1 : count + 1);
+        }
+
+        return countMap;
+    }
+
+    private static List<FleaRole> roleList(IFleaRoleSV fleaRoleSV) throws CommonException {
+        return fleaRoleSV.queryRolesInUse(null, null);
+    }
+
+    private static List<FleaPrivilege> privilegeList(IFleaPrivilegeSV fleaPrivilegeSV) throws CommonException {
+        return fleaPrivilegeSV.queryPrivilegesInUse(null, null);
+    }
+
 }

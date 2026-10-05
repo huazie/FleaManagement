@@ -34,6 +34,7 @@ import com.huazie.fleamgmt.module.auth.pojo.InputPrivilegeGroupInfo;
 import com.huazie.fleamgmt.module.auth.pojo.InputPrivilegeInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputAuthInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputFunctionInfo;
+import com.huazie.fleamgmt.module.auth.pojo.OutputGridInfo;
 import com.huazie.fleamgmt.module.auth.util.AuthBizUtils;
 import com.huazie.fleamgmt.module.auth.util.AuthCandidateUtil;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
@@ -133,6 +134,32 @@ public class PrivilegemgmtController extends BusinessController {
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
         output.setTreeList(privilegeTreeList);
+
+        return output;
+    }
+
+    /**
+     * <p> 权限明细列表（权限变更页表格用） </p>
+     *
+     * <p> 与 {@link #listPrivileges()} 的区别：列表接口只返回树节点（编号/展示名），
+     * 服务于授权主体表；本接口返回权限的完整明细字段及状态汇总统计，
+     * 服务于变更页表格（jqGrid）的列展示与筛选。 </p>
+     *
+     * @return 权限明细行集合与汇总统计
+     * @since 1.0.0
+     */
+    @GetMapping("authPrivilege!page.flea")
+    @ResponseBody
+    public OutputGridInfo pagePrivileges() throws CommonException {
+
+        OutputGridInfo output = new OutputGridInfo();
+
+        List<Map<String, Object>> rowList = AuthCandidateUtil.privilegeRows(fleaPrivilegeSV, fleaPrivilegeGroupSV);
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("SUCCESS");
+        output.setRows(rowList);
+        output.setSummary(AuthBizUtils.summarize(rowList, "privilegeState"));
 
         return output;
     }
@@ -351,6 +378,32 @@ public class PrivilegemgmtController extends BusinessController {
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
         output.setTreeList(privilegeGroupTreeList);
+
+        return output;
+    }
+
+    /**
+     * <p> 权限组明细列表（权限组变更页表格用） </p>
+     *
+     * <p> 与 {@link #listPrivilegeGroups()} 的区别：列表接口只返回树节点（编号/展示名），
+     * 服务于关联主体表；本接口返回权限组的完整明细字段、组内权限数及状态汇总统计，
+     * 服务于变更页表格（jqGrid）的列展示与筛选。 </p>
+     *
+     * @return 权限组明细行集合与汇总统计
+     * @since 1.0.0
+     */
+    @GetMapping("authPrivilegeGroup!page.flea")
+    @ResponseBody
+    public OutputGridInfo pagePrivilegeGroups() throws CommonException {
+
+        OutputGridInfo output = new OutputGridInfo();
+
+        List<Map<String, Object>> rowList = AuthCandidateUtil.privilegeGroupRows(fleaPrivilegeGroupSV, fleaPrivilegeSV);
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("SUCCESS");
+        output.setRows(rowList);
+        output.setSummary(AuthBizUtils.summarize(rowList, "privilegeGroupState"));
 
         return output;
     }

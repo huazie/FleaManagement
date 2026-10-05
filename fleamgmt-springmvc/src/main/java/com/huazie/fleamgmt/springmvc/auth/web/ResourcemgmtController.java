@@ -12,6 +12,9 @@ import com.huazie.fleaframework.common.util.POJOUtils;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.auth.pojo.InputResourceInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputFunctionInfo;
+import com.huazie.fleamgmt.module.auth.pojo.OutputGridInfo;
+import com.huazie.fleamgmt.module.auth.util.AuthBizUtils;
+import com.huazie.fleamgmt.module.auth.util.AuthCandidateUtil;
 import com.huazie.fleamgmt.module.auth.util.AuthFunctionTreeUtil;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
 import org.springframework.stereotype.Controller;
@@ -88,6 +91,32 @@ public class ResourcemgmtController extends BusinessController {
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
         output.setTreeList(resourceTreeList);
+
+        return output;
+    }
+
+    /**
+     * <p> 资源明细列表（资源变更页表格用） </p>
+     *
+     * <p> 与 {@link #list()} 的区别：列表接口只返回树节点（编号/编码/展示名），
+     * 服务于 Fuelux 树与穿梭框；本接口返回资源的完整明细字段及状态汇总统计，
+     * 服务于变更页表格（jqGrid）的列展示与筛选。 </p>
+     *
+     * @return 资源明细行集合与汇总统计
+     * @since 1.0.0
+     */
+    @GetMapping("authResource!page.flea")
+    @ResponseBody
+    public OutputGridInfo page() throws CommonException {
+
+        OutputGridInfo output = new OutputGridInfo();
+
+        List<Map<String, Object>> rowList = AuthCandidateUtil.resourceRows(fleaFunctionModuleSV);
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("SUCCESS");
+        output.setRows(rowList);
+        output.setSummary(AuthBizUtils.summarize(rowList, "resourceState"));
 
         return output;
     }

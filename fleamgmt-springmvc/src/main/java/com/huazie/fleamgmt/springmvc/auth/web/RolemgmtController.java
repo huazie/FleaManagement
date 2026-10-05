@@ -28,6 +28,7 @@ import com.huazie.fleamgmt.module.auth.pojo.InputRoleGroupInfo;
 import com.huazie.fleamgmt.module.auth.pojo.InputRoleInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputAuthInfo;
 import com.huazie.fleamgmt.module.auth.pojo.OutputFunctionInfo;
+import com.huazie.fleamgmt.module.auth.pojo.OutputGridInfo;
 import com.huazie.fleamgmt.module.auth.util.AuthBizUtils;
 import com.huazie.fleamgmt.module.auth.util.AuthCandidateUtil;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
@@ -129,6 +130,32 @@ public class RolemgmtController extends BusinessController {
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
         output.setTreeList(roleTreeList);
+
+        return output;
+    }
+
+    /**
+     * <p> 角色明细列表（角色变更页表格用） </p>
+     *
+     * <p> 与 {@link #listRoles()} 的区别：列表接口只返回树节点（编号/展示名），
+     * 服务于授权主体表；本接口返回角色的完整明细字段及状态汇总统计，
+     * 服务于变更页表格（jqGrid）的列展示与筛选。 </p>
+     *
+     * @return 角色明细行集合与汇总统计
+     * @since 1.0.0
+     */
+    @GetMapping("authRole!page.flea")
+    @ResponseBody
+    public OutputGridInfo pageRoles() throws CommonException {
+
+        OutputGridInfo output = new OutputGridInfo();
+
+        List<Map<String, Object>> rowList = AuthCandidateUtil.roleRows(fleaRoleSV, fleaRoleGroupSV);
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("SUCCESS");
+        output.setRows(rowList);
+        output.setSummary(AuthBizUtils.summarize(rowList, "roleState"));
 
         return output;
     }
@@ -349,6 +376,32 @@ public class RolemgmtController extends BusinessController {
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
         output.setTreeList(roleGroupTreeList);
+
+        return output;
+    }
+
+    /**
+     * <p> 角色组明细列表（角色组变更页表格用） </p>
+     *
+     * <p> 与 {@link #listRoleGroups()} 的区别：列表接口只返回树节点（编号/展示名），
+     * 服务于关联主体表；本接口返回角色组的完整明细字段、组内角色数及状态汇总统计，
+     * 服务于变更页表格（jqGrid）的列展示与筛选。 </p>
+     *
+     * @return 角色组明细行集合与汇总统计
+     * @since 1.0.0
+     */
+    @GetMapping("authRoleGroup!page.flea")
+    @ResponseBody
+    public OutputGridInfo pageRoleGroups() throws CommonException {
+
+        OutputGridInfo output = new OutputGridInfo();
+
+        List<Map<String, Object>> rowList = AuthCandidateUtil.roleGroupRows(fleaRoleGroupSV, fleaRoleSV);
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("SUCCESS");
+        output.setRows(rowList);
+        output.setSummary(AuthBizUtils.summarize(rowList, "roleGroupState"));
 
         return output;
     }
