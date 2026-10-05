@@ -149,3 +149,66 @@ tr.ui-search-toolbar select {margin: 1px 0 0 0}
 .ui-search-menu { position: absolute; padding: 2px 5px;}
 .ui-jqgrid .ui-search-table { padding: 0px 0px; border: 0px none; height:20px; width:100%;}
 .ui-jqgrid .ui-search-table .ui-search-oper { width:20px; }
+
+/* =====================================================================
+ * jqGrid 图标补丁
+ * 项目内 jQuery UI CSS（full/custom）不含 theme 部分：.ui-icon 无尺寸、
+ * 无图标雪碧图，翻页/排序/工具按钮因此无图标。
+ * 此处用 FontAwesome（各页面均已引入）绘制，免新增图片与页面改动。
+ * 类名清单来自 jquery.jqGrid.min.js 4.5.2 实际使用的 ui-icon-*。
+ * ===================================================================== */
+.ui-jqgrid-pager .ui-icon,
+.ui-jqgrid .s-ico .ui-icon,
+.ui-jqgrid .ui-jqgrid-titlebar .ui-icon {
+	width: 16px;
+	height: 16px;
+	text-indent: 0;
+	overflow: visible;
+	background-image: none;
+}
+.ui-jqgrid-pager .ui-icon:before,
+.ui-jqgrid .s-ico .ui-icon:before,
+.ui-jqgrid .ui-jqgrid-titlebar .ui-icon:before {
+	font-family: FontAwesome;
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: normal;
+	font-style: normal;
+	color: inherit;
+}
+/* 翻页：首 / 上一 / 下一 / 末（jqGrid 4.5.2 类名为 seek-end）/ 刷新 */
+.ui-jqgrid-pager .ui-icon-seek-first:before { content: "\f100"; }
+.ui-jqgrid-pager .ui-icon-seek-prev:before  { content: "\f104"; }
+.ui-jqgrid-pager .ui-icon-seek-next:before  { content: "\f105"; }
+.ui-jqgrid-pager .ui-icon-seek-end:before,
+.ui-jqgrid-pager .ui-icon-seek-last:before  { content: "\f101"; }
+.ui-jqgrid-pager .ui-icon-refresh:before    { content: "\f021"; }
+/* 表头排序方向：升 / 降 */
+.ui-jqgrid .s-ico .ui-icon-triangle-1-n:before { content: "\f0d8"; }
+.ui-jqgrid .s-ico .ui-icon-triangle-1-s:before { content: "\f0d7"; }
+/* 树列展开方向：右 / 下（含动态拼接 triangle-1-<dir>） */
+.ui-jqgrid .ui-icon-triangle-1-e:before { content: "\f105"; }
+.ui-jqgrid .ui-icon-triangle-1-w:before { content: "\f104"; }
+/* navGrid 工具按钮：搜索 / 新增 / 编辑 / 删除 / 保存 / 取消 / 刷新 / 视图 */
+.ui-jqgrid .ui-icon-search:before          { content: "\f002"; }
+.ui-jqgrid .ui-icon-plus:before            { content: "\f067"; }
+.ui-jqgrid .ui-icon-pencil:before          { content: "\f040"; }
+.ui-jqgrid .ui-icon-trash:before           { content: "\f1f8"; }
+.ui-jqgrid .ui-icon-disk:before            { content: "\f0c7"; }
+.ui-jqgrid .ui-icon-cancel:before          { content: "\f00d"; }
+.ui-jqgrid .ui-icon-close:before,
+.ui-jqgrid .ui-icon-closethick:before      { content: "\f00d"; }
+.ui-jqgrid .ui-icon-newwin:before          { content: "\f08e"; }
+.ui-jqgrid .ui-icon-document:before        { content: "\f016"; }
+.ui-jqgrid .ui-icon-scissors:before        { content: "\f0c4"; }
+/* 表格标题栏折叠 / subgrid 展开 / 列选择 */
+.ui-jqgrid .ui-icon-circle-triangle-n:before  { content: "\f0d8"; }
+.ui-jqgrid .ui-icon-circle-triangle-s:before  { content: "\f0d7"; }
+.ui-jqgrid .ui-icon-circlesmall-plus:before   { content: "\f055"; }
+.ui-jqgrid .ui-icon-circlesmall-minus:before  { content: "\f056"; }
+.ui-jqgrid .ui-icon-carat-1-sw:before         { content: "\f0d7"; }
+.ui-jqgrid .ui-icon-arrowreturnthick-1-w:before { content: "\f060"; }
+.ui-jqgrid .ui-icon-comment:before            { content: "\f075"; }
+.ui-jqgrid .ui-icon-radio-off:before          { content: "\f10c"; }
+.ui-jqgrid .ui-icon-asc:before                { content: "\f0d8"; }
+.ui-jqgrid .ui-icon-desc:before               { content: "\f0d7"; }
