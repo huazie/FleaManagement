@@ -1,0 +1,37 @@
+name: Maven Build
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout FleaManagement
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+
+      # flea-framework 2.0.0 尚未发布到 Maven Central,先从 dev 分支安装到本地仓库
+      - name: Install Flea Framework (dev branch)
+        run: |
+          git clone --depth 1 --branch dev https://github.com/huazie/flea-framework.git
+          mvn -B -f flea-framework/pom.xml install -DskipTests -Dmaven.javadoc.skip=true
+
+      - name: Build FleaManagement
+        run: mvn -B package -DskipTests
+
+      - name: Upload war artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fleamgmt-web
+          path: fleamgmt-web/target/*.war
+          retention-days: 7
