@@ -1,17 +1,24 @@
 /**
- * @Description auth-resource.js 资源管理模块脚本（资源新增 / 资源变更）
+ * @Description auth-resource.js 资源管理模块脚本
+ *              覆盖：资源新增（分步向导）、资源变更（表格 + 编辑面板）。
+ *              页面逻辑由 auth-common.js 的各形态引擎统一承载，此处只做接口注册与模块配置。
  *
  * @author huazie
- * @version v1.0.0
- * @date 2026年9月25日
+ * @version v1.1.0
+ * @date 2026年9月29日
  */
 define(function (require, exports, module) {
 
     // 授权管理公共模块
     var AuthCommon = require('../../auth-common');
 
+    /* ==================== 接口注册 ==================== */
+
     // 资源列表
     ReqUrlMap.put("authResourceList", "authResource!list.flea");
+
+    // 资源明细列表（表格）
+    ReqUrlMap.put("authResourcePage", "authResource!page.flea");
 
     // 资源新增
     ReqUrlMap.put("authResourceAdd", "authResource!add.flea");
@@ -22,212 +29,81 @@ define(function (require, exports, module) {
     // 资源明细查询（变更页回填用）
     ReqUrlMap.put("authResourceQuery", "authResource!query.flea");
 
+    /* ==================== 分步向导类页面 ==================== */
+
+    /**
+     * 向导类页面配置（分步录入 + 提交前摘要）
+     */
+    var WIZARD_CONF = {
+        "resourceAdd": {
+            wizardId: "resource_add_wizard",
+            stepContainerId: "resource_add_steps",
+            formId: "auth_wizard_form",
+            summaryId: "resource_add_summary",
+            submitUrl: "authResourceAdd",
+            required: [
+                ["resourceCode", "资源编码"],
+                ["resourceName", "资源名称"]
+            ],
+            summaryFields: [
+                ["resourceCode", "资源编码"],
+                ["resourceName", "资源名称"],
+                ["resourceDesc", "资源描述"],
+                ["remarks", "备注"]
+            ]
+        }
+    };
+
+    /* ==================== 表格类页面 ==================== */
+
+    /**
+     * 表格类页面配置（jqGrid 明细列表 + 编辑面板）
+     */
+    var GRID_CONF = {
+        "resourceModify": {
+            gridId: "resource_grid",
+            pagerId: "resource_grid_pager",
+            dataUrl: "authResourcePage",
+            height: 300,
+            rowKey: "resourceId",
+            queryUrl: "authResourceQuery",
+            queryKey: "resourceId",
+            formId: "resource_change",
+            tipId: "resource_change_tip",
+            submitUrl: "authResourceUpdate",
+            submitId: "submit",
+            resetId: "reset",
+            required: [
+                ["resourceCode", "资源编码"],
+                ["resourceName", "资源名称"]
+            ],
+            summaryIds: {total: "resource_total", enabled: "resource_enabled", disabled: "resource_disabled"},
+            // mobile:false 的列属次要信息，窄屏隐藏
+            columns: [
+                // 编号为主键，筛选无实际意义，不生成筛选控件
+                {name: "resourceId", label: "编号", width: 70, align: "center", search: false, mobile: false},
+                {name: "resourceCode", label: "资源编码", width: 140},
+                {name: "resourceName", label: "资源名称", width: 140},
+                {name: "resourceDesc", label: "资源描述", width: 220, mobile: false},
+                {
+                    name: "resourceState", label: "状态", width: 80, align: "center", formatter: "state",
+                    stype: "select", options: "1:正常;2:禁用;3:待审核"
+                },
+                {name: "op", label: "操作", width: 80, align: "center", formatter: "action", mobile: false}
+            ]
+        }
+    };
+
     /**
      * 页面初始化
      *
-     * @param moduleType 模块类型（add-资源新增 change-资源变更）
+     * @param moduleType 模块类型
      */
     exports.init = function (moduleType) {
-
-        // 加载资源列表
-        ResourceModule.loadResourceList(moduleType);
-
+        AuthCommon.initModule(moduleType, {
+            wizardConf: WIZARD_CONF,
+            gridConf: GRID_CONF
+        });
     };
-
-    /**
-     * 资源管理模块
-     */
-    var ResourceModule = {
-
-        /**
-         * 表单容器编号
-         *
-         * @param moduleType 模块类型
-         */
-        formId: function (moduleType) {
-            return moduleType === "add" ? "resource_add" : "resource_change";
-        },
-
-        /**
-         * 加载资源列表
-         *
-         * @param moduleType 模块类型
-         */
-        loadResourceList: function (moduleType) {
-
-            AuthCommon.loadTree({
-                treeId: "tree_" + moduleType,
-                url: ReqUrlMap.get("authResourceList"),
-                buildMenu: function (node) {
-
-                    // 资源无层级，新增页左侧列表仅作参照
-                    if (moduleType === "add") {
-                        return undefined;
-                    }
-
-                    // 资源变更：任意资源均可发起变更
-                    return [{
-                        "HAS_DIVIDER": false,
-                        "FUNCTION_ICON": "refresh",
-                        "FUNCTION_NAME": "资源变更",
-                        "FUNCTION_EVENT": "change",
-                        "MENU_ID": node.id,
-                        "MENU_CODE": node.code,
-                        "MENU_NAME": node.name,
-                        "MENU_LEVEL": node.level
-                    }];
-                },
-                onMenuEvent: function (eventName, node) {
-                    var func = ResourceModule.ResourceManagementFuncModule()[eventName];
-                    if (typeof func === "function") {
-                        func(node, moduleType);
-                    }
-                },
-                onLoaded: function () {
-                    // 绑定提交事件
-                    BindEvent.bindSubmitEvent(moduleType);
-                    // 绑定重置事件
-                    BindEvent.bindResetEvent(moduleType);
-                }
-            });
-
-        },
-
-        /**
-         * 资源管理功能模块
-         */
-        ResourceManagementFuncModule: function () {
-            return {
-                /**
-                 * 资源变更：加载指定资源信息并回填变更表单
-                 */
-                change: function (node, moduleType) {
-
-                    Huazie.ajax.getJson(ReqUrlMap.get("authResourceQuery"), {resourceId: node.id}, function (data, status) {
-                        var result = data;
-                        if (!status || result.retCode !== "Y") {
-                            Huazie.dialog.tips("warning", (result && result.retMess) || "亲，资源信息加载失败！", 2);
-                            return;
-                        }
-
-                        var resource = result.data || {};
-                        var formId = ResourceModule.formId(moduleType);
-
-                        AuthCommon.fillForm(formId, resource);
-                        // 表单启用
-                        AuthCommon.setFormDisabled(formId, false);
-
-                        Huazie.dialog.tips("info", "亲，资源【" + resource.resourceName + "】信息已加载，请修改后提交！", 2);
-                    });
-
-                },
-                /**
-                 * 重置
-                 */
-                reset: function (moduleType) {
-
-                    var formId = ResourceModule.formId(moduleType);
-                    AuthCommon.resetForm(formId);
-
-                    if (moduleType === "change") {
-                        // 清空后重新禁用，等待下一次选择
-                        AuthCommon.setFormDisabled(formId, true);
-                    }
-
-                },
-                /**
-                 * 资源新增受理提交
-                 */
-                addSubmit: function () {
-
-                    var resource = Huazie.form.serialize($("#resource_add"));
-
-                    // 校验资源编码
-                    if (!AuthCommon.checkRequired(resource.resourceCode, "资源编码")) {
-                        return;
-                    }
-
-                    // 校验资源名称
-                    if (!AuthCommon.checkRequired(resource.resourceName, "资源名称")) {
-                        return;
-                    }
-
-                    // 新增资源
-                    AuthCommon.submitForm({
-                        url: ReqUrlMap.get("authResourceAdd"),
-                        data: resource,
-                        onSuccess: function () {
-                            ResourceModule.ResourceManagementFuncModule().reset("add");
-                            setTimeout(function () {
-                                // 重新加载资源列表
-                                ResourceModule.loadResourceList("add");
-                            }, 1000);
-                        }
-                    });
-
-                },
-                /**
-                 * 资源变更受理提交
-                 */
-                changeSubmit: function () {
-
-                    var resource = Huazie.form.serialize($("#resource_change"));
-
-                    // 校验是否已选择待变更的资源
-                    if (!resource.resourceId) {
-                        Huazie.dialog.tips("warning", [{"MESSAGE": "亲，请先从左侧资源列表中选择要变更的资源哟！"}, {"MESSAGE": "提示：【右击或长按列表项】"}], 2);
-                        return;
-                    }
-
-                    // 校验资源编码
-                    if (!AuthCommon.checkRequired(resource.resourceCode, "资源编码")) {
-                        return;
-                    }
-
-                    // 校验资源名称
-                    if (!AuthCommon.checkRequired(resource.resourceName, "资源名称")) {
-                        return;
-                    }
-
-                    // 变更资源
-                    AuthCommon.submitForm({
-                        url: ReqUrlMap.get("authResourceUpdate"),
-                        data: resource,
-                        onSuccess: function () {
-                            ResourceModule.ResourceManagementFuncModule().reset("change");
-                            setTimeout(function () {
-                                ResourceModule.loadResourceList("change");
-                            }, 1000);
-                        }
-                    });
-
-                }
-            }
-        }
-    };
-
-    var BindEvent = {
-        /**
-         * 绑定提交事件
-         */
-        bindSubmitEvent: function (moduleType) {
-            $("#submit").off("click").on("click", function () {
-                if (moduleType === "add") { // 资源新增
-                    ResourceModule.ResourceManagementFuncModule().addSubmit();
-                } else { // 资源变更
-                    ResourceModule.ResourceManagementFuncModule().changeSubmit();
-                }
-            });
-        },
-        /**
-         * 绑定重置事件
-         */
-        bindResetEvent: function (moduleType) {
-            $("#reset").off("click").on("click", function () {
-                ResourceModule.ResourceManagementFuncModule().reset(moduleType);
-            });
-        }
-
-    }
 
 });

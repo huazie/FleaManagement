@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
 		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
 
+
 		<!-- ace styles -->
 		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
 		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
@@ -22,50 +23,150 @@
 		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css"/>
 		<![endif]-->
 
+		<!-- inline styles related to this page -->
 		<style>
-			/* 候选授权项列表 */
-			.candidate-list {
-				max-height: 300px;
-				overflow-y: auto;
-				border: 1px solid #e5e5e5;
-				border-radius: 3px;
-				padding: 4px 6px;
+
+		/* ==================== 窄屏适配（<768px，与 Bootstrap xs 同断点） ==================== */
+		/* 表格搜索框桌面端不显示，仅小屏承担筛选职责 */
+		.grid-mobile-search {
+			display: none;
+		}
+
+		@media only screen and (max-width: 767px) {
+
+			/* 兜底：组件内部（分页栏）已自带横滑，整页不应再出现横向滚动条 */
+			body {
+				overflow-x: hidden;
 			}
 
-			.candidate-item {
+			/* 顶层栅格行的负外边距在小屏会左右各顶出 3px（实测 .row 宽 381 > 视口 375），清零消除整页横滑 */
+			.page-content > .row {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			/* 页头：主标题收紧，面包屑与「收藏」文字收起，避免换行 */
+			.page-header h1 {
+				font-size: 16px;
+			}
+
+			.page-header h1 small {
+				display: none;
+			}
+
+			.page-header-fav span {
+				display: none;
+			}
+
+			/* 卡片头：右侧提示文字在小屏会把标题挤掉，隐藏 */
+			.widget-header .widget-toolbar > small {
+				display: none;
+			}
+
+			/* 统计卡：小屏三卡并排，去掉大图标，仅留数值与标签 */
+			.stat-card {
+				padding: 8px 4px;
+				text-align: center;
+			}
+
+			.stat-card .stat-icon {
+				display: none;
+			}
+
+			.stat-card .pull-right {
+				float: none !important;
+			}
+
+			.stat-card .stat-value {
+				font-size: 18px;
+			}
+
+			.stat-card .stat-label {
+				font-size: 11px;
+			}
+
+			/* 表格搜索框：小屏出现 */
+			.grid-mobile-search {
 				display: block;
-				font-weight: normal;
-				margin: 0;
-				padding: 4px 2px;
-				border-bottom: 1px dashed #eee;
-				cursor: pointer;
+				margin-bottom: 6px;
 			}
 
-			.candidate-item:last-child {
-				border-bottom: none;
+			/* jqGrid 筛选行：小屏控件仅 26px 宽，无法输入，整体隐藏 */
+			.ui-jqgrid .ui-search-toolbar {
+				display: none;
 			}
 
-			.candidate-item:hover {
-				background-color: #f5f8fa;
+			/* jqGrid 分页栏：内容天然宽于容器，改为就地横滑，避免撑破页面 */
+			.ui-jqgrid .ui-jqgrid-pager {
+				height: auto !important;
+				overflow-x: auto;
+				overflow-y: hidden;
+				-webkit-overflow-scrolling: touch;
 			}
 
-			.candidate-item .lbl {
-				margin-left: 4px;
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-table {
+				width: auto !important;
 			}
 
-			/* 已选清单 */
-			.selected-list {
-				min-height: 32px;
-				line-height: 26px;
-				padding: 4px;
-				border: 1px dashed #d5d5d5;
-				border-radius: 3px;
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-table td {
+				white-space: nowrap;
 			}
 
-			.selected-list .label {
-				margin-right: 4px;
-				display: inline-block;
+			/* 每页条数选择器小屏无意义，且是撑宽分页栏的主因之一 */
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-selbox {
+				display: none;
 			}
+
+			/* 分页栏左右两侧（刷新/每页条数、记录数）在小屏会把总宽撑到容器外，
+			   收起后只留中间的分页导航，消除组件内的横向滚动条 */
+			.ui-jqgrid .ui-jqgrid-pager td[id$="_pager_left"],
+			.ui-jqgrid .ui-jqgrid-pager td[id$="_pager_right"] {
+				display: none;
+			}
+
+			/* 表格本体：字号与内边距收紧，小屏一屏多看两行 */
+			.ui-jqgrid {
+				font-size: 12px;
+			}
+
+			.ui-jqgrid .ui-jqgrid-htable th,
+			.ui-jqgrid tr.jqgrow td {
+				/* 手指点选需要更大的行高，同时兼顾一屏可见行数 */
+				padding: 5px 2px;
+			}
+
+			/* 穿梭框：搜索框独占一行，列表矮一截，底部按钮整行 */
+			.shuttle-toolbar .shuttle-search {
+				display: block;
+				width: 100%;
+				margin-bottom: 6px;
+			}
+
+			.shuttle-toolbar .btn-group {
+				margin-left: 0;
+			}
+
+			.shuttle-list {
+				height: 190px;
+			}
+
+			/* 候选/清单条目加高，便于手指点选 */
+			.shuttle-item {
+				padding: 8px 4px;
+			}
+
+			.shuttle-actions .btn {
+				display: block;
+				width: 100%;
+				margin: 0 0 6px 0;
+			}
+
+			/* 表单底部按钮：小屏留出换行间距 */
+			.wizard-actions .btn {
+				margin-bottom: 6px;
+			}
+		}
+
 		</style>
 
 		<!-- ace settings handler -->
@@ -101,110 +202,123 @@
 				</div>
 				<!-- 收藏模块  end -->
 			</div><!-- /.page-header -->
-			
+
 			<div class="row">
 				<div class="col-xs-12">
+					<div class="widget-box">
+						<div class="widget-header widget-header-blue widget-header-flat">
+							<h4 class="lighter">
+								<i class="fa object-group fa-lg"></i>
+								角色组新增
+							</h4>
 
-
-					<div class="col-sm-3">
-
-						<div class="alert alert-block alert-success">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="fa fa-remove"></i>
-							</button>
-
-							<i class="fa fa-hand-o-right blue"></i>
-							亲，请在右侧表单中新增角色组哟！<br/><strong class="red"><i class="fa fa-info-circle"></i> 提示 :</strong>【如需变更已有角色组，请使用「角色组变更」菜单】
-						</div>
-
-						<div class="widget-box">
-							<div class="widget-header header-color-blue2">
-								<h5 class="lighter smaller">
-									<i class="fa fa-list-alt fa-lg"></i>
-									角色组列表
-								</h5>
-							</div>
-
-							<div class="widget-body">
-								<div class="widget-main padding-8">
-									<div id="tree_roleGroupAdd" class="tree"></div>
-								</div>
+							<div class="widget-toolbar">
+								<span class="label label-info arrowed-right arrowed-in">两步完成</span>
 							</div>
 						</div>
-					</div>
-					
-					<div class="col-sm-9">
-						<div class="widget-box">
-							<div class="widget-header">
-								<h5 class="lighter smaller">
-									<i class="fa fa-plus-circle fa-lg"></i>
-									角色组新增
-								</h5>
-							
-								<span class="widget-toolbar">
-									<a href="#" data-action="collapse">
-										<i class="fa fa-chevron-up"></i>
-									</a>
-								</span>
-							</div>
-							
-							<div class="widget-body">
-								<div id="role_group_add" class="widget-main" fieldset="json">
-								<div class="form-group">
-									<label for="roleGroupName">
-										<i class="fa fa-hand-o-right blue"></i>
-										<span class="blue">角色组名称</span> <span class="red">*</span>
-									</label>
 
-									<input class="form-control" type="text" id="roleGroupName" name="roleGroupName" placeholder="角色组显示名称" />
+						<div class="widget-body">
+							<div id="auth_wizard_form" class="widget-main" fieldset="json">
+								<div id="role_group_add_wizard" class="row-fluid" data-target="#role_group_add_steps">
+									<ul class="wizard-steps">
+										<li data-target="#role_group_add_steps_step1" class="active">
+											<span class="step">1</span>
+											<span class="title">角色组信息</span>
+										</li>
+
+										<li data-target="#role_group_add_steps_step2">
+											<span class="step">2</span>
+											<span class="title">备注与确认</span>
+										</li>
+									</ul>
 								</div>
 
-								<div class="space-2"></div>
+								<hr />
 
-								<div class="form-group">
-									<label for="roleGroupDesc">
-										<i class="fa fa-hand-o-right blue"></i>
-										<span class="blue">角色组描述</span>
-									</label>
+								<div class="step-content row-fluid position-relative" id="role_group_add_steps">
+									<div class="step-pane active" id="role_group_add_steps_step1">
+										<h4 class="lighter blue">第 1 步 · 角色组信息</h4>
 
-									<textarea class="autosize-transition form-control" id="roleGroupDesc" name="roleGroupDesc" placeholder="填写该角色组对应的业务含义"></textarea>
-								</div>
+										<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="roleGroupName">
+													<span class="blue">角色组名称</span> <span class="red">*</span>
+												</label>
 
-								<div class="space-2"></div>
+											<input class="form-control" type="text" id="roleGroupName" name="roleGroupName" placeholder="如：运营管理组" />
+											</div>
+										</div>
 
-								<div class="form-group">
-									<label for="remarks">
-										<i class="fa fa-hand-o-right blue"></i>
-										<span class="blue">备注</span>
-									</label>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="roleGroupDesc">
+													<span class="blue">角色组描述</span>
+												</label>
 
-									<textarea class="autosize-transition form-control" id="remarks" name="remarks" placeholder="填写角色组相关的描述信息，留存备注"></textarea>
-								</div>
+											<input class="form-control" type="text" id="roleGroupDesc" name="roleGroupDesc" placeholder="简要说明该角色组的职责范围" />
+											</div>
+										</div>
+										</div>
+									</div>
 
-								<div class="space-2"></div>
+									<div class="step-pane" id="role_group_add_steps_step2">
+										<h4 class="lighter blue">第 2 步 · 备注与确认</h4>
 
-									<div class="row-fluid wizard-actions">
-										<button id="submit" class="btn btn-info" type="button">
-											<i class="fa fa-check bigger-110"></i>
-											提交
-										</button>
-										<button id="reset" class="btn btn-inverse" type="button">
-											<i class="fa fa-undo bigger-110"></i>
-											重置
-										</button>
+										<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="remarks">
+													<span class="blue">备注</span>
+												</label>
+
+											<textarea class="autosize-transition form-control" id="remarks" name="remarks" placeholder="填写角色组相关的描述信息，留存备注"></textarea>
+											</div>
+										</div>
+										</div>
+
+										<div class="alert alert-warning">
+											<i class="fa fa-info-circle"></i>
+											undefined
+										</div>
+
+										<div class="hr hr-8 dotted"></div>
+
+										<h5 class="lighter">
+											<i class="fa fa-check-circle green"></i>
+											填写摘要（提交前请核对）
+										</h5>
+
+										<div id="role_group_add_summary">
+											<div class="text-muted">亲，请在第 1 步中填写角色组信息哟！</div>
+										</div>
 									</div>
 								</div>
+
+								<hr />
+
+								<div class="row-fluid wizard-actions">
+									<button class="btn btn-prev" type="button">
+										<i class="fa fa-arrow-left"></i>
+										上一步
+									</button>
+
+									<button class="btn btn-success btn-next" type="button" data-last="新增角色组 ">
+										下一步
+										<i class="fa fa-arrow-right icon-on-right"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-					<i class="fa fa-angle-double-up icon-only bigger-110"></i>
-				</a>
-			</div>	
+					<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+						<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+					</a>
+				</div>
+			</div>
 		</div>
-		
+
 		<!-- 基础脚本basic scripts -->
 		
 		<!--[if !IE]> -->
@@ -237,7 +351,7 @@
 		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
 		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
-		<script src="../resources/plugins/fuelux/fuelux.tree.js"></script>
+		<script src="../resources/plugins/fuelux/fuelux.wizard.min.js"></script>
 		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
 		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
 		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
@@ -258,8 +372,8 @@
 			$(function(){
 				
 				// ### start load authRole.js
-				seajs.use(SeaJsUrlMap.get("authRole"), function(authRole) {
-					authRole.init("roleGroupAdd");
+				seajs.use(SeaJsUrlMap.get("authRole"), function(module) {
+					module.init("roleGroupAdd");
 				}); // ### end load authRole.js
 				
 			});

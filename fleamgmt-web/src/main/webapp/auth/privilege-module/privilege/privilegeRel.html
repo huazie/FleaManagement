@@ -12,6 +12,7 @@
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
 		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+		<link rel="stylesheet" href="../resources/plugins/jqGrid/css/ui.jqgrid.css" />
 
 		<!-- ace styles -->
 		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
@@ -22,50 +23,231 @@
 		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css"/>
 		<![endif]-->
 
+		<!-- inline styles related to this page -->
 		<style>
-			/* 候选授权项列表 */
-			.candidate-list {
-				max-height: 300px;
-				overflow-y: auto;
-				border: 1px solid #e5e5e5;
-				border-radius: 3px;
-				padding: 4px 6px;
+		/* 穿梭框工具条 */
+		.shuttle-toolbar {
+			margin-bottom: 8px;
+		}
+
+		.shuttle-toolbar .shuttle-search {
+			display: inline-block;
+			width: 55%;
+			vertical-align: middle;
+		}
+
+		.shuttle-toolbar .btn-group {
+			vertical-align: middle;
+			margin-left: 6px;
+		}
+
+		.shuttle-panel-title {
+			font-weight: bold;
+			margin-bottom: 6px;
+			color: #478fca;
+		}
+
+		/* 候选数据列表 */
+		.shuttle-list {
+			height: 260px;
+			overflow-y: auto;
+			border: 1px solid #e5e5e5;
+			border-radius: 3px;
+			padding: 4px 8px;
+		}
+
+		.shuttle-item {
+			display: block;
+			font-weight: normal;
+			margin: 0;
+			padding: 4px 2px;
+			border-bottom: 1px dashed #eee;
+			cursor: pointer;
+		}
+
+		.shuttle-item:last-child {
+			border-bottom: none;
+		}
+
+		.shuttle-item:hover {
+			background-color: #f5f8fa;
+		}
+
+		.shuttle-item .lbl {
+			margin-left: 4px;
+		}
+
+		/* 授权清单 */
+		.selected-list {
+			min-height: 34px;
+			line-height: 26px;
+			padding: 4px;
+			border: 1px dashed #d5d5d5;
+			border-radius: 3px;
+		}
+
+		.selected-list .label {
+			margin-right: 4px;
+			display: inline-block;
+		}
+
+		.shuttle-remove {
+			cursor: pointer;
+		}
+
+		/* 标签页 */
+		#auth_tabs .nav-tabs {
+			margin-bottom: 0;
+		}
+
+		#auth_tabs .tab-content {
+			padding: 14px;
+			border: 1px solid #ddd;
+			border-top: none;
+			border-radius: 0 0 4px 4px;
+			background-color: #fff;
+		}
+		/* ==================== 窄屏适配（<768px，与 Bootstrap xs 同断点） ==================== */
+		/* 表格搜索框桌面端不显示，仅小屏承担筛选职责 */
+		.grid-mobile-search {
+			display: none;
+		}
+
+		@media only screen and (max-width: 767px) {
+
+			/* 兜底：组件内部（分页栏）已自带横滑，整页不应再出现横向滚动条 */
+			body {
+				overflow-x: hidden;
 			}
 
-			.candidate-item {
+			/* 顶层栅格行的负外边距在小屏会左右各顶出 3px（实测 .row 宽 381 > 视口 375），清零消除整页横滑 */
+			.page-content > .row {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			/* 页头：主标题收紧，面包屑与「收藏」文字收起，避免换行 */
+			.page-header h1 {
+				font-size: 16px;
+			}
+
+			.page-header h1 small {
+				display: none;
+			}
+
+			.page-header-fav span {
+				display: none;
+			}
+
+			/* 卡片头：右侧提示文字在小屏会把标题挤掉，隐藏 */
+			.widget-header .widget-toolbar > small {
+				display: none;
+			}
+
+			/* 统计卡：小屏三卡并排，去掉大图标，仅留数值与标签 */
+			.stat-card {
+				padding: 8px 4px;
+				text-align: center;
+			}
+
+			.stat-card .stat-icon {
+				display: none;
+			}
+
+			.stat-card .pull-right {
+				float: none !important;
+			}
+
+			.stat-card .stat-value {
+				font-size: 18px;
+			}
+
+			.stat-card .stat-label {
+				font-size: 11px;
+			}
+
+			/* 表格搜索框：小屏出现 */
+			.grid-mobile-search {
 				display: block;
-				font-weight: normal;
-				margin: 0;
-				padding: 4px 2px;
-				border-bottom: 1px dashed #eee;
-				cursor: pointer;
+				margin-bottom: 6px;
 			}
 
-			.candidate-item:last-child {
-				border-bottom: none;
+			/* jqGrid 筛选行：小屏控件仅 26px 宽，无法输入，整体隐藏 */
+			.ui-jqgrid .ui-search-toolbar {
+				display: none;
 			}
 
-			.candidate-item:hover {
-				background-color: #f5f8fa;
+			/* jqGrid 分页栏：内容天然宽于容器，改为就地横滑，避免撑破页面 */
+			.ui-jqgrid .ui-jqgrid-pager {
+				height: auto !important;
+				overflow-x: auto;
+				overflow-y: hidden;
+				-webkit-overflow-scrolling: touch;
 			}
 
-			.candidate-item .lbl {
-				margin-left: 4px;
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-table {
+				width: auto !important;
 			}
 
-			/* 已选清单 */
-			.selected-list {
-				min-height: 32px;
-				line-height: 26px;
-				padding: 4px;
-				border: 1px dashed #d5d5d5;
-				border-radius: 3px;
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-table td {
+				white-space: nowrap;
 			}
 
-			.selected-list .label {
-				margin-right: 4px;
-				display: inline-block;
+			/* 每页条数选择器小屏无意义，且是撑宽分页栏的主因之一 */
+			.ui-jqgrid .ui-jqgrid-pager .ui-pg-selbox {
+				display: none;
 			}
+
+			/* 分页栏左右两侧（刷新/每页条数、记录数）在小屏会把总宽撑到容器外，
+			   收起后只留中间的分页导航，消除组件内的横向滚动条 */
+			.ui-jqgrid .ui-jqgrid-pager td[id$="_pager_left"],
+			.ui-jqgrid .ui-jqgrid-pager td[id$="_pager_right"] {
+				display: none;
+			}
+
+			/* 表格本体：字号与内边距收紧，小屏一屏多看两行 */
+			.ui-jqgrid {
+				font-size: 12px;
+			}
+
+			.ui-jqgrid .ui-jqgrid-htable th,
+			.ui-jqgrid tr.jqgrow td {
+				/* 手指点选需要更大的行高，同时兼顾一屏可见行数 */
+				padding: 5px 2px;
+			}
+
+			/* 穿梭框：搜索框独占一行，列表矮一截，底部按钮整行 */
+			.shuttle-toolbar .shuttle-search {
+				display: block;
+				width: 100%;
+				margin-bottom: 6px;
+			}
+
+			.shuttle-toolbar .btn-group {
+				margin-left: 0;
+			}
+
+			.shuttle-list {
+				height: 190px;
+			}
+
+			/* 候选/清单条目加高，便于手指点选 */
+			.shuttle-item {
+				padding: 8px 4px;
+			}
+
+			.shuttle-actions .btn {
+				display: block;
+				width: 100%;
+				margin: 0 0 6px 0;
+			}
+
+			/* 表单底部按钮：小屏留出换行间距 */
+			.wizard-actions .btn {
+				margin-bottom: 6px;
+			}
+		}
+
 		</style>
 
 		<!-- ace settings handler -->
@@ -101,138 +283,62 @@
 				</div>
 				<!-- 收藏模块  end -->
 			</div><!-- /.page-header -->
-			
+
 			<div class="row">
 				<div class="col-xs-12">
-
-
-					<div class="col-sm-3">
-
-						<div class="alert alert-block alert-success">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="fa fa-remove"></i>
-							</button>
-
-							<i class="fa fa-hand-o-right blue"></i>
-							亲，请【右击】左侧权限列表中选择要关联的权限哟！
+					<div class="widget-box">
+						<div class="widget-header header-color-blue2">
+							<h5 class="lighter smaller">
+								<i class="fa fa-list-alt fa-lg"></i>
+								权限列表（点击行选择授权主体）
+							</h5>
 						</div>
 
-						<div class="widget-box">
-							<div class="widget-header header-color-blue2">
-								<h5 class="lighter smaller">
-									<i class="fa fa-list-alt fa-lg"></i>
-									权限列表
-								</h5>
+						<div class="widget-body">
+							<div class="widget-main padding-8">
+								<table id="auth_owner_grid"></table>
+								<div id="auth_owner_pager"></div>
 							</div>
+						</div>
+					</div>
 
-							<div class="widget-body">
-								<div class="widget-main padding-8">
-									<div id="tree_privilegeRel" class="tree"></div>
+					<div class="space-8"></div>
+
+					<div class="widget-box" id="auth_panel">
+						<div class="widget-header header-color-green">
+							<h5 class="lighter smaller">
+								<i class="fa fa-key fa-lg"></i>
+								权限授权
+							</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div class="alert alert-info">
+									<i class="fa fa-hand-o-right blue"></i>
+									当前授权主体：<strong id="auth_owner_label">未选择</strong>
+
+									<br />
+
+									<i class="fa fa-info-circle"></i>
+									已默认选中首个权限，可在上方表格中切换关联主体；下方按维度关联，每个维度单独保存。
+								</div>
+
+								<div class="tabbable" id="auth_tabs">
+									<ul class="nav nav-tabs"></ul>
+									<div class="tab-content"></div>
 								</div>
 							</div>
 						</div>
 					</div>
-					
-					<div class="col-sm-9">
-						<div class="widget-box">
-							<div class="widget-header">
-								<h5 class="lighter smaller">
-									<i class="fa fa-key fa-lg"></i>
-									权限关联
-								</h5>
-							
-								<span class="widget-toolbar">
-									<a href="#" data-action="collapse">
-										<i class="fa fa-chevron-up"></i>
-									</a>
-								</span>
-							</div>
-							
-							<div class="widget-body">
-								<div id="auth_panel" class="widget-main">
 
-									<div class="alert alert-info">
-										<i class="fa fa-hand-o-right blue"></i>
-										当前授权主体：<strong id="auth_owner">未选择</strong>
-										<br/>
-										<i class="fa fa-info-circle"></i>
-										提示：【右击或长按左侧列表项 → 授权】
-									</div>
-
-									<div class="form-group">
-										<label for="rel_type">
-											<i class="fa fa-hand-o-right blue"></i>
-											<span class="blue">关联类型</span>
-										</label>
-										<select class="form-control" id="rel_type"></select>
-									</div>
-
-									<div class="space-4"></div>
-
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="widget-box">
-												<div class="widget-header header-color-blue2">
-													<h5 class="lighter smaller">
-														<i class="fa fa-list-alt fa-lg"></i>
-														可授权数据
-													</h5>
-												</div>
-												<div class="widget-body">
-													<div class="widget-main padding-8">
-														<div id="candidate_list" class="candidate-list"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="widget-box">
-												<div class="widget-header header-color-green">
-													<h5 class="lighter smaller">
-														<i class="fa fa-check-square-o fa-lg"></i>
-														授权清单
-													</h5>
-												</div>
-												<div class="widget-body">
-													<div class="widget-main padding-8">
-														<div class="blue">已授权（不支持在此撤销）：</div>
-														<div id="selected_exist" class="selected-list"></div>
-
-														<div class="space-6"></div>
-
-														<div class="green">本次待新增：</div>
-														<div id="selected_new" class="selected-list"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="space-4"></div>
-
-									<div class="row-fluid wizard-actions">
-										<button id="submit" class="btn btn-info" type="button">
-											<i class="fa fa-check bigger-110"></i>
-											提交授权
-										</button>
-										<button id="reset" class="btn btn-inverse" type="button">
-											<i class="fa fa-undo bigger-110"></i>
-											重置
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+						<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+					</a>
 				</div>
-
-				<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-					<i class="fa fa-angle-double-up icon-only bigger-110"></i>
-				</a>
-			</div>	
+			</div>
 		</div>
-		
+
 		<!-- 基础脚本basic scripts -->
 		
 		<!--[if !IE]> -->
@@ -265,7 +371,8 @@
 		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
 		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
-		<script src="../resources/plugins/fuelux/fuelux.tree.js"></script>
+		<script src="../resources/plugins/jqGrid/js/jquery.jqGrid.min.js"></script>
+		<script src="../resources/plugins/jqGrid/i18n/grid.locale-zh.js"></script>
 		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
 		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
 		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
@@ -286,8 +393,8 @@
 			$(function(){
 				
 				// ### start load authPrivilege.js
-				seajs.use(SeaJsUrlMap.get("authPrivilege"), function(authPrivilege) {
-					authPrivilege.init("privilegeRel");
+				seajs.use(SeaJsUrlMap.get("authPrivilege"), function(module) {
+					module.init("privilegeRel");
 				}); // ### end load authPrivilege.js
 				
 			});

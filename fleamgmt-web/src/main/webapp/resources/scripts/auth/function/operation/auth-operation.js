@@ -1,17 +1,24 @@
 /**
- * @Description auth-operation.js 操作管理模块脚本（操作新增 / 操作变更）
+ * @Description auth-operation.js 操作管理模块脚本
+ *              覆盖：操作新增（分步向导）、操作变更（表格 + 编辑面板）。
+ *              页面逻辑由 auth-common.js 的各形态引擎统一承载，此处只做接口注册与模块配置。
  *
  * @author huazie
- * @version v1.0.0
- * @date 2026年9月25日
+ * @version v1.1.0
+ * @date 2026年9月29日
  */
 define(function (require, exports, module) {
 
     // 授权管理公共模块
     var AuthCommon = require('../../auth-common');
 
+    /* ==================== 接口注册 ==================== */
+
     // 操作列表
     ReqUrlMap.put("authOperationList", "authOperation!list.flea");
+
+    // 操作明细列表（表格）
+    ReqUrlMap.put("authOperationPage", "authOperation!page.flea");
 
     // 操作新增
     ReqUrlMap.put("authOperationAdd", "authOperation!add.flea");
@@ -22,212 +29,81 @@ define(function (require, exports, module) {
     // 操作明细查询（变更页回填用）
     ReqUrlMap.put("authOperationQuery", "authOperation!query.flea");
 
+    /* ==================== 分步向导类页面 ==================== */
+
+    /**
+     * 向导类页面配置（分步录入 + 提交前摘要）
+     */
+    var WIZARD_CONF = {
+        "operationAdd": {
+            wizardId: "operation_add_wizard",
+            stepContainerId: "operation_add_steps",
+            formId: "auth_wizard_form",
+            summaryId: "operation_add_summary",
+            submitUrl: "authOperationAdd",
+            required: [
+                ["operationCode", "操作编码"],
+                ["operationName", "操作名称"]
+            ],
+            summaryFields: [
+                ["operationCode", "操作编码"],
+                ["operationName", "操作名称"],
+                ["operationDesc", "操作描述"],
+                ["remarks", "备注"]
+            ]
+        }
+    };
+
+    /* ==================== 表格类页面 ==================== */
+
+    /**
+     * 表格类页面配置（jqGrid 明细列表 + 编辑面板）
+     */
+    var GRID_CONF = {
+        "operationModify": {
+            gridId: "operation_grid",
+            pagerId: "operation_grid_pager",
+            dataUrl: "authOperationPage",
+            height: 300,
+            rowKey: "operationId",
+            queryUrl: "authOperationQuery",
+            queryKey: "operationId",
+            formId: "operation_change",
+            tipId: "operation_change_tip",
+            submitUrl: "authOperationUpdate",
+            submitId: "submit",
+            resetId: "reset",
+            required: [
+                ["operationCode", "操作编码"],
+                ["operationName", "操作名称"]
+            ],
+            summaryIds: {total: "operation_total", enabled: "operation_enabled", disabled: "operation_disabled"},
+            // mobile:false 的列属次要信息，窄屏隐藏
+            columns: [
+                // 编号为主键，筛选无实际意义，不生成筛选控件
+                {name: "operationId", label: "编号", width: 70, align: "center", search: false, mobile: false},
+                {name: "operationCode", label: "操作编码", width: 140},
+                {name: "operationName", label: "操作名称", width: 140},
+                {name: "operationDesc", label: "操作描述", width: 220, mobile: false},
+                {
+                    name: "operationState", label: "状态", width: 80, align: "center", formatter: "state",
+                    stype: "select", options: "1:正常;2:禁用;3:待审核"
+                },
+                {name: "op", label: "操作", width: 80, align: "center", formatter: "action", mobile: false}
+            ]
+        }
+    };
+
     /**
      * 页面初始化
      *
-     * @param moduleType 模块类型（add-操作新增 change-操作变更）
+     * @param moduleType 模块类型
      */
     exports.init = function (moduleType) {
-
-        // 加载操作列表
-        OperationModule.loadOperationList(moduleType);
-
+        AuthCommon.initModule(moduleType, {
+            wizardConf: WIZARD_CONF,
+            gridConf: GRID_CONF
+        });
     };
-
-    /**
-     * 操作管理模块
-     */
-    var OperationModule = {
-
-        /**
-         * 表单容器编号
-         *
-         * @param moduleType 模块类型
-         */
-        formId: function (moduleType) {
-            return moduleType === "add" ? "operation_add" : "operation_change";
-        },
-
-        /**
-         * 加载操作列表
-         *
-         * @param moduleType 模块类型
-         */
-        loadOperationList: function (moduleType) {
-
-            AuthCommon.loadTree({
-                treeId: "tree_" + moduleType,
-                url: ReqUrlMap.get("authOperationList"),
-                buildMenu: function (node) {
-
-                    // 操作无层级，新增页左侧列表仅作参照
-                    if (moduleType === "add") {
-                        return undefined;
-                    }
-
-                    // 操作变更：任意操作均可发起变更
-                    return [{
-                        "HAS_DIVIDER": false,
-                        "FUNCTION_ICON": "refresh",
-                        "FUNCTION_NAME": "操作变更",
-                        "FUNCTION_EVENT": "change",
-                        "MENU_ID": node.id,
-                        "MENU_CODE": node.code,
-                        "MENU_NAME": node.name,
-                        "MENU_LEVEL": node.level
-                    }];
-                },
-                onMenuEvent: function (eventName, node) {
-                    var func = OperationModule.OperationManagementFuncModule()[eventName];
-                    if (typeof func === "function") {
-                        func(node, moduleType);
-                    }
-                },
-                onLoaded: function () {
-                    // 绑定提交事件
-                    BindEvent.bindSubmitEvent(moduleType);
-                    // 绑定重置事件
-                    BindEvent.bindResetEvent(moduleType);
-                }
-            });
-
-        },
-
-        /**
-         * 操作管理功能模块
-         */
-        OperationManagementFuncModule: function () {
-            return {
-                /**
-                 * 操作变更：加载指定操作信息并回填变更表单
-                 */
-                change: function (node, moduleType) {
-
-                    Huazie.ajax.getJson(ReqUrlMap.get("authOperationQuery"), {operationId: node.id}, function (data, status) {
-                        var result = data;
-                        if (!status || result.retCode !== "Y") {
-                            Huazie.dialog.tips("warning", (result && result.retMess) || "亲，操作信息加载失败！", 2);
-                            return;
-                        }
-
-                        var operation = result.data || {};
-                        var formId = OperationModule.formId(moduleType);
-
-                        AuthCommon.fillForm(formId, operation);
-                        // 表单启用
-                        AuthCommon.setFormDisabled(formId, false);
-
-                        Huazie.dialog.tips("info", "亲，操作【" + operation.operationName + "】信息已加载，请修改后提交！", 2);
-                    });
-
-                },
-                /**
-                 * 重置
-                 */
-                reset: function (moduleType) {
-
-                    var formId = OperationModule.formId(moduleType);
-                    AuthCommon.resetForm(formId);
-
-                    if (moduleType === "change") {
-                        // 清空后重新禁用，等待下一次选择
-                        AuthCommon.setFormDisabled(formId, true);
-                    }
-
-                },
-                /**
-                 * 操作新增受理提交
-                 */
-                addSubmit: function () {
-
-                    var operation = Huazie.form.serialize($("#operation_add"));
-
-                    // 校验操作编码
-                    if (!AuthCommon.checkRequired(operation.operationCode, "操作编码")) {
-                        return;
-                    }
-
-                    // 校验操作名称
-                    if (!AuthCommon.checkRequired(operation.operationName, "操作名称")) {
-                        return;
-                    }
-
-                    // 新增操作
-                    AuthCommon.submitForm({
-                        url: ReqUrlMap.get("authOperationAdd"),
-                        data: operation,
-                        onSuccess: function () {
-                            OperationModule.OperationManagementFuncModule().reset("add");
-                            setTimeout(function () {
-                                // 重新加载操作列表
-                                OperationModule.loadOperationList("add");
-                            }, 1000);
-                        }
-                    });
-
-                },
-                /**
-                 * 操作变更受理提交
-                 */
-                changeSubmit: function () {
-
-                    var operation = Huazie.form.serialize($("#operation_change"));
-
-                    // 校验是否已选择待变更的操作
-                    if (!operation.operationId) {
-                        Huazie.dialog.tips("warning", [{"MESSAGE": "亲，请先从左侧操作列表中选择要变更的操作哟！"}, {"MESSAGE": "提示：【右击或长按列表项】"}], 2);
-                        return;
-                    }
-
-                    // 校验操作编码
-                    if (!AuthCommon.checkRequired(operation.operationCode, "操作编码")) {
-                        return;
-                    }
-
-                    // 校验操作名称
-                    if (!AuthCommon.checkRequired(operation.operationName, "操作名称")) {
-                        return;
-                    }
-
-                    // 变更操作
-                    AuthCommon.submitForm({
-                        url: ReqUrlMap.get("authOperationUpdate"),
-                        data: operation,
-                        onSuccess: function () {
-                            OperationModule.OperationManagementFuncModule().reset("change");
-                            setTimeout(function () {
-                                OperationModule.loadOperationList("change");
-                            }, 1000);
-                        }
-                    });
-
-                }
-            }
-        }
-    };
-
-    var BindEvent = {
-        /**
-         * 绑定提交事件
-         */
-        bindSubmitEvent: function (moduleType) {
-            $("#submit").off("click").on("click", function () {
-                if (moduleType === "add") { // 操作新增
-                    OperationModule.OperationManagementFuncModule().addSubmit();
-                } else { // 操作变更
-                    OperationModule.OperationManagementFuncModule().changeSubmit();
-                }
-            });
-        },
-        /**
-         * 绑定重置事件
-         */
-        bindResetEvent: function (moduleType) {
-            $("#reset").off("click").on("click", function () {
-                OperationModule.OperationManagementFuncModule().reset(moduleType);
-            });
-        }
-
-    }
 
 });
