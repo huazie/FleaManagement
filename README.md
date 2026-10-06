@@ -1,6 +1,6 @@
 # <img src="src/docs/fleamgmt.png" width="80" height="80"> FleaManagement
 
-[![license](https://img.shields.io/badge/license-MIT-orange)](https://github.com/huazie/FleaManagement/blob/main/LICENSE) [![GitHub Repo stars](https://img.shields.io/github/stars/huazie/FleaManagement?style=flat)](https://github.com/huazie/FleaManagement/stargazers)
+[![Maven Build](https://github.com/huazie/FleaManagement/actions/workflows/build.yml/badge.svg)](https://github.com/huazie/FleaManagement/actions/workflows/build.yml) [![license](https://img.shields.io/badge/license-MIT-orange)](https://github.com/huazie/FleaManagement/blob/main/LICENSE) [![GitHub Repo stars](https://img.shields.io/github/stars/huazie/FleaManagement?style=flat)](https://github.com/huazie/FleaManagement/stargazers)
 
 跳蚤管家（FleaManagement），一款基于 [Flea Framework](https://github.com/huazie/flea-framework) 与 Ace 框架的后台管理系统，提供用户、角色、权限、功能等完整的授权管理能力。
 

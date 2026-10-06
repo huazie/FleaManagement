@@ -1,6 +1,6 @@
 # <img src="src/docs/fleamgmt.png" width="80" height="80"> FleaManagement
 
-[![license](https://img.shields.io/badge/license-MIT-orange)](https://github.com/huazie/FleaManagement/blob/main/LICENSE) [![GitHub Repo stars](https://img.shields.io/github/stars/huazie/FleaManagement?style=flat)](https://github.com/huazie/FleaManagement/stargazers)
+[![Maven Build](https://github.com/huazie/FleaManagement/actions/workflows/build.yml/badge.svg)](https://github.com/huazie/FleaManagement/actions/workflows/build.yml) [![license](https://img.shields.io/badge/license-MIT-orange)](https://github.com/huazie/FleaManagement/blob/main/LICENSE) [![GitHub Repo stars](https://img.shields.io/github/stars/huazie/FleaManagement?style=flat)](https://github.com/huazie/FleaManagement/stargazers)
 
 FleaManagement ("Flea Housekeeper") is an admin management system built on [Flea Framework](https://github.com/huazie/flea-framework) and the Ace framework, providing complete authorization management for users, roles, privileges and functions.
 
