@@ -44,14 +44,30 @@ FleaManagement ("Flea Housekeeper") is an admin management system built on [Flea
 
 ### 1. Initialize the Database
 
-Run the table creation scripts from the flea-framework project (⚠️ the scripts contain `DROP TABLE` statements and will wipe existing data):
+The `sql/` directory provides ready-to-run initialization scripts (⚠️ they contain `DROP TABLE` statements and will wipe existing data on re-run):
 
-```sql
--- fleaauth database (authorization module, 31 tables)
-source flea-auth/fleaauth.sql
--- fleaconfig database (framework configuration, 7 tables)
-source flea-core/fleaconfig.sql
+| File | Content |
+|------|---------|
+| `fleamgmt_init.sql` | **All-in-one entry (recommended)**: creates databases + both schemas + seed data in one command |
+| `01_create_databases.sql` | Creates `fleaauth` (authorization) + `fleamgmtconfig` (framework configuration) |
+| `02_fleaauth_init.sql` | Authorization schema, 31 tables (from flea-framework) + seed data |
+| `03_fleamgmtconfig_init.sql` | Framework configuration schema, 7 tables (from flea-framework) + Jersey client registrations (10 FFS operations) |
+
+```bash
+# Full initialization (recommended)
+mysql -uroot -p --default-character-set=utf8 < sql/fleamgmt_init.sql
+
+# Or step by step
+mysql -uroot -p --default-character-set=utf8 < sql/01_create_databases.sql
+mysql -uroot -p --default-character-set=utf8 < sql/02_fleaauth_init.sql
+mysql -uroot -p --default-character-set=utf8 < sql/03_fleamgmtconfig_init.sql
 ```
+
+After initialization, you can log in with:
+
+| Account | Password | Notes |
+|---------|----------|-------|
+| `admin` | `admin123` | Default administrator (super admin role) — **change it after first login** |
 
 ### 2. Build
 
