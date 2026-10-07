@@ -44,14 +44,30 @@
 
 ### 1. 初始化数据库
 
-在 flea-framework 项目中执行建表脚本（⚠️ 脚本含 `DROP TABLE`，会清空已有数据）：
+项目 `sql/` 目录提供原生可执行的初始化脚本（⚠️ 含 `DROP TABLE`，重复执行会清空数据）：
 
-```sql
--- fleaauth 库（授权模块，31 表）
-source flea-auth/fleaauth.sql
--- fleaconfig 库（框架配置，7 表）
-source flea-core/fleaconfig.sql
+| 文件 | 内容 |
+|------|------|
+| `fleamgmt_init.sql` | **全量入口（推荐）**，一条命令完成建库 + 两库表结构 + 初始数据 |
+| `01_create_databases.sql` | 建库：`fleaauth`（授权）+ `fleamgmtconfig`（框架配置） |
+| `02_fleaauth_init.sql` | 授权库 31 表结构（取自 flea-framework）+ 种子数据 |
+| `03_fleamgmtconfig_init.sql` | 框架配置库 7 表结构（取自 flea-framework）+ Jersey 客户端注册数据（10 条 FFS 操作） |
+
+```bash
+# 全量初始化（推荐）
+mysql -uroot -p --default-character-set=utf8 < sql/fleamgmt_init.sql
+
+# 或分步执行
+mysql -uroot -p --default-character-set=utf8 < sql/01_create_databases.sql
+mysql -uroot -p --default-character-set=utf8 < sql/02_fleaauth_init.sql
+mysql -uroot -p --default-character-set=utf8 < sql/03_fleamgmtconfig_init.sql
 ```
+
+初始化完成后即可登录：
+
+| 账号 | 密码 | 说明 |
+|------|------|------|
+| `admin` | `admin123` | 默认管理员（超级管理员角色），**请首次登录后修改** |
 
 ### 2. 构建
 
