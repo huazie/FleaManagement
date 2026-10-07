@@ -1770,8 +1770,9 @@ define(function (require, exports, module) {
                 data: {
                     ownerId: AuthPage.ownerId,
                     relType: relType,
-                    // jQuery 将数组序列化为 relIds[]=1&relIds[]=2，Spring MVC 据此绑定 List<Long>
-                    relIds: relIds
+                    // 逗号拼接,由 Spring 的 String->List<Long> 转换器解析
+                    // (jQuery 默认会把数组序列化为 relIds[]=1&relIds[]=2,Spring 绑定时空 [] 会抛 NumberFormatException)
+                    relIds: relIds.join(",")
                 },
                 onSuccess: function () {
                     // 已授权缓存失效，重新拉取该维度数据
