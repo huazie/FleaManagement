@@ -8,7 +8,7 @@
 define(function (require, exports, module) {
 
     exports.init = function () {
-        // ConsoleModule.loadMenufavorites();
+        ConsoleModule.loadMenufavorites();
     };
     /**
      * 控制台模块
@@ -20,8 +20,8 @@ define(function (require, exports, module) {
         loadMenufavorites: function () {
             require.async("../common/menu-favorites", function (menuFavorites) {
                 menuFavorites.findMenufavorites(function (data) {
-                    Huazie.tpl.loadTpl(TplUrlMap.get("commonDiv"), function () {
-                        Huazie.tpl.loadTemp($("#menuFavorites"), "#tpl_common_div_a", data);
+                    Huazie.tpl.loadTpl(TplUrlMap.get("menuFavorites"), function () {
+                        Huazie.tpl.loadTemp($("#menuFavorites"), "#tpl_menu_favorites", data);
                         BindEvent.bindMenufavoritesEvent();
                     });
                 });
