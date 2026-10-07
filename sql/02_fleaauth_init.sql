@@ -16,6 +16,8 @@
 --     · 时间统一:create_date/effective_date=NOW()(执行时刻)、
 --       done_date=NULL、expiry_date=@EXPIRY_DATE(文件头 SET,只改一处)
 --     · ID 生成器水位 = max(框架基线, 种子最大主键),存最后分配值
+--     · 登录日志按年月分表:主表 flea_login_log + 以执行时刻年月为起点
+--       连续 12 个月分表(存储过程动态生成,含对应 ID 生成器水位键)
 -- 排版:表结构与种子数据均按模块分组
 --     一、用户模块 / 二、角色模块 / 三、权限模块 / 四、功能模块 / 五、公共模块
 -- ⚠️ 含 DROP TABLE,重复执行会清空重建 fleaauth 全部数据
@@ -255,31 +257,6 @@ CREATE TABLE `flea_real_name_info` (
 -- ----------------------------
 DROP TABLE IF EXISTS `flea_login_log`;
 CREATE TABLE `flea_login_log` (
-  `login_log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '登录日志编号',
-  `account_id` int(11) NOT NULL COMMENT '账户编号',
-  `system_account_id` int(11) NOT NULL COMMENT '系统账户编号',
-  `login_ip4` varchar(15) NOT NULL COMMENT 'ip4地址',
-  `login_ip6` varchar(40) DEFAULT NULL COMMENT 'ip6地址',
-  `login_area` varchar(15) DEFAULT NULL COMMENT '登录地区',
-  `login_state` tinyint(4) NOT NULL COMMENT '登录状态（1：登录中，2：已退出）',
-  `login_time` datetime NOT NULL COMMENT '登录时间',
-  `logout_time` datetime DEFAULT NULL COMMENT '退出时间',
-  `create_date` datetime NOT NULL COMMENT '创建日期',
-  `done_date` datetime DEFAULT NULL COMMENT '修改日期',
-  `remarks` varchar(1024) DEFAULT NULL COMMENT '描述信息',
-  `ext1` varchar(1024) DEFAULT NULL COMMENT '扩展字段1',
-  `ext2` varchar(1024) DEFAULT NULL COMMENT '扩展字段2',
-  PRIMARY KEY (`login_log_id`),
-  KEY `INDEX_ACCOUNT_ID` (`account_id`) USING BTREE,
-  KEY `INDEX_SYS_ACCOUNT_ID` (`system_account_id`) USING BTREE,
-  KEY `INDEX_LOGIN_AREA` (`login_area`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for `flea_login_log_202205`
--- ----------------------------
-DROP TABLE IF EXISTS `flea_login_log_202205`;
-CREATE TABLE `flea_login_log_202205` (
   `login_log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '登录日志编号',
   `account_id` int(11) NOT NULL COMMENT '账户编号',
   `system_account_id` int(11) NOT NULL COMMENT '系统账户编号',
@@ -1229,9 +1206,6 @@ INSERT INTO `flea_id_generator` VALUES ('pk_flea_function_attr_element',0);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_function_attr_menu',74);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_function_attr_operation',7);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_function_attr_resource',0);
-INSERT INTO `flea_id_generator` VALUES ('pk_flea_login_log_202107',0);
-INSERT INTO `flea_id_generator` VALUES ('pk_flea_login_log_202108',0);
-INSERT INTO `flea_id_generator` VALUES ('pk_flea_login_log_202205',0);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_menu',1073);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_operation',1006);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_organization',0);
@@ -1251,3 +1225,34 @@ INSERT INTO `flea_id_generator` VALUES ('pk_flea_user_group',1002);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_user_group_rel',4);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_user_org_rel',0);
 INSERT INTO `flea_id_generator` VALUES ('pk_flea_user_rel',2);
+
+-- ============================================================
+-- 登录日志按年月分表(动态生成,共 12 个月)
+-- 以 SQL 执行时刻所在年月为起点,连续生成分表 flea_login_log_YYYYMM
+-- (结构与主表 flea_login_log 相同),并同步插入对应 ID 生成器水位键
+-- pk_flea_login_log_YYYYMM(=0;分表规则:flea-auth-table-split.xml,
+--   按 create_date 路由,后缀 yyyyMM;框架不自动建表,故预建 1 年)
+-- ============================================================
+DROP PROCEDURE IF EXISTS create_login_log_tables;
+DELIMITER $$
+CREATE PROCEDURE create_login_log_tables()
+BEGIN
+    DECLARE i INT DEFAULT 0;
+    DECLARE ym CHAR(6);
+    WHILE i < 12 DO
+        SET ym = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL i MONTH), '%Y%m');
+        SET @ddl = CONCAT('CREATE TABLE IF NOT EXISTS `flea_login_log_', ym, '` LIKE `flea_login_log`');
+        PREPARE stmt FROM @ddl;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+        SET @dml = CONCAT('INSERT INTO `flea_id_generator` VALUES (''pk_flea_login_log_', ym, ''', 0)');
+        PREPARE stmt FROM @dml;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+        SET i = i + 1;
+    END WHILE;
+END
+$$
+DELIMITER ;
+CALL create_login_log_tables();
+DROP PROCEDURE IF EXISTS create_login_log_tables;
