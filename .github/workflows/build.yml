@@ -3,8 +3,25 @@ name: Maven Build
 on:
   push:
     branches: [ main, dev ]
+    # 纯文档/SQL/静态资源变更不触发构建
+    paths-ignore:
+      - '**.md'
+      - '**.png'
+      - '**.svg'
+      - 'sql/**'
+      - 'src/docs/**'
+      - 'LICENSE'
+      - '.gitignore'
   pull_request:
     branches: [ main, dev ]
+    paths-ignore:
+      - '**.md'
+      - '**.png'
+      - '**.svg'
+      - 'sql/**'
+      - 'src/docs/**'
+      - 'LICENSE'
+      - '.gitignore'
 
 jobs:
   build:

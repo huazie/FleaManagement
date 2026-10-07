@@ -1,6 +1,16 @@
 name: Dependency Review
 
-on: [pull_request]
+on:
+  pull_request:
+    # 纯文档/SQL/静态资源变更不涉及依赖,跳过审查
+    paths-ignore:
+      - '**.md'
+      - '**.png'
+      - '**.svg'
+      - 'sql/**'
+      - 'src/docs/**'
+      - 'LICENSE'
+      - '.gitignore'
 
 permissions:
   contents: read
