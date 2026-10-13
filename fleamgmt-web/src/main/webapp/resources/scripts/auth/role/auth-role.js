@@ -36,6 +36,9 @@ define(function (require, exports, module) {
     // 角色授权提交
     ReqUrlMap.put("authRoleAuthorize", "authRole!authorize.flea");
 
+    // 角色取消授权
+    ReqUrlMap.put("authRoleCancel", "authRole!cancel.flea");
+
     // 角色组列表（授权主体表 / 下拉候选）
     ReqUrlMap.put("authRoleGroupList", "authRoleGroup!list.flea");
 
@@ -56,6 +59,9 @@ define(function (require, exports, module) {
 
     // 角色组关联提交
     ReqUrlMap.put("authRoleGroupAuthorize", "authRoleGroup!authorize.flea");
+
+    // 角色组取消关联
+    ReqUrlMap.put("authRoleGroupCancel", "authRoleGroup!cancel.flea");
 
     /* ==================== 分步向导类页面 ==================== */
 
@@ -177,6 +183,7 @@ define(function (require, exports, module) {
             tabsId: "auth_tabs",
             authUrl: "authRoleAuth",
             submitUrl: "authRoleAuthorize",
+            cancelUrl: "authRoleCancel",
             relTypes: [
                 ["ROLE_REL_PRIVILEGE", "权限"],
                 ["ROLE_REL_PRIVILEGE_GROUP", "权限组"],
@@ -195,6 +202,7 @@ define(function (require, exports, module) {
             tabsId: "auth_tabs",
             authUrl: "authRoleGroupAuth",
             submitUrl: "authRoleGroupAuthorize",
+            cancelUrl: "authRoleGroupCancel",
             relTypes: [
                 ["ROLE_GROUP_REL_ROLE", "角色"]
             ]

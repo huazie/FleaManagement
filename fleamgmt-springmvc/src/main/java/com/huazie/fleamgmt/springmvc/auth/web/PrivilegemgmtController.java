@@ -1,25 +1,17 @@
 package com.huazie.fleamgmt.springmvc.auth.web;
 
-import com.huazie.fleaframework.auth.base.function.entity.FleaElement;
-import com.huazie.fleaframework.auth.base.function.entity.FleaMenu;
-import com.huazie.fleaframework.auth.base.function.entity.FleaOperation;
-import com.huazie.fleaframework.auth.base.function.entity.FleaResource;
+import com.huazie.fleaframework.auth.base.audit.service.impl.FleaAuthAuditLogger;
+import com.huazie.fleaframework.auth.base.audit.util.FleaAuthAuditDiffUtils;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilege;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilegeGroup;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilegeGroupRel;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilegeRel;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeGroupRelSV;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeGroupSV;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeRelSV;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeSV;
 import com.huazie.fleaframework.auth.common.AuthRelTypeEnum;
 import com.huazie.fleaframework.auth.common.pojo.FleaAuthRelExtPOJO;
 import com.huazie.fleaframework.auth.common.pojo.privilege.FleaPrivilegeGroupPOJO;
 import com.huazie.fleaframework.auth.common.pojo.privilege.FleaPrivilegePOJO;
-import com.huazie.fleaframework.auth.common.pojo.privilege.FleaPrivilegeRelPOJO;
-import com.huazie.fleaframework.auth.common.service.interfaces.IFleaPrivilegeModuleSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaFunctionModuleSV;
-import com.huazie.fleaframework.auth.util.FleaAuthPOJOUtils;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaPrivilegeModuleSV;
 import com.huazie.fleaframework.common.CommonConstants;
 import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.pojo.OutputCommonData;
@@ -38,6 +30,7 @@ import com.huazie.fleamgmt.module.auth.pojo.OutputGridInfo;
 import com.huazie.fleamgmt.module.auth.util.AuthBizUtils;
 import com.huazie.fleamgmt.module.auth.util.AuthCandidateUtil;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
+import com.huazie.fleamgmt.springmvc.common.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +40,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,10 +53,9 @@ import java.util.Map;
  *     <li>权限组管理：权限组新增、权限组变更、权限组关联（关联权限）。</li>
  * </ul>
  *
- * <p> 说明：框架的权限模块服务未提供「权限关联功能」的方法，故权限关联走 base 层
- * {@code IFleaPrivilegeRelSV.savePrivilegeRel}，关联 POJO 由
- * {@code FleaAuthPOJOUtils.newFleaPrivilegeRelXxxPOJO} 工厂方法构建；
- * 权限组关联权限则使用框架的 {@code privilegeGroupRelPrivilege}。 </p>
+ * <p> 说明：全部数据操作统一通过框架的 {@code IFleaPrivilegeModuleSV} 完成，
+ * 包括权限关联（{@code privilegeRelMenu / privilegeRelOperation / privilegeRelElement /
+ * privilegeRelResource}）与权限组关联权限（{@code privilegeGroupRelPrivilege}）。 </p>
  *
  * @author huazie
  * @version 1.0.0
@@ -73,15 +66,30 @@ public class PrivilegemgmtController extends BusinessController {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(PrivilegemgmtController.class);
 
+    /**
+     * <p> 权限变更审计字段标签（key：属性名，value：展示名） </p>
+     */
+    private static final Map<String, String> PRIVILEGE_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    /**
+     * <p> 权限组变更审计字段标签 </p>
+     */
+    private static final Map<String, String> PRIVILEGE_GROUP_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    static {
+        PRIVILEGE_AUDIT_LABELS.put("privilegeName", "权限名称");
+        PRIVILEGE_AUDIT_LABELS.put("privilegeDesc", "权限描述");
+        PRIVILEGE_AUDIT_LABELS.put("groupId", "所属权限组编号");
+        PRIVILEGE_AUDIT_LABELS.put("remarks", "备注");
+
+        PRIVILEGE_GROUP_AUDIT_LABELS.put("privilegeGroupName", "权限组名称");
+        PRIVILEGE_GROUP_AUDIT_LABELS.put("privilegeGroupDesc", "权限组描述");
+        PRIVILEGE_GROUP_AUDIT_LABELS.put("isMain", "是否主权限组");
+        PRIVILEGE_GROUP_AUDIT_LABELS.put("functionType", "功能类型");
+        PRIVILEGE_GROUP_AUDIT_LABELS.put("remarks", "备注");
+    }
+
     private IFleaPrivilegeModuleSV fleaPrivilegeModuleSV;
-
-    private IFleaPrivilegeSV fleaPrivilegeSV;
-
-    private IFleaPrivilegeGroupSV fleaPrivilegeGroupSV;
-
-    private IFleaPrivilegeRelSV fleaPrivilegeRelSV;
-
-    private IFleaPrivilegeGroupRelSV fleaPrivilegeGroupRelSV;
 
     private IFleaFunctionModuleSV fleaFunctionModuleSV;
 
@@ -90,30 +98,13 @@ public class PrivilegemgmtController extends BusinessController {
         this.fleaPrivilegeModuleSV = fleaPrivilegeModuleSV;
     }
 
-    @Resource(name = "fleaPrivilegeSV")
-    public void setFleaPrivilegeSV(IFleaPrivilegeSV fleaPrivilegeSV) {
-        this.fleaPrivilegeSV = fleaPrivilegeSV;
-    }
-
-    @Resource(name = "fleaPrivilegeGroupSV")
-    public void setFleaPrivilegeGroupSV(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) {
-        this.fleaPrivilegeGroupSV = fleaPrivilegeGroupSV;
-    }
-
-    @Resource(name = "fleaPrivilegeRelSV")
-    public void setFleaPrivilegeRelSV(IFleaPrivilegeRelSV fleaPrivilegeRelSV) {
-        this.fleaPrivilegeRelSV = fleaPrivilegeRelSV;
-    }
-
-    @Resource(name = "fleaPrivilegeGroupRelSV")
-    public void setFleaPrivilegeGroupRelSV(IFleaPrivilegeGroupRelSV fleaPrivilegeGroupRelSV) {
-        this.fleaPrivilegeGroupRelSV = fleaPrivilegeGroupRelSV;
-    }
-
     @Resource(name = "fleaFunctionModuleSV")
     public void setFleaFunctionModuleSV(IFleaFunctionModuleSV fleaFunctionModuleSV) {
         this.fleaFunctionModuleSV = fleaFunctionModuleSV;
     }
+
+    @Resource(name = "fleaAuthAuditLogger")
+    private FleaAuthAuditLogger authAuditLogger;
 
     /* ==================== 权限管理 ==================== */
 
@@ -129,7 +120,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        List<Map<String, Object>> privilegeTreeList = AuthCandidateUtil.privileges(fleaPrivilegeSV);
+        List<Map<String, Object>> privilegeTreeList = AuthCandidateUtil.privileges(fleaPrivilegeModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -154,7 +145,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputGridInfo output = new OutputGridInfo();
 
-        List<Map<String, Object>> rowList = AuthCandidateUtil.privilegeRows(fleaPrivilegeSV, fleaPrivilegeGroupSV);
+        List<Map<String, Object>> rowList = AuthCandidateUtil.privilegeRows(fleaPrivilegeModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -177,7 +168,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        FleaPrivilege fleaPrivilege = fleaPrivilegeSV.queryPrivilegeInUse(privilegeId);
+        FleaPrivilege fleaPrivilege = fleaPrivilegeModuleSV.queryPrivilegeInUse(privilegeId);
         if (ObjectUtils.isEmpty(fleaPrivilege)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，权限【" + privilegeId + "】不存在或已失效，请刷新权限列表后重试！");
@@ -220,6 +211,9 @@ public class PrivilegemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，权限添加成功，权限编号：" + privilegeId);
+
+        authAuditLogger.recordCreate("privilege_" + privilegeId, output.getRetMess(), WebUtils.getRequest());
+
         return output;
     }
 
@@ -242,6 +236,9 @@ public class PrivilegemgmtController extends BusinessController {
             return output;
         }
 
+        // 变更前快照，用于审计备注记录具体修改内容
+        FleaPrivilege oldFleaPrivilege = fleaPrivilegeModuleSV.queryPrivilegeInUse(inputPrivilegeInfo.getPrivilegeId());
+
         FleaPrivilegePOJO fleaPrivilegePOJO = new FleaPrivilegePOJO();
         POJOUtils.copyAll(inputPrivilegeInfo, fleaPrivilegePOJO);
 
@@ -249,6 +246,10 @@ public class PrivilegemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，权限修改成功！");
+
+        String changeDesc = FleaAuthAuditDiffUtils.diff(oldFleaPrivilege, fleaPrivilegePOJO, PRIVILEGE_AUDIT_LABELS);
+        authAuditLogger.recordUpdate("privilege_" + inputPrivilegeInfo.getPrivilegeId(), output.getRetMess(), changeDesc, WebUtils.getRequest());
+
         return output;
     }
 
@@ -267,7 +268,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputAuthInfo output = new OutputAuthInfo();
 
-        FleaPrivilege fleaPrivilege = fleaPrivilegeSV.queryPrivilegeInUse(privilegeId);
+        FleaPrivilege fleaPrivilege = fleaPrivilegeModuleSV.queryPrivilegeInUse(privilegeId);
         if (ObjectUtils.isEmpty(fleaPrivilege)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，权限【" + privilegeId + "】不存在或已失效，请刷新权限列表后重试！");
@@ -282,7 +283,7 @@ public class PrivilegemgmtController extends BusinessController {
         }
 
         List<Long> selectedList = new ArrayList<>();
-        List<FleaPrivilegeRel> privilegeRelList = fleaPrivilegeRelSV.getPrivilegeRelList(privilegeId, relType);
+        List<FleaPrivilegeRel> privilegeRelList = fleaPrivilegeModuleSV.getPrivilegeRelList(privilegeId, relType);
         if (CollectionUtils.isNotEmpty(privilegeRelList)) {
             for (FleaPrivilegeRel fleaPrivilegeRel : privilegeRelList) {
                 if (ObjectUtils.isNotEmpty(fleaPrivilegeRel)) {
@@ -326,14 +327,6 @@ public class PrivilegemgmtController extends BusinessController {
             return output;
         }
 
-        // 关联类型 -> 功能编号 -> 功能名称，用于构建关联 POJO
-        Map<Long, String> relNameMap = buildPrivilegeRelNameMap(relType);
-        if (ObjectUtils.isEmpty(relNameMap)) {
-            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
-            output.setRetMess("亲，不支持的权限关联类型【" + relType + "】！");
-            return output;
-        }
-
         if (CollectionUtils.isEmpty(relIds)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，请先从左侧列表中选择要关联的功能哟！");
@@ -344,18 +337,87 @@ public class PrivilegemgmtController extends BusinessController {
             if (!AuthBizUtils.isValidId(relId)) {
                 continue;
             }
-            String relName = relNameMap.get(relId);
-            FleaPrivilegeRelPOJO fleaPrivilegeRelPOJO = newFleaPrivilegeRelPOJO(ownerId, relType, relId, relName);
-            if (ObjectUtils.isEmpty(fleaPrivilegeRelPOJO)) {
+            if (AuthRelTypeEnum.PRIVILEGE_REL_MENU.getRelType().equals(relType)) {
+                fleaPrivilegeModuleSV.privilegeRelMenu(ownerId, relId, null);
+            } else if (AuthRelTypeEnum.PRIVILEGE_REL_OPERATION.getRelType().equals(relType)) {
+                fleaPrivilegeModuleSV.privilegeRelOperation(ownerId, relId, null);
+            } else if (AuthRelTypeEnum.PRIVILEGE_REL_ELEMENT.getRelType().equals(relType)) {
+                fleaPrivilegeModuleSV.privilegeRelElement(ownerId, relId, null);
+            } else if (AuthRelTypeEnum.PRIVILEGE_REL_RESOURCE.getRelType().equals(relType)) {
+                fleaPrivilegeModuleSV.privilegeRelResource(ownerId, relId, null);
+            } else {
                 output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
                 output.setRetMess("亲，不支持的权限关联类型【" + relType + "】！");
                 return output;
             }
-            fleaPrivilegeRelSV.savePrivilegeRel(fleaPrivilegeRelPOJO);
         }
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，权限关联成功，本次新增关联 " + relIds.size() + " 项！");
+
+        authAuditLogger.recordGrant("privilege_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
+        return output;
+    }
+
+    /**
+     * <p> 权限取消关联（按关联类型逐条取消关联） </p>
+     *
+     * @param inputAuthRelInfo 授权业务入参
+     * @return 取消关联结果
+     * @since 1.0.0
+     */
+    @PostMapping("authPrivilege!cancel.flea")
+    @ResponseBody
+    public OutputCommonData cancelAuthorizePrivilege(InputAuthRelInfo inputAuthRelInfo) throws CommonException {
+
+        OutputCommonData output = new OutputCommonData();
+
+        Long ownerId = inputAuthRelInfo.getOwnerId();
+        String relType = inputAuthRelInfo.getRelType();
+        List<Long> relIds = inputAuthRelInfo.getRelIds();
+
+        if (!AuthBizUtils.isValidId(ownerId)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从左侧权限列表中选择要取消关联的权限哟！");
+            return output;
+        }
+
+        if (CollectionUtils.isEmpty(relIds)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从授权清单中选择要取消关联的数据哟！");
+            return output;
+        }
+
+        int count = 0;
+        for (Long relId : relIds) {
+            if (!AuthBizUtils.isValidId(relId)) {
+                continue;
+            }
+            if (AuthRelTypeEnum.PRIVILEGE_REL_MENU.getRelType().equals(relType)
+                    || AuthRelTypeEnum.PRIVILEGE_REL_OPERATION.getRelType().equals(relType)
+                    || AuthRelTypeEnum.PRIVILEGE_REL_ELEMENT.getRelType().equals(relType)
+                    || AuthRelTypeEnum.PRIVILEGE_REL_RESOURCE.getRelType().equals(relType)) {
+                fleaPrivilegeModuleSV.removePrivilegeRel(ownerId, relId, relType);
+                count++;
+            } else {
+                output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+                output.setRetMess("亲，不支持的权限关联类型【" + relType + "】！");
+                return output;
+            }
+        }
+
+        if (count == 0) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，不支持的权限关联类型【" + relType + "】！");
+            return output;
+        }
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("亲，权限取消关联成功，本次取消关联 " + count + " 项！");
+
+        authAuditLogger.recordRevoke("privilege_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
         return output;
     }
 
@@ -373,7 +435,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        List<Map<String, Object>> privilegeGroupTreeList = AuthCandidateUtil.privilegeGroups(fleaPrivilegeGroupSV);
+        List<Map<String, Object>> privilegeGroupTreeList = AuthCandidateUtil.privilegeGroups(fleaPrivilegeModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -398,7 +460,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputGridInfo output = new OutputGridInfo();
 
-        List<Map<String, Object>> rowList = AuthCandidateUtil.privilegeGroupRows(fleaPrivilegeGroupSV, fleaPrivilegeSV);
+        List<Map<String, Object>> rowList = AuthCandidateUtil.privilegeGroupRows(fleaPrivilegeModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -421,7 +483,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        FleaPrivilegeGroup fleaPrivilegeGroup = fleaPrivilegeGroupSV.queryPrivilegeGroupInUse(privilegeGroupId);
+        FleaPrivilegeGroup fleaPrivilegeGroup = fleaPrivilegeModuleSV.queryPrivilegeGroupInUse(privilegeGroupId);
         if (ObjectUtils.isEmpty(fleaPrivilegeGroup)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，权限组【" + privilegeGroupId + "】不存在或已失效，请刷新权限组列表后重试！");
@@ -466,6 +528,9 @@ public class PrivilegemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，权限组添加成功，权限组编号：" + privilegeGroupId);
+
+        authAuditLogger.recordCreate("privilegeGroup_" + privilegeGroupId, output.getRetMess(), WebUtils.getRequest());
+
         return output;
     }
 
@@ -488,6 +553,9 @@ public class PrivilegemgmtController extends BusinessController {
             return output;
         }
 
+        // 变更前快照，用于审计备注记录具体修改内容
+        FleaPrivilegeGroup oldFleaPrivilegeGroup = fleaPrivilegeModuleSV.queryPrivilegeGroupInUse(inputPrivilegeGroupInfo.getPrivilegeGroupId());
+
         FleaPrivilegeGroupPOJO fleaPrivilegeGroupPOJO = new FleaPrivilegeGroupPOJO();
         POJOUtils.copyAll(inputPrivilegeGroupInfo, fleaPrivilegeGroupPOJO);
 
@@ -495,6 +563,10 @@ public class PrivilegemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，权限组修改成功！");
+
+        String changeDesc = FleaAuthAuditDiffUtils.diff(oldFleaPrivilegeGroup, fleaPrivilegeGroupPOJO, PRIVILEGE_GROUP_AUDIT_LABELS);
+        authAuditLogger.recordUpdate("privilegeGroup_" + inputPrivilegeGroupInfo.getPrivilegeGroupId(), output.getRetMess(), changeDesc, WebUtils.getRequest());
+
         return output;
     }
 
@@ -513,7 +585,7 @@ public class PrivilegemgmtController extends BusinessController {
 
         OutputAuthInfo output = new OutputAuthInfo();
 
-        FleaPrivilegeGroup fleaPrivilegeGroup = fleaPrivilegeGroupSV.queryPrivilegeGroupInUse(privilegeGroupId);
+        FleaPrivilegeGroup fleaPrivilegeGroup = fleaPrivilegeModuleSV.queryPrivilegeGroupInUse(privilegeGroupId);
         if (ObjectUtils.isEmpty(fleaPrivilegeGroup)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，权限组【" + privilegeGroupId + "】不存在或已失效，请刷新权限组列表后重试！");
@@ -527,7 +599,7 @@ public class PrivilegemgmtController extends BusinessController {
         }
 
         List<Long> selectedList = new ArrayList<>();
-        List<FleaPrivilegeGroupRel> privilegeGroupRelList = fleaPrivilegeGroupRelSV.getPrivilegeGroupRelList(privilegeGroupId, relType);
+        List<FleaPrivilegeGroupRel> privilegeGroupRelList = fleaPrivilegeModuleSV.getPrivilegeGroupRelList(privilegeGroupId, relType);
         if (CollectionUtils.isNotEmpty(privilegeGroupRelList)) {
             for (FleaPrivilegeGroupRel fleaPrivilegeGroupRel : privilegeGroupRelList) {
                 if (ObjectUtils.isNotEmpty(fleaPrivilegeGroupRel)) {
@@ -539,7 +611,7 @@ public class PrivilegemgmtController extends BusinessController {
         output.setOwnerId(privilegeGroupId);
         output.setOwnerName(fleaPrivilegeGroup.getPrivilegeGroupName());
         output.setRelType(relType);
-        output.setCandidates(AuthCandidateUtil.privileges(fleaPrivilegeSV));
+        output.setCandidates(AuthCandidateUtil.privileges(fleaPrivilegeModuleSV));
         output.setSelected(selectedList);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
@@ -592,6 +664,60 @@ public class PrivilegemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，权限组关联成功，本次新增关联 " + relIds.size() + " 项！");
+
+        authAuditLogger.recordGrant("privilegeGroup_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
+        return output;
+    }
+
+    /**
+     * <p> 权限组取消关联（按关联类型逐条取消关联） </p>
+     *
+     * @param inputAuthRelInfo 授权业务入参
+     * @return 取消关联结果
+     * @since 1.0.0
+     */
+    @PostMapping("authPrivilegeGroup!cancel.flea")
+    @ResponseBody
+    public OutputCommonData cancelAuthorizePrivilegeGroup(InputAuthRelInfo inputAuthRelInfo) throws CommonException {
+
+        OutputCommonData output = new OutputCommonData();
+
+        Long ownerId = inputAuthRelInfo.getOwnerId();
+        String relType = inputAuthRelInfo.getRelType();
+        List<Long> relIds = inputAuthRelInfo.getRelIds();
+
+        if (!AuthBizUtils.isValidId(ownerId)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从左侧权限组列表中选择要取消关联的权限组哟！");
+            return output;
+        }
+
+        if (!AuthRelTypeEnum.PRIVILEGE_GROUP_REL_PRIVILEGE.getRelType().equals(relType)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，不支持的权限组关联类型【" + relType + "】！");
+            return output;
+        }
+
+        if (CollectionUtils.isEmpty(relIds)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从授权清单中选择要取消关联的数据哟！");
+            return output;
+        }
+
+        int count = 0;
+        for (Long relId : relIds) {
+            if (AuthBizUtils.isValidId(relId)) {
+                fleaPrivilegeModuleSV.removePrivilegeGroupRel(ownerId, relId, relType);
+                count++;
+            }
+        }
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("亲，权限组取消关联成功，本次取消关联 " + count + " 项！");
+
+        authAuditLogger.recordRevoke("privilegeGroup_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
         return output;
     }
 
@@ -615,91 +741,6 @@ public class PrivilegemgmtController extends BusinessController {
             return AuthCandidateUtil.elements(fleaFunctionModuleSV);
         } else if (AuthRelTypeEnum.PRIVILEGE_REL_RESOURCE.getRelType().equals(relType)) {
             return AuthCandidateUtil.resources(fleaFunctionModuleSV);
-        }
-
-        return null;
-    }
-
-    /**
-     * <p> 按关联类型构建「功能编号 -> 功能名称」映射 </p>
-     *
-     * <p> 框架构建权限关联 POJO 时要求传入功能名称，此处按关联类型一次性取出，
-     * 避免在循环中反复全表查询。 </p>
-     *
-     * @param relType 关联类型
-     * @return 功能编号与名称的映射；关联类型不支持时返回 {@code null}
-     * @throws CommonException 通用异常
-     * @since 1.0.0
-     */
-    private Map<Long, String> buildPrivilegeRelNameMap(String relType) throws CommonException {
-
-        Map<Long, String> relNameMap = new HashMap<>();
-
-        if (AuthRelTypeEnum.PRIVILEGE_REL_MENU.getRelType().equals(relType)) {
-            List<FleaMenu> menuList = fleaFunctionModuleSV.queryValidMenus(null);
-            if (CollectionUtils.isNotEmpty(menuList)) {
-                for (FleaMenu fleaMenu : menuList) {
-                    if (ObjectUtils.isNotEmpty(fleaMenu)) {
-                        relNameMap.put(fleaMenu.getMenuId(), fleaMenu.getMenuName());
-                    }
-                }
-            }
-            return relNameMap;
-        } else if (AuthRelTypeEnum.PRIVILEGE_REL_OPERATION.getRelType().equals(relType)) {
-            List<FleaOperation> operationList = fleaFunctionModuleSV.queryValidOperations(null);
-            if (CollectionUtils.isNotEmpty(operationList)) {
-                for (FleaOperation fleaOperation : operationList) {
-                    if (ObjectUtils.isNotEmpty(fleaOperation)) {
-                        relNameMap.put(fleaOperation.getOperationId(), fleaOperation.getOperationName());
-                    }
-                }
-            }
-            return relNameMap;
-        } else if (AuthRelTypeEnum.PRIVILEGE_REL_ELEMENT.getRelType().equals(relType)) {
-            List<FleaElement> elementList = fleaFunctionModuleSV.queryValidElements(null);
-            if (CollectionUtils.isNotEmpty(elementList)) {
-                for (FleaElement fleaElement : elementList) {
-                    if (ObjectUtils.isNotEmpty(fleaElement)) {
-                        relNameMap.put(fleaElement.getElementId(), fleaElement.getElementName());
-                    }
-                }
-            }
-            return relNameMap;
-        } else if (AuthRelTypeEnum.PRIVILEGE_REL_RESOURCE.getRelType().equals(relType)) {
-            List<FleaResource> resourceList = fleaFunctionModuleSV.queryValidResources(null);
-            if (CollectionUtils.isNotEmpty(resourceList)) {
-                for (FleaResource fleaResource : resourceList) {
-                    if (ObjectUtils.isNotEmpty(fleaResource)) {
-                        relNameMap.put(fleaResource.getResourceId(), fleaResource.getResourceName());
-                    }
-                }
-            }
-            return relNameMap;
-        }
-
-        return null;
-    }
-
-    /**
-     * <p> 按关联类型构建权限关联 POJO </p>
-     *
-     * @param privilegeId 权限编号
-     * @param relType     关联类型
-     * @param relId       功能编号
-     * @param relName     功能名称
-     * @return 权限关联 POJO；关联类型不支持时返回 {@code null}
-     * @since 1.0.0
-     */
-    private FleaPrivilegeRelPOJO newFleaPrivilegeRelPOJO(Long privilegeId, String relType, Long relId, String relName) {
-
-        if (AuthRelTypeEnum.PRIVILEGE_REL_MENU.getRelType().equals(relType)) {
-            return FleaAuthPOJOUtils.newFleaPrivilegeRelMenuPOJO(privilegeId, relId, relName);
-        } else if (AuthRelTypeEnum.PRIVILEGE_REL_OPERATION.getRelType().equals(relType)) {
-            return FleaAuthPOJOUtils.newFleaPrivilegeRelOperationPOJO(privilegeId, relId, relName);
-        } else if (AuthRelTypeEnum.PRIVILEGE_REL_ELEMENT.getRelType().equals(relType)) {
-            return FleaAuthPOJOUtils.newFleaPrivilegeRelElementPOJO(privilegeId, relId, relName);
-        } else if (AuthRelTypeEnum.PRIVILEGE_REL_RESOURCE.getRelType().equals(relType)) {
-            return FleaAuthPOJOUtils.newFleaPrivilegeRelResourcePOJO(privilegeId, relId, relName);
         }
 
         return null;

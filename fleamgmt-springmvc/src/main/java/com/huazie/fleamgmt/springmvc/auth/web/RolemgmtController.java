@@ -1,19 +1,16 @@
 package com.huazie.fleamgmt.springmvc.auth.web;
 
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeGroupSV;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeSV;
+import com.huazie.fleaframework.auth.base.audit.service.impl.FleaAuthAuditLogger;
+import com.huazie.fleaframework.auth.base.audit.util.FleaAuthAuditDiffUtils;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRole;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRoleGroup;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRoleGroupRel;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRoleRel;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleGroupRelSV;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleGroupSV;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleRelSV;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleSV;
 import com.huazie.fleaframework.auth.common.AuthRelTypeEnum;
 import com.huazie.fleaframework.auth.common.pojo.FleaAuthRelExtPOJO;
 import com.huazie.fleaframework.auth.common.pojo.role.FleaRoleGroupPOJO;
 import com.huazie.fleaframework.auth.common.pojo.role.FleaRolePOJO;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaPrivilegeModuleSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaRoleModuleSV;
 import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.pojo.OutputCommonData;
@@ -32,6 +29,7 @@ import com.huazie.fleamgmt.module.auth.pojo.OutputGridInfo;
 import com.huazie.fleamgmt.module.auth.util.AuthBizUtils;
 import com.huazie.fleamgmt.module.auth.util.AuthCandidateUtil;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
+import com.huazie.fleamgmt.springmvc.common.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,54 +61,43 @@ public class RolemgmtController extends BusinessController {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(RolemgmtController.class);
 
+    /**
+     * <p> 角色变更审计字段标签（key：属性名，value：展示名） </p>
+     */
+    private static final Map<String, String> ROLE_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    /**
+     * <p> 角色组变更审计字段标签 </p>
+     */
+    private static final Map<String, String> ROLE_GROUP_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    static {
+        ROLE_AUDIT_LABELS.put("roleName", "角色名称");
+        ROLE_AUDIT_LABELS.put("roleDesc", "角色描述");
+        ROLE_AUDIT_LABELS.put("groupId", "所属角色组编号");
+        ROLE_AUDIT_LABELS.put("remarks", "备注");
+
+        ROLE_GROUP_AUDIT_LABELS.put("roleGroupName", "角色组名称");
+        ROLE_GROUP_AUDIT_LABELS.put("roleGroupDesc", "角色组描述");
+        ROLE_GROUP_AUDIT_LABELS.put("remarks", "备注");
+    }
+
     private IFleaRoleModuleSV fleaRoleModuleSV;
 
-    private IFleaRoleSV fleaRoleSV;
-
-    private IFleaRoleGroupSV fleaRoleGroupSV;
-
-    private IFleaRoleRelSV fleaRoleRelSV;
-
-    private IFleaRoleGroupRelSV fleaRoleGroupRelSV;
-
-    private IFleaPrivilegeSV fleaPrivilegeSV;
-
-    private IFleaPrivilegeGroupSV fleaPrivilegeGroupSV;
+    private IFleaPrivilegeModuleSV fleaPrivilegeModuleSV;
 
     @Resource(name = "fleaRoleModuleSV")
     public void setFleaRoleModuleSV(IFleaRoleModuleSV fleaRoleModuleSV) {
         this.fleaRoleModuleSV = fleaRoleModuleSV;
     }
 
-    @Resource(name = "fleaRoleSV")
-    public void setFleaRoleSV(IFleaRoleSV fleaRoleSV) {
-        this.fleaRoleSV = fleaRoleSV;
+    @Resource(name = "fleaPrivilegeModuleSV")
+    public void setFleaPrivilegeModuleSV(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) {
+        this.fleaPrivilegeModuleSV = fleaPrivilegeModuleSV;
     }
 
-    @Resource(name = "fleaRoleGroupSV")
-    public void setFleaRoleGroupSV(IFleaRoleGroupSV fleaRoleGroupSV) {
-        this.fleaRoleGroupSV = fleaRoleGroupSV;
-    }
-
-    @Resource(name = "fleaRoleRelSV")
-    public void setFleaRoleRelSV(IFleaRoleRelSV fleaRoleRelSV) {
-        this.fleaRoleRelSV = fleaRoleRelSV;
-    }
-
-    @Resource(name = "fleaRoleGroupRelSV")
-    public void setFleaRoleGroupRelSV(IFleaRoleGroupRelSV fleaRoleGroupRelSV) {
-        this.fleaRoleGroupRelSV = fleaRoleGroupRelSV;
-    }
-
-    @Resource(name = "fleaPrivilegeSV")
-    public void setFleaPrivilegeSV(IFleaPrivilegeSV fleaPrivilegeSV) {
-        this.fleaPrivilegeSV = fleaPrivilegeSV;
-    }
-
-    @Resource(name = "fleaPrivilegeGroupSV")
-    public void setFleaPrivilegeGroupSV(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) {
-        this.fleaPrivilegeGroupSV = fleaPrivilegeGroupSV;
-    }
+    @Resource(name = "fleaAuthAuditLogger")
+    private FleaAuthAuditLogger authAuditLogger;
 
     /* ==================== 角色管理 ==================== */
 
@@ -125,7 +113,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        List<Map<String, Object>> roleTreeList = AuthCandidateUtil.roles(fleaRoleSV);
+        List<Map<String, Object>> roleTreeList = AuthCandidateUtil.roles(fleaRoleModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -150,7 +138,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputGridInfo output = new OutputGridInfo();
 
-        List<Map<String, Object>> rowList = AuthCandidateUtil.roleRows(fleaRoleSV, fleaRoleGroupSV);
+        List<Map<String, Object>> rowList = AuthCandidateUtil.roleRows(fleaRoleModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -173,7 +161,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        FleaRole fleaRole = fleaRoleSV.queryRoleInUse(roleId);
+        FleaRole fleaRole = fleaRoleModuleSV.queryRoleInUse(roleId);
         if (ObjectUtils.isEmpty(fleaRole)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，角色【" + roleId + "】不存在或已失效，请刷新角色列表后重试！");
@@ -216,6 +204,9 @@ public class RolemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，角色添加成功，角色编号：" + roleId);
+
+        authAuditLogger.recordCreate("role_" + roleId, output.getRetMess(), WebUtils.getRequest());
+
         return output;
     }
 
@@ -238,6 +229,9 @@ public class RolemgmtController extends BusinessController {
             return output;
         }
 
+        // 变更前快照，用于审计备注记录具体修改内容
+        FleaRole oldFleaRole = fleaRoleModuleSV.queryRoleInUse(inputRoleInfo.getRoleId());
+
         FleaRolePOJO fleaRolePOJO = new FleaRolePOJO();
         POJOUtils.copyAll(inputRoleInfo, fleaRolePOJO);
 
@@ -245,6 +239,10 @@ public class RolemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，角色修改成功！");
+
+        String changeDesc = FleaAuthAuditDiffUtils.diff(oldFleaRole, fleaRolePOJO, ROLE_AUDIT_LABELS);
+        authAuditLogger.recordUpdate("role_" + inputRoleInfo.getRoleId(), output.getRetMess(), changeDesc, WebUtils.getRequest());
+
         return output;
     }
 
@@ -263,7 +261,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputAuthInfo output = new OutputAuthInfo();
 
-        FleaRole fleaRole = fleaRoleSV.queryRoleInUse(roleId);
+        FleaRole fleaRole = fleaRoleModuleSV.queryRoleInUse(roleId);
         if (ObjectUtils.isEmpty(fleaRole)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，角色【" + roleId + "】不存在或已失效，请刷新角色列表后重试！");
@@ -272,11 +270,11 @@ public class RolemgmtController extends BusinessController {
 
         List<Map<String, Object>> candidates;
         if (AuthRelTypeEnum.ROLE_REL_PRIVILEGE.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.privileges(fleaPrivilegeSV);
+            candidates = AuthCandidateUtil.privileges(fleaPrivilegeModuleSV);
         } else if (AuthRelTypeEnum.ROLE_REL_PRIVILEGE_GROUP.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.privilegeGroups(fleaPrivilegeGroupSV);
+            candidates = AuthCandidateUtil.privilegeGroups(fleaPrivilegeModuleSV);
         } else if (AuthRelTypeEnum.ROLE_REL_ROLE.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.roles(fleaRoleSV);
+            candidates = AuthCandidateUtil.roles(fleaRoleModuleSV);
         } else {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，不支持的角色授权类型【" + relType + "】！");
@@ -284,7 +282,7 @@ public class RolemgmtController extends BusinessController {
         }
 
         List<Long> selectedList = new ArrayList<>();
-        List<FleaRoleRel> roleRelList = fleaRoleRelSV.getRoleRelList(roleId, relType);
+        List<FleaRoleRel> roleRelList = fleaRoleModuleSV.getRoleRelList(roleId, relType);
         if (CollectionUtils.isNotEmpty(roleRelList)) {
             for (FleaRoleRel fleaRoleRel : roleRelList) {
                 if (ObjectUtils.isNotEmpty(fleaRoleRel)) {
@@ -354,6 +352,69 @@ public class RolemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，角色授权成功，本次新增授权 " + relIds.size() + " 项！");
+
+        authAuditLogger.recordGrant("role_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
+        return output;
+    }
+
+    /**
+     * <p> 角色取消授权（按关联类型逐条取消关联） </p>
+     *
+     * @param inputAuthRelInfo 授权业务入参
+     * @return 取消授权结果
+     * @since 1.0.0
+     */
+    @PostMapping("authRole!cancel.flea")
+    @ResponseBody
+    public OutputCommonData cancelAuthorizeRole(InputAuthRelInfo inputAuthRelInfo) throws CommonException {
+
+        OutputCommonData output = new OutputCommonData();
+
+        Long ownerId = inputAuthRelInfo.getOwnerId();
+        String relType = inputAuthRelInfo.getRelType();
+        List<Long> relIds = inputAuthRelInfo.getRelIds();
+
+        if (!AuthBizUtils.isValidId(ownerId)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从左侧角色列表中选择要取消授权的角色哟！");
+            return output;
+        }
+
+        if (CollectionUtils.isEmpty(relIds)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从授权清单中选择要取消授权的数据哟！");
+            return output;
+        }
+
+        int count = 0;
+        for (Long relId : relIds) {
+            if (!AuthBizUtils.isValidId(relId)) {
+                continue;
+            }
+            if (AuthRelTypeEnum.ROLE_REL_PRIVILEGE.getRelType().equals(relType)
+                    || AuthRelTypeEnum.ROLE_REL_PRIVILEGE_GROUP.getRelType().equals(relType)
+                    || AuthRelTypeEnum.ROLE_REL_ROLE.getRelType().equals(relType)) {
+                fleaRoleModuleSV.removeRoleRel(ownerId, relId, relType);
+                count++;
+            } else {
+                output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+                output.setRetMess("亲，不支持的角色授权类型【" + relType + "】！");
+                return output;
+            }
+        }
+
+        if (count == 0) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，不支持的角色授权类型【" + relType + "】！");
+            return output;
+        }
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("亲，角色取消授权成功，本次取消授权 " + count + " 项！");
+
+        authAuditLogger.recordRevoke("role_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
         return output;
     }
 
@@ -371,7 +432,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        List<Map<String, Object>> roleGroupTreeList = AuthCandidateUtil.roleGroups(fleaRoleGroupSV);
+        List<Map<String, Object>> roleGroupTreeList = AuthCandidateUtil.roleGroups(fleaRoleModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -396,7 +457,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputGridInfo output = new OutputGridInfo();
 
-        List<Map<String, Object>> rowList = AuthCandidateUtil.roleGroupRows(fleaRoleGroupSV, fleaRoleSV);
+        List<Map<String, Object>> rowList = AuthCandidateUtil.roleGroupRows(fleaRoleModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -419,7 +480,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        FleaRoleGroup fleaRoleGroup = fleaRoleGroupSV.queryRoleGroupInUse(roleGroupId);
+        FleaRoleGroup fleaRoleGroup = fleaRoleModuleSV.queryRoleGroupInUse(roleGroupId);
         if (ObjectUtils.isEmpty(fleaRoleGroup)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，角色组【" + roleGroupId + "】不存在或已失效，请刷新角色组列表后重试！");
@@ -459,6 +520,9 @@ public class RolemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，角色组添加成功，角色组编号：" + roleGroupId);
+
+        authAuditLogger.recordCreate("roleGroup_" + roleGroupId, output.getRetMess(), WebUtils.getRequest());
+
         return output;
     }
 
@@ -481,6 +545,9 @@ public class RolemgmtController extends BusinessController {
             return output;
         }
 
+        // 变更前快照，用于审计备注记录具体修改内容
+        FleaRoleGroup oldFleaRoleGroup = fleaRoleModuleSV.queryRoleGroupInUse(inputRoleGroupInfo.getRoleGroupId());
+
         FleaRoleGroupPOJO fleaRoleGroupPOJO = new FleaRoleGroupPOJO();
         POJOUtils.copyAll(inputRoleGroupInfo, fleaRoleGroupPOJO);
 
@@ -488,6 +555,10 @@ public class RolemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，角色组修改成功！");
+
+        String changeDesc = FleaAuthAuditDiffUtils.diff(oldFleaRoleGroup, fleaRoleGroupPOJO, ROLE_GROUP_AUDIT_LABELS);
+        authAuditLogger.recordUpdate("roleGroup_" + inputRoleGroupInfo.getRoleGroupId(), output.getRetMess(), changeDesc, WebUtils.getRequest());
+
         return output;
     }
 
@@ -506,7 +577,7 @@ public class RolemgmtController extends BusinessController {
 
         OutputAuthInfo output = new OutputAuthInfo();
 
-        FleaRoleGroup fleaRoleGroup = fleaRoleGroupSV.queryRoleGroupInUse(roleGroupId);
+        FleaRoleGroup fleaRoleGroup = fleaRoleModuleSV.queryRoleGroupInUse(roleGroupId);
         if (ObjectUtils.isEmpty(fleaRoleGroup)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，角色组【" + roleGroupId + "】不存在或已失效，请刷新角色组列表后重试！");
@@ -520,7 +591,7 @@ public class RolemgmtController extends BusinessController {
         }
 
         List<Long> selectedList = new ArrayList<>();
-        List<FleaRoleGroupRel> roleGroupRelList = fleaRoleGroupRelSV.getRoleGroupRelList(roleGroupId, relType);
+        List<FleaRoleGroupRel> roleGroupRelList = fleaRoleModuleSV.getRoleGroupRelList(roleGroupId, relType);
         if (CollectionUtils.isNotEmpty(roleGroupRelList)) {
             for (FleaRoleGroupRel fleaRoleGroupRel : roleGroupRelList) {
                 if (ObjectUtils.isNotEmpty(fleaRoleGroupRel)) {
@@ -532,7 +603,7 @@ public class RolemgmtController extends BusinessController {
         output.setOwnerId(roleGroupId);
         output.setOwnerName(fleaRoleGroup.getRoleGroupName());
         output.setRelType(relType);
-        output.setCandidates(AuthCandidateUtil.roles(fleaRoleSV));
+        output.setCandidates(AuthCandidateUtil.roles(fleaRoleModuleSV));
         output.setSelected(selectedList);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
@@ -585,6 +656,60 @@ public class RolemgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，角色组关联成功，本次新增关联 " + relIds.size() + " 项！");
+
+        authAuditLogger.recordGrant("roleGroup_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
+        return output;
+    }
+
+    /**
+     * <p> 角色组取消关联（按关联类型逐条取消关联） </p>
+     *
+     * @param inputAuthRelInfo 授权业务入参
+     * @return 取消关联结果
+     * @since 1.0.0
+     */
+    @PostMapping("authRoleGroup!cancel.flea")
+    @ResponseBody
+    public OutputCommonData cancelAuthorizeRoleGroup(InputAuthRelInfo inputAuthRelInfo) throws CommonException {
+
+        OutputCommonData output = new OutputCommonData();
+
+        Long ownerId = inputAuthRelInfo.getOwnerId();
+        String relType = inputAuthRelInfo.getRelType();
+        List<Long> relIds = inputAuthRelInfo.getRelIds();
+
+        if (!AuthBizUtils.isValidId(ownerId)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从左侧角色组列表中选择要取消关联的角色组哟！");
+            return output;
+        }
+
+        if (!AuthRelTypeEnum.ROLE_GROUP_REL_ROLE.getRelType().equals(relType)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，不支持的角色组关联类型【" + relType + "】！");
+            return output;
+        }
+
+        if (CollectionUtils.isEmpty(relIds)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从授权清单中选择要取消关联的数据哟！");
+            return output;
+        }
+
+        int count = 0;
+        for (Long relId : relIds) {
+            if (AuthBizUtils.isValidId(relId)) {
+                fleaRoleModuleSV.removeRoleGroupRel(ownerId, relId, relType);
+                count++;
+            }
+        }
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("亲，角色组取消关联成功，本次取消关联 " + count + " 项！");
+
+        authAuditLogger.recordRevoke("roleGroup_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
         return output;
     }
 

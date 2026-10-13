@@ -36,6 +36,9 @@ define(function (require, exports, module) {
     // 用户授权提交
     ReqUrlMap.put("authUserAuthorize", "authUser!authorize.flea");
 
+    // 用户取消授权
+    ReqUrlMap.put("authUserCancel", "authUser!cancel.flea");
+
     // 用户组列表（Fuelux 树 / 候选）
     ReqUrlMap.put("authUserGroupList", "authUserGroup!list.flea");
 
@@ -56,6 +59,9 @@ define(function (require, exports, module) {
 
     // 用户组授权提交
     ReqUrlMap.put("authUserGroupAuthorize", "authUserGroup!authorize.flea");
+
+    // 用户组取消授权
+    ReqUrlMap.put("authUserGroupCancel", "authUserGroup!cancel.flea");
 
     /* ==================== 分步向导类页面 ==================== */
 
@@ -235,6 +241,7 @@ define(function (require, exports, module) {
             tabsId: "auth_tabs",
             authUrl: "authUserAuth",
             submitUrl: "authUserAuthorize",
+            cancelUrl: "authUserCancel",
             relTypes: [
                 ["USER_REL_ROLE", "角色"],
                 ["USER_REL_ROLE_GROUP", "角色组"]
@@ -252,6 +259,7 @@ define(function (require, exports, module) {
             tabsId: "auth_tabs",
             authUrl: "authUserGroupAuth",
             submitUrl: "authUserGroupAuthorize",
+            cancelUrl: "authUserGroupCancel",
             relTypes: [
                 ["USER_GROUP_REL_ROLE", "角色"],
                 ["USER_GROUP_REL_ROLE_GROUP", "角色组"],
