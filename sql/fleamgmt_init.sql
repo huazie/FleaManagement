@@ -1189,7 +1189,6 @@ INSERT INTO `flea_function_attr_operation` VALUES (5,1004,'OPERATION','SYSTEM_IN
 INSERT INTO `flea_function_attr_operation` VALUES (6,1005,'OPERATION','SYSTEM_IN_USE','1002','归属系统【Flea文件服务器】',1,NOW(),NULL,NOW(),@EXPIRY_DATE,'【Flea文件服务器】正在使用中');
 INSERT INTO `flea_function_attr_operation` VALUES (7,1006,'OPERATION','SYSTEM_IN_USE','1002','归属系统【Flea文件服务器】',1,NOW(),NULL,NOW(),@EXPIRY_DATE,'【Flea文件服务器】正在使用中');
 
-INSERT INTO `flea_operation` VALUES (1000,'operation','操作1','操作1',1,NOW(),NULL,NOW(),@EXPIRY_DATE,'操作保存测试');
 INSERT INTO `flea_operation` VALUES (1001,'UPLOAD','文件上传','该操作用于定义文件上传功能',1,NOW(),NULL,NOW(),@EXPIRY_DATE,'该操作用于定义文件上传功能');
 INSERT INTO `flea_operation` VALUES (1002,'DOWNLOAD','文件下载','该操作用于定义文件下载功能',1,NOW(),NULL,NOW(),@EXPIRY_DATE,'该操作用于定义文件下载功能');
 INSERT INTO `flea_operation` VALUES (1003,'UPDATE','文件更新','该操作用于定义文件更新功能',1,NOW(),NULL,NOW(),@EXPIRY_DATE,'该操作用于定义文件更新功能');
