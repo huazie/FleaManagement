@@ -36,13 +36,21 @@
     <body>
         <div class="page-content">
             <div class="page-header">
-                <h1 style="float: none;">
+                <h1>
                     Timeline
                     <small>
                         <i class="fa fa-angle-double-right"></i>
                         based on widget boxes with 2 different styles
                     </small>
                 </h1>
+                <!-- 收藏模块  start-->
+                <div class="page-header-fav">
+                    <a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+                        <i class="fa fa-star-o fa-lg"></i>
+                        <span>收藏</span>
+                    </a>
+                </div>
+                <!-- 收藏模块  end -->
             </div><!-- /.page-header -->
 
             <div class="row">
@@ -679,5 +687,11 @@
             });
         </script>
 
-    </body>
+        <!-- 收藏功能基础脚本 start-->
+        <script src="../resources/scripts/base/config.js"></script>
+        <script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+        <script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+        <script src="../resources/scripts/base/comm.js"></script>
+        <!-- 收藏功能基础脚本 end -->
+	</body>
 </html>

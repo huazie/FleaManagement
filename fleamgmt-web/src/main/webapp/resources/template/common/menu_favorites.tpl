@@ -35,6 +35,20 @@
 	.menuFavorites .menu-fav-item:hover > i {
 		color: #2a6496;
 	}
+
+	/* 手机端:固定 100px 在窄屏一行只放得下 2 个,改为百分比宽 3 个正好铺满一行 */
+	@media (max-width: 767px) {
+		.menuFavorites {
+			font-size: 0;
+		}
+		.menuFavorites .menu-fav-item {
+			width: 32%;
+			margin: 4px 2% 10px 0;
+		}
+		.menuFavorites .menu-fav-item:nth-child(3n) {
+			margin-right: 0;
+		}
+	}
 </style>
 <script id="tpl_menu_favorites" type="text/x-handlebars-template">
 	{{#common_list menuFavoritesList}}
