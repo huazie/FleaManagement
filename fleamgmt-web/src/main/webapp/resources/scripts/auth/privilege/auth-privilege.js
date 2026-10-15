@@ -36,6 +36,9 @@ define(function (require, exports, module) {
     // 权限关联提交
     ReqUrlMap.put("authPrivilegeAuthorize", "authPrivilege!authorize.flea");
 
+    // 权限取消关联
+    ReqUrlMap.put("authPrivilegeCancel", "authPrivilege!cancel.flea");
+
     // 权限组列表（授权主体表 / 下拉候选）
     ReqUrlMap.put("authPrivilegeGroupList", "authPrivilegeGroup!list.flea");
 
@@ -56,6 +59,9 @@ define(function (require, exports, module) {
 
     // 权限组关联提交
     ReqUrlMap.put("authPrivilegeGroupAuthorize", "authPrivilegeGroup!authorize.flea");
+
+    // 权限组取消关联
+    ReqUrlMap.put("authPrivilegeGroupCancel", "authPrivilegeGroup!cancel.flea");
 
     /* ==================== 分步向导类页面 ==================== */
 
@@ -177,6 +183,7 @@ define(function (require, exports, module) {
             tabsId: "auth_tabs",
             authUrl: "authPrivilegeAuth",
             submitUrl: "authPrivilegeAuthorize",
+            cancelUrl: "authPrivilegeCancel",
             relTypes: [
                 ["PRIVILEGE_REL_MENU", "菜单"],
                 ["PRIVILEGE_REL_OPERATION", "操作"],
@@ -196,6 +203,7 @@ define(function (require, exports, module) {
             tabsId: "auth_tabs",
             authUrl: "authPrivilegeGroupAuth",
             submitUrl: "authPrivilegeGroupAuthorize",
+            cancelUrl: "authPrivilegeGroupCancel",
             relTypes: [
                 ["PRIVILEGE_GROUP_REL_PRIVILEGE", "权限"]
             ]

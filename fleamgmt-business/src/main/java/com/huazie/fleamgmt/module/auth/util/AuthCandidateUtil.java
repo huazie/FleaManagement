@@ -6,20 +6,15 @@ import com.huazie.fleaframework.auth.base.function.entity.FleaOperation;
 import com.huazie.fleaframework.auth.base.function.entity.FleaResource;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilege;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilegeGroup;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeGroupSV;
-import com.huazie.fleaframework.auth.base.privilege.service.interfaces.IFleaPrivilegeSV;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRole;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRoleGroup;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleGroupSV;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleSV;
 import com.huazie.fleaframework.auth.base.user.entity.FleaAccount;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUser;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUserGroup;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaAccountSV;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaUserGroupSV;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaUserSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaFunctionModuleSV;
-import com.huazie.fleaframework.auth.util.FueluxMenuTree;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaPrivilegeModuleSV;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaRoleModuleSV;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaUserModuleSV;
 import com.huazie.fleaframework.common.CommonConstants;
 import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.util.CollectionUtils;
@@ -27,6 +22,7 @@ import com.huazie.fleaframework.common.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -93,24 +89,23 @@ public final class AuthCandidateUtil {
      * <p> 用户本身没有独立的登录标识，登录主体为账户，故以账户为主体构建候选列表，
      * 节点编号取账户编号，展示为「昵称（账号）」。 </p>
      *
-     * @param fleaAccountSV 账户服务
-     * @param fleaUserSV    用户服务
+     * @param fleaUserModuleSV 用户模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> accounts(IFleaAccountSV fleaAccountSV, IFleaUserSV fleaUserSV) throws CommonException {
+    public static List<Map<String, Object>> accounts(IFleaUserModuleSV fleaUserModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaAccount> accountList = fleaAccountSV.queryAll("accountId", "asc");
+        List<FleaAccount> accountList = fleaUserModuleSV.queryAllAccounts("accountId", "asc");
         if (CollectionUtils.isEmpty(accountList)) {
             return candidateList;
         }
 
         // 用户编号 -> 昵称，避免逐个账户回查用户
         Map<Long, String> userNameMap = new HashMap<>();
-        List<FleaUser> userList = fleaUserSV.queryAll();
+        List<FleaUser> userList = fleaUserModuleSV.queryAllUsers(null, null);
         if (CollectionUtils.isNotEmpty(userList)) {
             for (FleaUser fleaUser : userList) {
                 if (ObjectUtils.isNotEmpty(fleaUser)) {
@@ -136,16 +131,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 用户候选列表（用户组授权用） </p>
      *
-     * @param fleaUserSV 用户服务
+     * @param fleaUserModuleSV 用户模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> users(IFleaUserSV fleaUserSV) throws CommonException {
+    public static List<Map<String, Object>> users(IFleaUserModuleSV fleaUserModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaUser> userList = fleaUserSV.queryAll("userId", "asc");
+        List<FleaUser> userList = fleaUserModuleSV.queryAllUsers("userId", "asc");
         if (CollectionUtils.isEmpty(userList)) {
             return candidateList;
         }
@@ -163,16 +158,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 用户组候选列表 </p>
      *
-     * @param fleaUserGroupSV 用户组服务
+     * @param fleaUserModuleSV 用户模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> userGroups(IFleaUserGroupSV fleaUserGroupSV) throws CommonException {
+    public static List<Map<String, Object>> userGroups(IFleaUserModuleSV fleaUserModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaUserGroup> userGroupList = fleaUserGroupSV.queryAll("userGroupId", "asc");
+        List<FleaUserGroup> userGroupList = fleaUserModuleSV.queryAllUserGroups("userGroupId", "asc");
         if (CollectionUtils.isEmpty(userGroupList)) {
             return candidateList;
         }
@@ -190,16 +185,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 角色候选列表 </p>
      *
-     * @param fleaRoleSV 角色服务
+     * @param fleaRoleModuleSV 角色模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> roles(IFleaRoleSV fleaRoleSV) throws CommonException {
+    public static List<Map<String, Object>> roles(IFleaRoleModuleSV fleaRoleModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaRole> roleList = fleaRoleSV.queryRolesInUse(null, null);
+        List<FleaRole> roleList = fleaRoleModuleSV.queryRolesInUse(null, null);
         if (CollectionUtils.isEmpty(roleList)) {
             return candidateList;
         }
@@ -217,16 +212,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 角色组候选列表 </p>
      *
-     * @param fleaRoleGroupSV 角色组服务
+     * @param fleaRoleModuleSV 角色模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> roleGroups(IFleaRoleGroupSV fleaRoleGroupSV) throws CommonException {
+    public static List<Map<String, Object>> roleGroups(IFleaRoleModuleSV fleaRoleModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaRoleGroup> roleGroupList = fleaRoleGroupSV.queryRoleGroupsInUse(null);
+        List<FleaRoleGroup> roleGroupList = fleaRoleModuleSV.queryRoleGroupsInUse(null);
         if (CollectionUtils.isEmpty(roleGroupList)) {
             return candidateList;
         }
@@ -244,16 +239,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 权限候选列表 </p>
      *
-     * @param fleaPrivilegeSV 权限服务
+     * @param fleaPrivilegeModuleSV 权限模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> privileges(IFleaPrivilegeSV fleaPrivilegeSV) throws CommonException {
+    public static List<Map<String, Object>> privileges(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaPrivilege> privilegeList = fleaPrivilegeSV.queryPrivilegesInUse(null, null);
+        List<FleaPrivilege> privilegeList = fleaPrivilegeModuleSV.queryPrivilegesInUse(null, null);
         if (CollectionUtils.isEmpty(privilegeList)) {
             return candidateList;
         }
@@ -271,16 +266,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 权限组候选列表 </p>
      *
-     * @param fleaPrivilegeGroupSV 权限组服务
+     * @param fleaPrivilegeModuleSV 权限模块服务
      * @return Fuelux 树扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> privilegeGroups(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) throws CommonException {
+    public static List<Map<String, Object>> privilegeGroups(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) throws CommonException {
 
         List<Map<String, Object>> candidateList = new ArrayList<>();
 
-        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeGroupSV.queryPrivilegeGroupsInUse(null, null, null);
+        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeModuleSV.queryPrivilegeGroupsInUse(null, null, null);
         if (CollectionUtils.isEmpty(privilegeGroupList)) {
             return candidateList;
         }
@@ -296,24 +291,71 @@ public final class AuthCandidateUtil {
     }
 
     /**
-     * <p> 菜单候选列表（带层级，权限关联菜单用） </p>
+     * <p> 菜单候选列表（权限关联菜单用） </p>
+     *
+     * <p> 授权页候选列表为扁平结构，这里将菜单展开为扁平节点，
+     * 展示名带上「顶级菜单 / ... / 当前菜单」的层级路径，便于区分同名菜单。 </p>
      *
      * @param fleaFunctionModuleSV 功能模块服务
-     * @return Fuelux 树层级节点列表
+     * @return 候选扁平节点列表
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
     public static List<Map<String, Object>> menus(IFleaFunctionModuleSV fleaFunctionModuleSV) throws CommonException {
 
+        List<Map<String, Object>> candidateList = new ArrayList<>();
+
         List<FleaMenu> menuList = fleaFunctionModuleSV.queryValidMenus(null);
+        if (CollectionUtils.isEmpty(menuList)) {
+            return candidateList;
+        }
 
-        Map<String, String> params = new HashMap<>();
-        params.put(FueluxMenuTree.FOLDER_ICON_CLASS, "red");
+        // 菜单编号 -> 菜单，用于向上回溯父菜单，拼接层级路径
+        Map<Long, FleaMenu> menuMap = new HashMap<>();
+        for (FleaMenu fleaMenu : menuList) {
+            if (ObjectUtils.isNotEmpty(fleaMenu)) {
+                menuMap.put(fleaMenu.getMenuId(), fleaMenu);
+            }
+        }
 
-        FueluxMenuTree fueluxMenuTree = new FueluxMenuTree("Flea Menu", params);
-        fueluxMenuTree.addAll(menuList);
+        for (FleaMenu fleaMenu : menuList) {
+            if (ObjectUtils.isEmpty(fleaMenu)) {
+                continue;
+            }
+            candidateList.add(newNode(fleaMenu.getMenuId(), fleaMenu.getMenuCode(), menuPath(menuMap, fleaMenu)));
+        }
 
-        return fueluxMenuTree.toMapList(true);
+        return candidateList;
+    }
+
+    /**
+     * <p> 拼接菜单的层级展示路径（顶级菜单 / ... / 当前菜单） </p>
+     *
+     * @param menuMap  菜单编号 -> 菜单 映射
+     * @param fleaMenu 当前菜单
+     * @return 层级展示路径
+     * @since 1.0.0
+     */
+    private static String menuPath(Map<Long, FleaMenu> menuMap, FleaMenu fleaMenu) {
+
+        LinkedList<String> pathList = new LinkedList<>();
+        pathList.addFirst(fleaMenu.getMenuName());
+
+        // 向上回溯父菜单；以映射大小为上限，防御脏数据导致的父子成环
+        FleaMenu parentMenu = menuMap.get(fleaMenu.getParentId());
+        while (ObjectUtils.isNotEmpty(parentMenu) && pathList.size() <= menuMap.size()) {
+            pathList.addFirst(parentMenu.getMenuName());
+            parentMenu = menuMap.get(parentMenu.getParentId());
+        }
+
+        StringBuilder pathBuilder = new StringBuilder();
+        for (String menuName : pathList) {
+            if (pathBuilder.length() > 0) {
+                pathBuilder.append(" / ");
+            }
+            pathBuilder.append(menuName);
+        }
+        return pathBuilder.toString();
     }
 
     /**
@@ -403,30 +445,27 @@ public final class AuthCandidateUtil {
     /**
      * <p> 用户明细行列表（用户变更表格用） </p>
      *
-     * <p> 与 {@link #accounts(IFleaAccountSV, IFleaUserSV)} 的差异：候选列表只承载
+     * <p> 与 {@link #accounts(IFleaUserModuleSV)} 的差异：候选列表只承载
      * 「编号 / 编码 / 展示名」，服务于树与穿梭框；本方法返回账户与用户的完整明细字段，
      * 服务于表格列展示与筛选。账户状态决定账户是否可用，故一并返回。 </p>
      *
-     * @param fleaAccountSV   账户服务
-     * @param fleaUserSV      用户服务
-     * @param fleaUserGroupSV 用户组服务（用于把 group_id 翻译成用户组名称）
+     * @param fleaUserModuleSV 用户模块服务
      * @return 用户明细行集合
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> userRows(IFleaAccountSV fleaAccountSV, IFleaUserSV fleaUserSV,
-                                                     IFleaUserGroupSV fleaUserGroupSV) throws CommonException {
+    public static List<Map<String, Object>> userRows(IFleaUserModuleSV fleaUserModuleSV) throws CommonException {
 
         List<Map<String, Object>> rowList = new ArrayList<>();
 
-        List<FleaAccount> accountList = fleaAccountSV.queryAll("accountId", "asc");
+        List<FleaAccount> accountList = fleaUserModuleSV.queryAllAccounts("accountId", "asc");
         if (CollectionUtils.isEmpty(accountList)) {
             return rowList;
         }
 
         // 用户编号 -> 用户信息
         Map<Long, FleaUser> userMap = new HashMap<>();
-        List<FleaUser> userList = fleaUserSV.queryAll("userId", "asc");
+        List<FleaUser> userList = fleaUserModuleSV.queryAllUsers("userId", "asc");
         if (CollectionUtils.isNotEmpty(userList)) {
             for (FleaUser fleaUser : userList) {
                 if (ObjectUtils.isNotEmpty(fleaUser)) {
@@ -437,7 +476,7 @@ public final class AuthCandidateUtil {
 
         // 用户组编号 -> 用户组名称
         Map<Long, String> userGroupNameMap = new HashMap<>();
-        List<FleaUserGroup> userGroupList = fleaUserGroupSV.queryAll();
+        List<FleaUserGroup> userGroupList = fleaUserModuleSV.queryAllUserGroups(null, null);
         if (CollectionUtils.isNotEmpty(userGroupList)) {
             for (FleaUserGroup fleaUserGroup : userGroupList) {
                 if (ObjectUtils.isNotEmpty(fleaUserGroup)) {
@@ -487,25 +526,23 @@ public final class AuthCandidateUtil {
      * <p> 在用户组基础信息之外，附带该组下的用户数量（memberCount），
      * 便于页面在表格中直观呈现分组规模。 </p>
      *
-     * @param fleaUserGroupSV 用户组服务
-     * @param fleaUserSV      用户服务（用于统计各组成员数）
+     * @param fleaUserModuleSV 用户模块服务
      * @return 用户组明细行集合
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> userGroupRows(IFleaUserGroupSV fleaUserGroupSV,
-                                                          IFleaUserSV fleaUserSV) throws CommonException {
+    public static List<Map<String, Object>> userGroupRows(IFleaUserModuleSV fleaUserModuleSV) throws CommonException {
 
         List<Map<String, Object>> rowList = new ArrayList<>();
 
-        List<FleaUserGroup> userGroupList = fleaUserGroupSV.queryAll("userGroupId", "asc");
+        List<FleaUserGroup> userGroupList = fleaUserModuleSV.queryAllUserGroups("userGroupId", "asc");
         if (CollectionUtils.isEmpty(userGroupList)) {
             return rowList;
         }
 
         // 用户组编号 -> 成员数
         Map<Long, Integer> memberCountMap = new HashMap<>();
-        List<FleaUser> userList = fleaUserSV.queryAll("userId", "asc");
+        List<FleaUser> userList = fleaUserModuleSV.queryAllUsers("userId", "asc");
         if (CollectionUtils.isNotEmpty(userList)) {
             for (FleaUser fleaUser : userList) {
                 if (ObjectUtils.isEmpty(fleaUser) || fleaUser.getGroupId() == null) {
@@ -540,27 +577,25 @@ public final class AuthCandidateUtil {
     /**
      * <p> 角色明细行列表（角色变更表格用） </p>
      *
-     * <p> 与 {@link #roles(IFleaRoleSV)} 同源（仅返回在用角色），
+     * <p> 与 {@link #roles(IFleaRoleModuleSV)} 同源（仅返回在用角色），
      * 额外携带角色组名称，便于表格直接展示归属。 </p>
      *
-     * @param fleaRoleSV      角色服务
-     * @param fleaRoleGroupSV 角色组服务（用于把 group_id 翻译成角色组名称）
+     * @param fleaRoleModuleSV 角色模块服务
      * @return 角色明细行集合
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> roleRows(IFleaRoleSV fleaRoleSV,
-                                                     IFleaRoleGroupSV fleaRoleGroupSV) throws CommonException {
+    public static List<Map<String, Object>> roleRows(IFleaRoleModuleSV fleaRoleModuleSV) throws CommonException {
 
         List<Map<String, Object>> rowList = new ArrayList<>();
 
-        List<FleaRole> roleList = fleaRoleSV.queryRolesInUse(null, null);
+        List<FleaRole> roleList = fleaRoleModuleSV.queryRolesInUse(null, null);
         if (CollectionUtils.isEmpty(roleList)) {
             return rowList;
         }
 
         // 角色组编号 -> 角色组名称
-        Map<Long, String> roleGroupNameMap = roleGroupNameMap(fleaRoleGroupSV);
+        Map<Long, String> roleGroupNameMap = roleGroupNameMap(fleaRoleModuleSV);
 
         for (FleaRole fleaRole : roleList) {
             if (ObjectUtils.isEmpty(fleaRole)) {
@@ -588,24 +623,22 @@ public final class AuthCandidateUtil {
      * <p> 在角色组基础信息之外，附带该组下的在用角色数量（memberCount），
      * 便于页面在表格中直观呈现分组规模。 </p>
      *
-     * @param fleaRoleGroupSV 角色组服务
-     * @param fleaRoleSV      角色服务（用于统计各组角色数）
+     * @param fleaRoleModuleSV 角色模块服务
      * @return 角色组明细行集合
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> roleGroupRows(IFleaRoleGroupSV fleaRoleGroupSV,
-                                                          IFleaRoleSV fleaRoleSV) throws CommonException {
+    public static List<Map<String, Object>> roleGroupRows(IFleaRoleModuleSV fleaRoleModuleSV) throws CommonException {
 
         List<Map<String, Object>> rowList = new ArrayList<>();
 
-        List<FleaRoleGroup> roleGroupList = fleaRoleGroupSV.queryRoleGroupsInUse(null);
+        List<FleaRoleGroup> roleGroupList = fleaRoleModuleSV.queryRoleGroupsInUse(null);
         if (CollectionUtils.isEmpty(roleGroupList)) {
             return rowList;
         }
 
         // 角色组编号 -> 成员角色数
-        Map<Long, Integer> memberCountMap = roleGroupMemberCount(roleList(fleaRoleSV));
+        Map<Long, Integer> memberCountMap = roleGroupMemberCount(roleList(fleaRoleModuleSV));
 
         for (FleaRoleGroup fleaRoleGroup : roleGroupList) {
             if (ObjectUtils.isEmpty(fleaRoleGroup)) {
@@ -631,27 +664,25 @@ public final class AuthCandidateUtil {
     /**
      * <p> 权限明细行列表（权限变更表格用） </p>
      *
-     * <p> 与 {@link #privileges(IFleaPrivilegeSV)} 同源（仅返回在用权限），
+     * <p> 与 {@link #privileges(IFleaPrivilegeModuleSV)} 同源（仅返回在用权限），
      * 额外携带权限组名称，便于表格直接展示归属。 </p>
      *
-     * @param fleaPrivilegeSV      权限服务
-     * @param fleaPrivilegeGroupSV 权限组服务（用于把 group_id 翻译成权限组名称）
+     * @param fleaPrivilegeModuleSV 权限模块服务
      * @return 权限明细行集合
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> privilegeRows(IFleaPrivilegeSV fleaPrivilegeSV,
-                                                          IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) throws CommonException {
+    public static List<Map<String, Object>> privilegeRows(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) throws CommonException {
 
         List<Map<String, Object>> rowList = new ArrayList<>();
 
-        List<FleaPrivilege> privilegeList = fleaPrivilegeSV.queryPrivilegesInUse(null, null);
+        List<FleaPrivilege> privilegeList = fleaPrivilegeModuleSV.queryPrivilegesInUse(null, null);
         if (CollectionUtils.isEmpty(privilegeList)) {
             return rowList;
         }
 
         // 权限组编号 -> 权限组名称
-        Map<Long, String> privilegeGroupNameMap = privilegeGroupNameMap(fleaPrivilegeGroupSV);
+        Map<Long, String> privilegeGroupNameMap = privilegeGroupNameMap(fleaPrivilegeModuleSV);
 
         for (FleaPrivilege fleaPrivilege : privilegeList) {
             if (ObjectUtils.isEmpty(fleaPrivilege)) {
@@ -679,24 +710,22 @@ public final class AuthCandidateUtil {
      * <p> 在权限组基础信息之外，附带该组下的在用权限数量（memberCount）。
      * 额外返回 isMain / functionType，供表格区分「四类权限组」语义分类。 </p>
      *
-     * @param fleaPrivilegeGroupSV 权限组服务
-     * @param fleaPrivilegeSV      权限服务（用于统计各组权限数）
+     * @param fleaPrivilegeModuleSV 权限模块服务
      * @return 权限组明细行集合
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    public static List<Map<String, Object>> privilegeGroupRows(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV,
-                                                               IFleaPrivilegeSV fleaPrivilegeSV) throws CommonException {
+    public static List<Map<String, Object>> privilegeGroupRows(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) throws CommonException {
 
         List<Map<String, Object>> rowList = new ArrayList<>();
 
-        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeGroupSV.queryPrivilegeGroupsInUse(null, null, null);
+        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeModuleSV.queryPrivilegeGroupsInUse(null, null, null);
         if (CollectionUtils.isEmpty(privilegeGroupList)) {
             return rowList;
         }
 
         // 权限组编号 -> 成员权限数
-        Map<Long, Integer> memberCountMap = privilegeGroupMemberCount(privilegeList(fleaPrivilegeSV));
+        Map<Long, Integer> memberCountMap = privilegeGroupMemberCount(privilegeList(fleaPrivilegeModuleSV));
 
         for (FleaPrivilegeGroup fleaPrivilegeGroup : privilegeGroupList) {
             if (ObjectUtils.isEmpty(fleaPrivilegeGroup)) {
@@ -830,16 +859,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 角色组编号 -> 名称 映射 </p>
      *
-     * @param fleaRoleGroupSV 角色组服务
+     * @param fleaRoleModuleSV 角色模块服务
      * @return 映射 Map
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    private static Map<Long, String> roleGroupNameMap(IFleaRoleGroupSV fleaRoleGroupSV) throws CommonException {
+    private static Map<Long, String> roleGroupNameMap(IFleaRoleModuleSV fleaRoleModuleSV) throws CommonException {
 
         Map<Long, String> nameMap = new HashMap<>();
 
-        List<FleaRoleGroup> roleGroupList = fleaRoleGroupSV.queryRoleGroupsInUse(null);
+        List<FleaRoleGroup> roleGroupList = fleaRoleModuleSV.queryRoleGroupsInUse(null);
         if (CollectionUtils.isNotEmpty(roleGroupList)) {
             for (FleaRoleGroup fleaRoleGroup : roleGroupList) {
                 if (ObjectUtils.isNotEmpty(fleaRoleGroup)) {
@@ -854,16 +883,16 @@ public final class AuthCandidateUtil {
     /**
      * <p> 权限组编号 -> 名称 映射 </p>
      *
-     * @param fleaPrivilegeGroupSV 权限组服务
+     * @param fleaPrivilegeModuleSV 权限模块服务
      * @return 映射 Map
      * @throws CommonException 通用异常
      * @since 1.0.0
      */
-    private static Map<Long, String> privilegeGroupNameMap(IFleaPrivilegeGroupSV fleaPrivilegeGroupSV) throws CommonException {
+    private static Map<Long, String> privilegeGroupNameMap(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) throws CommonException {
 
         Map<Long, String> nameMap = new HashMap<>();
 
-        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeGroupSV.queryPrivilegeGroupsInUse(null, null, null);
+        List<FleaPrivilegeGroup> privilegeGroupList = fleaPrivilegeModuleSV.queryPrivilegeGroupsInUse(null, null, null);
         if (CollectionUtils.isNotEmpty(privilegeGroupList)) {
             for (FleaPrivilegeGroup fleaPrivilegeGroup : privilegeGroupList) {
                 if (ObjectUtils.isNotEmpty(fleaPrivilegeGroup)) {
@@ -927,12 +956,12 @@ public final class AuthCandidateUtil {
         return countMap;
     }
 
-    private static List<FleaRole> roleList(IFleaRoleSV fleaRoleSV) throws CommonException {
-        return fleaRoleSV.queryRolesInUse(null, null);
+    private static List<FleaRole> roleList(IFleaRoleModuleSV fleaRoleModuleSV) throws CommonException {
+        return fleaRoleModuleSV.queryRolesInUse(null, null);
     }
 
-    private static List<FleaPrivilege> privilegeList(IFleaPrivilegeSV fleaPrivilegeSV) throws CommonException {
-        return fleaPrivilegeSV.queryPrivilegesInUse(null, null);
+    private static List<FleaPrivilege> privilegeList(IFleaPrivilegeModuleSV fleaPrivilegeModuleSV) throws CommonException {
+        return fleaPrivilegeModuleSV.queryPrivilegesInUse(null, null);
     }
 
 }

@@ -1418,7 +1418,7 @@ define(function (require, exports, module) {
                 '</div>' +
                 '<div class="col-sm-6">' +
                 '<div class="shuttle-panel-title"><i class="fa fa-check-square-o green"></i> 授权清单</div>' +
-                '<div class="shuttle-selected-block"><span class="blue">已授权（不可在此撤销）：</span>' +
+                '<div class="shuttle-selected-block"><span class="blue">已授权（点击标签可撤销）：</span>' +
                 '<div class="selected-list" id="exist_' + type + '"></div></div>' +
                 '<div class="space-4"></div>' +
                 '<div class="shuttle-selected-block"><span class="green">本次待新增：</span>' +
@@ -1684,8 +1684,10 @@ define(function (require, exports, module) {
                 var name = escapeHtml($checkbox.closest(".shuttle-item").attr("data-name"));
 
                 if ($checkbox.prop("disabled")) {
-                    // 已授权的数据
-                    existHtml.push('<span class="label label-info">' + name + '</span>');
+                    // 已授权的数据，点击标签可撤销授权
+                    existHtml.push('<span class="label label-info shuttle-revoke" data-rel-type="' + relType +
+                        '" data-value="' + $checkbox.val() + '" data-name="' + name + '" title="点击取消授权">' +
+                        name + ' <i class="fa fa-times"></i></span>');
                 } else if ($checkbox.prop("checked")) {
                     // 本次待新增的数据，点击可取消
                     newHtml.push('<span class="label label-success shuttle-remove" data-rel-type="' + relType +
@@ -1702,6 +1704,11 @@ define(function (require, exports, module) {
                 var value = $(this).attr("data-value");
                 $("#candidate_" + type).find(".shuttle-checkbox[value='" + value + "']").prop("checked", false);
                 AuthPage.renderSelected(type);
+            });
+
+            // 点击已授权标签撤销该条授权
+            $("#exist_" + relType).find(".shuttle-revoke").off("click").on("click", function () {
+                AuthPage.revoke($(this).attr("data-rel-type"), $(this).attr("data-value"), $(this).attr("data-name"));
             });
 
         },
@@ -1783,6 +1790,48 @@ define(function (require, exports, module) {
                 }
             });
 
+        },
+
+        /**
+         * 撤销某条已授权数据（逻辑删除关联关系）
+         *
+         * @param relType 关联类型
+         * @param relId   关联编号
+         * @param relName 关联名称（用于确认提示）
+         */
+        revoke: function (relType, relId, relName) {
+
+            var conf = AuthPage.conf;
+
+            if (!conf || !conf.cancelUrl) {
+                return;
+            }
+
+            if (!AuthPage.ownerId) {
+                Huazie.dialog.tips("warning", "亲，请先在上方列表中选择要授权的" + conf.ownerLabel + "哟！", 2);
+                return;
+            }
+
+            Huazie.dialog.confirm("question", "亲，您确定取消授权【" + escapeHtml(relName) + "】吗？", function () {
+
+                submitForm({
+                    url: ReqUrlMap.get(conf.cancelUrl),
+                    data: {
+                        ownerId: AuthPage.ownerId,
+                        relType: relType,
+                        // 逗号拼接,由 Spring 的 String->List<Long> 转换器解析
+                        relIds: relId
+                    },
+                    onSuccess: function () {
+                        // 已授权缓存失效，重新拉取该维度数据
+                        AuthPage.candidates[relType] = null;
+                        setTimeout(function () {
+                            AuthPage.loadTab(conf, relType);
+                        }, 800);
+                    }
+                });
+
+            });
         }
 
     };

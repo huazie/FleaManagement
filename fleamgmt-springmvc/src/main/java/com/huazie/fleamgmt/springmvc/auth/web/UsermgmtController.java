@@ -1,21 +1,19 @@
 package com.huazie.fleamgmt.springmvc.auth.web;
 
+import com.huazie.fleaframework.auth.base.audit.service.impl.FleaAuthAuditLogger;
+import com.huazie.fleaframework.auth.base.audit.util.FleaAuthAuditDiffUtils;
 import com.huazie.fleaframework.auth.base.user.entity.FleaAccount;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUser;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUserGroup;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUserGroupRel;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUserRel;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaAccountSV;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaUserGroupRelSV;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaUserGroupSV;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaUserRelSV;
-import com.huazie.fleaframework.auth.base.user.service.interfaces.IFleaUserSV;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleGroupSV;
-import com.huazie.fleaframework.auth.base.role.service.interfaces.IFleaRoleSV;
 import com.huazie.fleaframework.auth.common.AuthRelTypeEnum;
 import com.huazie.fleaframework.auth.common.pojo.FleaAuthRelExtPOJO;
+import com.huazie.fleaframework.auth.common.pojo.user.FleaAccountPOJO;
 import com.huazie.fleaframework.auth.common.pojo.user.FleaUserGroupPOJO;
+import com.huazie.fleaframework.auth.common.pojo.user.FleaUserPOJO;
 import com.huazie.fleaframework.auth.common.pojo.user.register.FleaUserRegisterPOJO;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaRoleModuleSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaUserModuleSV;
 import com.huazie.fleaframework.common.CommonConstants;
 import com.huazie.fleaframework.common.exceptions.CommonException;
@@ -25,6 +23,8 @@ import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleaframework.common.util.CollectionUtils;
 import com.huazie.fleaframework.common.util.ObjectUtils;
 import com.huazie.fleaframework.common.util.POJOUtils;
+import com.huazie.fleaframework.common.util.SecurityUtils;
+import com.huazie.fleaframework.common.util.StringUtils;
 import com.huazie.fleamgmt.constant.FleamgmtConstants;
 import com.huazie.fleamgmt.module.auth.pojo.InputAuthRelInfo;
 import com.huazie.fleamgmt.module.auth.pojo.InputUserGroupInfo;
@@ -35,6 +35,7 @@ import com.huazie.fleamgmt.module.auth.pojo.OutputGridInfo;
 import com.huazie.fleamgmt.module.auth.util.AuthBizUtils;
 import com.huazie.fleamgmt.module.auth.util.AuthCandidateUtil;
 import com.huazie.fleamgmt.springmvc.base.web.BusinessController;
+import com.huazie.fleamgmt.springmvc.common.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +59,9 @@ import java.util.Map;
  *     <li>用户组管理：用户组新增、用户组变更、用户组授权。</li>
  * </ul>
  *
- * <p> 说明：框架未提供「用户变更」的模块级服务，故用户变更走 base 层
- * {@code IFleaUserSV.update} / {@code IFleaAccountSV.update}；账户密码变更时
- * 由 {@code IFleaAccountSV.encrypt} 统一加密，与注册链路保持一致。 </p>
+ * <p> 说明：全部数据操作统一通过框架的 {@code IFleaUserModuleSV} 完成，
+ * 用户变更走模块级 {@code modifyFleaAccount} / {@code modifyFleaUser}；
+ * 账户密码变更时由模块服务内部统一加密，与注册链路保持一致。 </p>
  *
  * @author huazie
  * @version 1.0.0
@@ -87,61 +89,56 @@ public class UsermgmtController extends BusinessController {
             AuthRelTypeEnum.USER_GROUP_REL_USER.getRelType()
     };
 
+    /**
+     * <p> 账户变更审计字段标签（key：属性名，value：展示名） </p>
+     */
+    private static final Map<String, String> ACCOUNT_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    /**
+     * <p> 用户变更审计字段标签（备注字段在账户侧体现，避免重复） </p>
+     */
+    private static final Map<String, String> USER_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    /**
+     * <p> 用户组变更审计字段标签 </p>
+     */
+    private static final Map<String, String> USER_GROUP_AUDIT_LABELS = new LinkedHashMap<String, String>();
+
+    static {
+        ACCOUNT_AUDIT_LABELS.put("accountState", "账户状态");
+        ACCOUNT_AUDIT_LABELS.put("effectiveDate", "生效日期");
+        ACCOUNT_AUDIT_LABELS.put("expiryDate", "失效日期");
+        ACCOUNT_AUDIT_LABELS.put("remarks", "备注");
+
+        USER_AUDIT_LABELS.put("userName", "昵称");
+        USER_AUDIT_LABELS.put("userSex", "性别");
+        USER_AUDIT_LABELS.put("userEmail", "邮箱");
+        USER_AUDIT_LABELS.put("userPhone", "手机");
+        USER_AUDIT_LABELS.put("userAddress", "住址");
+        USER_AUDIT_LABELS.put("groupId", "用户组编号");
+        USER_AUDIT_LABELS.put("userState", "用户状态");
+
+        USER_GROUP_AUDIT_LABELS.put("userGroupName", "用户组名称");
+        USER_GROUP_AUDIT_LABELS.put("userGroupDesc", "用户组描述");
+        USER_GROUP_AUDIT_LABELS.put("remarks", "备注");
+    }
+
     private IFleaUserModuleSV fleaUserModuleSV;
 
-    private IFleaUserSV fleaUserSV;
-
-    private IFleaAccountSV fleaAccountSV;
-
-    private IFleaUserGroupSV fleaUserGroupSV;
-
-    private IFleaUserRelSV fleaUserRelSV;
-
-    private IFleaUserGroupRelSV fleaUserGroupRelSV;
-
-    private IFleaRoleSV fleaRoleSV;
-
-    private IFleaRoleGroupSV fleaRoleGroupSV;
+    private IFleaRoleModuleSV fleaRoleModuleSV;
 
     @Resource(name = "fleaUserModuleSV")
     public void setFleaUserModuleSV(IFleaUserModuleSV fleaUserModuleSV) {
         this.fleaUserModuleSV = fleaUserModuleSV;
     }
 
-    @Resource(name = "fleaUserSV")
-    public void setFleaUserSV(IFleaUserSV fleaUserSV) {
-        this.fleaUserSV = fleaUserSV;
+    @Resource(name = "fleaRoleModuleSV")
+    public void setFleaRoleModuleSV(IFleaRoleModuleSV fleaRoleModuleSV) {
+        this.fleaRoleModuleSV = fleaRoleModuleSV;
     }
 
-    @Resource(name = "fleaAccountSV")
-    public void setFleaAccountSV(IFleaAccountSV fleaAccountSV) {
-        this.fleaAccountSV = fleaAccountSV;
-    }
-
-    @Resource(name = "fleaUserGroupSV")
-    public void setFleaUserGroupSV(IFleaUserGroupSV fleaUserGroupSV) {
-        this.fleaUserGroupSV = fleaUserGroupSV;
-    }
-
-    @Resource(name = "fleaUserRelSV")
-    public void setFleaUserRelSV(IFleaUserRelSV fleaUserRelSV) {
-        this.fleaUserRelSV = fleaUserRelSV;
-    }
-
-    @Resource(name = "fleaUserGroupRelSV")
-    public void setFleaUserGroupRelSV(IFleaUserGroupRelSV fleaUserGroupRelSV) {
-        this.fleaUserGroupRelSV = fleaUserGroupRelSV;
-    }
-
-    @Resource(name = "fleaRoleSV")
-    public void setFleaRoleSV(IFleaRoleSV fleaRoleSV) {
-        this.fleaRoleSV = fleaRoleSV;
-    }
-
-    @Resource(name = "fleaRoleGroupSV")
-    public void setFleaRoleGroupSV(IFleaRoleGroupSV fleaRoleGroupSV) {
-        this.fleaRoleGroupSV = fleaRoleGroupSV;
-    }
+    @Resource(name = "fleaAuthAuditLogger")
+    private FleaAuthAuditLogger authAuditLogger;
 
     /* ==================== 用户管理 ==================== */
 
@@ -157,7 +154,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        List<Map<String, Object>> userTreeList = AuthCandidateUtil.accounts(fleaAccountSV, fleaUserSV);
+        List<Map<String, Object>> userTreeList = AuthCandidateUtil.accounts(fleaUserModuleSV);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User Tree List = {}", userTreeList);
@@ -186,7 +183,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputGridInfo output = new OutputGridInfo();
 
-        List<Map<String, Object>> rowList = AuthCandidateUtil.userRows(fleaAccountSV, fleaUserSV, fleaUserGroupSV);
+        List<Map<String, Object>> rowList = AuthCandidateUtil.userRows(fleaUserModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -209,14 +206,14 @@ public class UsermgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        FleaAccount fleaAccount = fleaAccountSV.queryValidAccount(accountId);
+        FleaAccount fleaAccount = fleaUserModuleSV.queryValidAccount(accountId);
         if (ObjectUtils.isEmpty(fleaAccount)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，账户【" + accountId + "】不存在或已失效，请刷新用户列表后重试！");
             return output;
         }
 
-        FleaUser fleaUser = fleaUserSV.queryValidUser(fleaAccount.getUserId());
+        FleaUser fleaUser = fleaUserModuleSV.queryValidUser(fleaAccount.getUserId());
 
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("accountId", fleaAccount.getAccountId());
@@ -272,6 +269,9 @@ public class UsermgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，用户注册成功，账户编号：" + fleaAccount.getAccountId());
+
+        authAuditLogger.recordCreate("account_" + fleaAccount.getAccountId(), output.getRetMess(), WebUtils.getRequest());
+
         return output;
     }
 
@@ -295,68 +295,90 @@ public class UsermgmtController extends BusinessController {
             return output;
         }
 
-        FleaAccount fleaAccount = fleaAccountSV.queryValidAccount(accountId);
+        FleaAccount fleaAccount = fleaUserModuleSV.queryValidAccount(accountId);
         if (ObjectUtils.isEmpty(fleaAccount)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，账户【" + accountId + "】不存在或已失效，请刷新用户列表后重试！");
             return output;
         }
 
+        // 变更前快照，用于审计备注记录具体修改内容
+        FleaUser oldFleaUser = fleaUserModuleSV.queryValidUser(fleaAccount.getUserId());
+
         Date effectiveDate = AuthBizUtils.parseDate(inputUserInfo.getEffectiveDate());
         Date expiryDate = AuthBizUtils.parseDate(inputUserInfo.getExpiryDate());
 
-        // 账户状态、生效失效日期、备注（未提交的项保持原值，避免把库中非空列置空）
-        if (inputUserInfo.getState() != null) {
-            fleaAccount.setAccountState(inputUserInfo.getState());
-        }
-        if (effectiveDate != null) {
-            fleaAccount.setEffectiveDate(effectiveDate);
-        }
-        if (expiryDate != null) {
-            fleaAccount.setExpiryDate(expiryDate);
-        }
-        if (inputUserInfo.getRemarks() != null) {
-            fleaAccount.setRemarks(inputUserInfo.getRemarks());
-        }
-        // 密码留空表示不修改；填写时统一走加密
-        if (ObjectUtils.isNotEmpty(inputUserInfo.getAccountPwd())) {
-            fleaAccount.setAccountPwd(fleaAccountSV.encrypt(inputUserInfo.getAccountPwd()));
-        }
-        fleaAccountSV.update(fleaAccount);
+        // 账户变更：模块服务内部合并非 null 字段（空串支持显式清空），密码不为空时统一加密
+        FleaAccountPOJO fleaAccountPOJO = new FleaAccountPOJO();
+        fleaAccountPOJO.setAccountState(inputUserInfo.getState());
+        fleaAccountPOJO.setEffectiveDate(effectiveDate);
+        fleaAccountPOJO.setExpiryDate(expiryDate);
+        fleaAccountPOJO.setRemarks(inputUserInfo.getRemarks());
+        fleaAccountPOJO.setAccountPwd(inputUserInfo.getAccountPwd());
+        fleaUserModuleSV.modifyFleaAccount(accountId, fleaAccountPOJO);
 
         // 用户信息变更（昵称、性别、邮箱、手机、住址、用户组、状态）
-        FleaUser fleaUser = fleaUserSV.queryValidUser(fleaAccount.getUserId());
-        if (ObjectUtils.isNotEmpty(fleaUser)) {
-            if (ObjectUtils.isNotEmpty(inputUserInfo.getUserName())) {
-                fleaUser.setUserName(inputUserInfo.getUserName());
-            }
-            if (inputUserInfo.getUserSex() != null) {
-                fleaUser.setUserSex(inputUserInfo.getUserSex());
-            }
-            if (inputUserInfo.getUserEmail() != null) {
-                fleaUser.setUserEmail(inputUserInfo.getUserEmail());
-            }
-            if (inputUserInfo.getUserPhone() != null) {
-                fleaUser.setUserPhone(inputUserInfo.getUserPhone());
-            }
-            if (inputUserInfo.getUserAddress() != null) {
-                fleaUser.setUserAddress(inputUserInfo.getUserAddress());
-            }
-            if (inputUserInfo.getGroupId() != null) {
-                fleaUser.setGroupId(inputUserInfo.getGroupId());
-            }
-            if (inputUserInfo.getState() != null) {
-                fleaUser.setUserState(inputUserInfo.getState());
-            }
-            if (inputUserInfo.getRemarks() != null) {
-                fleaUser.setRemarks(inputUserInfo.getRemarks());
-            }
-            fleaUserSV.update(fleaUser);
-        }
+        FleaUserPOJO fleaUserPOJO = new FleaUserPOJO();
+        fleaUserPOJO.setUserName(inputUserInfo.getUserName());
+        fleaUserPOJO.setUserSex(inputUserInfo.getUserSex());
+        fleaUserPOJO.setUserEmail(inputUserInfo.getUserEmail());
+        fleaUserPOJO.setUserPhone(inputUserInfo.getUserPhone());
+        fleaUserPOJO.setUserAddress(inputUserInfo.getUserAddress());
+        fleaUserPOJO.setGroupId(inputUserInfo.getGroupId());
+        fleaUserPOJO.setUserState(inputUserInfo.getState());
+        fleaUserPOJO.setRemarks(inputUserInfo.getRemarks());
+        fleaUserModuleSV.modifyFleaUser(fleaAccount.getUserId(), fleaUserPOJO);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，用户修改成功！");
+
+        String changeDesc = buildUserInfoChangeDesc(inputUserInfo, fleaAccount, oldFleaUser, fleaAccountPOJO, fleaUserPOJO);
+        authAuditLogger.recordUpdate("account_" + accountId, output.getRetMess(), changeDesc, WebUtils.getRequest());
+
         return output;
+    }
+
+    /**
+     * <p> 构建用户变更的审计备注（具体修改内容） </p>
+     *
+     * <p> 账户与用户两部分差异合并输出；密码只体现「已修改」，不记录具体值。 </p>
+     *
+     * @param inputUserInfo   用户业务入参
+     * @param oldFleaAccount  变更前账户
+     * @param oldFleaUser     变更前用户（可为空）
+     * @param fleaAccountPOJO 账户变更入参
+     * @param fleaUserPOJO    用户变更入参
+     * @return 变更描述，如「昵称：张三→李四；密码：已修改」；无具体修改内容时返回 {@code null}
+     * @since 1.0.0
+     */
+    private String buildUserInfoChangeDesc(InputUserInfo inputUserInfo, FleaAccount oldFleaAccount, FleaUser oldFleaUser,
+                                           FleaAccountPOJO fleaAccountPOJO, FleaUserPOJO fleaUserPOJO) {
+
+        StringBuilder changeDesc = new StringBuilder();
+
+        String accountChange = FleaAuthAuditDiffUtils.diff(oldFleaAccount, fleaAccountPOJO, ACCOUNT_AUDIT_LABELS);
+        if (StringUtils.isNotBlank(accountChange)) {
+            changeDesc.append(accountChange);
+        }
+
+        // 密码与库中密文比对相同（如浏览器自动填充原密码）不算修改，不记录；不记录具体值
+        if (StringUtils.isNotBlank(inputUserInfo.getAccountPwd())
+                && !SecurityUtils.matchesPassword(inputUserInfo.getAccountPwd(), oldFleaAccount.getAccountPwd())) {
+            if (changeDesc.length() > 0) {
+                changeDesc.append("；");
+            }
+            changeDesc.append("密码：已修改");
+        }
+
+        String userChange = FleaAuthAuditDiffUtils.diff(oldFleaUser, fleaUserPOJO, USER_AUDIT_LABELS);
+        if (StringUtils.isNotBlank(userChange)) {
+            if (changeDesc.length() > 0) {
+                changeDesc.append("；");
+            }
+            changeDesc.append(userChange);
+        }
+
+        return changeDesc.length() > 0 ? changeDesc.toString() : null;
     }
 
     /**
@@ -374,7 +396,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputAuthInfo output = new OutputAuthInfo();
 
-        FleaAccount fleaAccount = fleaAccountSV.queryValidAccount(accountId);
+        FleaAccount fleaAccount = fleaUserModuleSV.queryValidAccount(accountId);
         if (ObjectUtils.isEmpty(fleaAccount)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，账户【" + accountId + "】不存在或已失效，请刷新用户列表后重试！");
@@ -384,9 +406,9 @@ public class UsermgmtController extends BusinessController {
         Long userId = fleaAccount.getUserId();
         List<Map<String, Object>> candidates;
         if (AuthRelTypeEnum.USER_REL_ROLE.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.roles(fleaRoleSV);
+            candidates = AuthCandidateUtil.roles(fleaRoleModuleSV);
         } else if (AuthRelTypeEnum.USER_REL_ROLE_GROUP.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.roleGroups(fleaRoleGroupSV);
+            candidates = AuthCandidateUtil.roleGroups(fleaRoleModuleSV);
         } else {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，不支持的用户授权类型【" + relType + "】！");
@@ -395,7 +417,7 @@ public class UsermgmtController extends BusinessController {
 
         // 已授权的编号集合
         List<Long> selectedList = new ArrayList<>();
-        List<FleaUserRel> userRelList = fleaUserRelSV.getUserRelList(userId, relType);
+        List<FleaUserRel> userRelList = fleaUserModuleSV.getUserRelList(userId, relType);
         if (CollectionUtils.isNotEmpty(userRelList)) {
             for (FleaUserRel fleaUserRel : userRelList) {
                 if (ObjectUtils.isNotEmpty(fleaUserRel)) {
@@ -464,6 +486,68 @@ public class UsermgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，用户授权成功，本次新增授权 " + relIds.size() + " 项！");
+
+        authAuditLogger.recordGrant("account_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
+        return output;
+    }
+
+    /**
+     * <p> 用户取消授权（按关联类型逐条取消关联） </p>
+     *
+     * @param inputAuthRelInfo 授权业务入参
+     * @return 取消授权结果
+     * @since 1.0.0
+     */
+    @PostMapping("authUser!cancel.flea")
+    @ResponseBody
+    public OutputCommonData cancelAuthorizeUser(InputAuthRelInfo inputAuthRelInfo) throws CommonException {
+
+        OutputCommonData output = new OutputCommonData();
+
+        Long ownerId = inputAuthRelInfo.getOwnerId();
+        String relType = inputAuthRelInfo.getRelType();
+        List<Long> relIds = inputAuthRelInfo.getRelIds();
+
+        if (!AuthBizUtils.isValidId(ownerId)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从左侧用户列表中选择要取消授权的用户哟！");
+            return output;
+        }
+
+        if (CollectionUtils.isEmpty(relIds)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从授权清单中选择要取消授权的数据哟！");
+            return output;
+        }
+
+        int count = 0;
+        for (Long relId : relIds) {
+            if (!AuthBizUtils.isValidId(relId)) {
+                continue;
+            }
+            if (AuthRelTypeEnum.USER_REL_ROLE.getRelType().equals(relType)
+                    || AuthRelTypeEnum.USER_REL_ROLE_GROUP.getRelType().equals(relType)) {
+                fleaUserModuleSV.removeUserRel(ownerId, relId, relType);
+                count++;
+            } else {
+                output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+                output.setRetMess("亲，不支持的用户授权类型【" + relType + "】！");
+                return output;
+            }
+        }
+
+        if (count == 0) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，不支持的用户授权类型【" + relType + "】！");
+            return output;
+        }
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("亲，用户取消授权成功，本次取消授权 " + count + " 项！");
+
+        authAuditLogger.recordRevoke("account_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
         return output;
     }
 
@@ -481,7 +565,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        List<Map<String, Object>> userGroupTreeList = AuthCandidateUtil.userGroups(fleaUserGroupSV);
+        List<Map<String, Object>> userGroupTreeList = AuthCandidateUtil.userGroups(fleaUserModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -505,7 +589,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputGridInfo output = new OutputGridInfo();
 
-        List<Map<String, Object>> rowList = AuthCandidateUtil.userGroupRows(fleaUserGroupSV, fleaUserSV);
+        List<Map<String, Object>> rowList = AuthCandidateUtil.userGroupRows(fleaUserModuleSV);
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("SUCCESS");
@@ -528,7 +612,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputFunctionInfo output = new OutputFunctionInfo();
 
-        FleaUserGroup fleaUserGroup = fleaUserGroupSV.queryUserGroupInUse(userGroupId);
+        FleaUserGroup fleaUserGroup = fleaUserModuleSV.queryUserGroupInUse(userGroupId);
         if (ObjectUtils.isEmpty(fleaUserGroup)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，用户组【" + userGroupId + "】不存在或已失效，请刷新用户组列表后重试！");
@@ -568,6 +652,9 @@ public class UsermgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，用户组添加成功，用户组编号：" + userGroupId);
+
+        authAuditLogger.recordCreate("userGroup_" + userGroupId, output.getRetMess(), WebUtils.getRequest());
+
         return output;
     }
 
@@ -590,6 +677,9 @@ public class UsermgmtController extends BusinessController {
             return output;
         }
 
+        // 变更前快照，用于审计备注记录具体修改内容
+        FleaUserGroup oldFleaUserGroup = fleaUserModuleSV.queryUserGroupInUse(inputUserGroupInfo.getUserGroupId());
+
         FleaUserGroupPOJO fleaUserGroupPOJO = new FleaUserGroupPOJO();
         POJOUtils.copyAll(inputUserGroupInfo, fleaUserGroupPOJO);
 
@@ -597,6 +687,10 @@ public class UsermgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，用户组修改成功！");
+
+        String changeDesc = FleaAuthAuditDiffUtils.diff(oldFleaUserGroup, fleaUserGroupPOJO, USER_GROUP_AUDIT_LABELS);
+        authAuditLogger.recordUpdate("userGroup_" + inputUserGroupInfo.getUserGroupId(), output.getRetMess(), changeDesc, WebUtils.getRequest());
+
         return output;
     }
 
@@ -615,7 +709,7 @@ public class UsermgmtController extends BusinessController {
 
         OutputAuthInfo output = new OutputAuthInfo();
 
-        FleaUserGroup fleaUserGroup = fleaUserGroupSV.queryUserGroupInUse(userGroupId);
+        FleaUserGroup fleaUserGroup = fleaUserModuleSV.queryUserGroupInUse(userGroupId);
         if (ObjectUtils.isEmpty(fleaUserGroup)) {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，用户组【" + userGroupId + "】不存在或已失效，请刷新用户组列表后重试！");
@@ -624,11 +718,11 @@ public class UsermgmtController extends BusinessController {
 
         List<Map<String, Object>> candidates;
         if (AuthRelTypeEnum.USER_GROUP_REL_ROLE.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.roles(fleaRoleSV);
+            candidates = AuthCandidateUtil.roles(fleaRoleModuleSV);
         } else if (AuthRelTypeEnum.USER_GROUP_REL_ROLE_GROUP.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.roleGroups(fleaRoleGroupSV);
+            candidates = AuthCandidateUtil.roleGroups(fleaRoleModuleSV);
         } else if (AuthRelTypeEnum.USER_GROUP_REL_USER.getRelType().equals(relType)) {
-            candidates = AuthCandidateUtil.users(fleaUserSV);
+            candidates = AuthCandidateUtil.users(fleaUserModuleSV);
         } else {
             output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
             output.setRetMess("亲，不支持的用户组授权类型【" + relType + "】！");
@@ -636,7 +730,7 @@ public class UsermgmtController extends BusinessController {
         }
 
         List<Long> selectedList = new ArrayList<>();
-        List<FleaUserGroupRel> userGroupRelList = fleaUserGroupRelSV.getUserGroupRelList(userGroupId, null, relType);
+        List<FleaUserGroupRel> userGroupRelList = fleaUserModuleSV.getUserGroupRelList(userGroupId, relType);
         if (CollectionUtils.isNotEmpty(userGroupRelList)) {
             for (FleaUserGroupRel fleaUserGroupRel : userGroupRelList) {
                 if (ObjectUtils.isNotEmpty(fleaUserGroupRel)) {
@@ -707,6 +801,69 @@ public class UsermgmtController extends BusinessController {
 
         output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
         output.setRetMess("亲，用户组授权成功，本次新增授权 " + relIds.size() + " 项！");
+
+        authAuditLogger.recordGrant("userGroup_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
+        return output;
+    }
+
+    /**
+     * <p> 用户组取消授权（按关联类型逐条取消关联） </p>
+     *
+     * @param inputAuthRelInfo 授权业务入参
+     * @return 取消授权结果
+     * @since 1.0.0
+     */
+    @PostMapping("authUserGroup!cancel.flea")
+    @ResponseBody
+    public OutputCommonData cancelAuthorizeUserGroup(InputAuthRelInfo inputAuthRelInfo) throws CommonException {
+
+        OutputCommonData output = new OutputCommonData();
+
+        Long ownerId = inputAuthRelInfo.getOwnerId();
+        String relType = inputAuthRelInfo.getRelType();
+        List<Long> relIds = inputAuthRelInfo.getRelIds();
+
+        if (!AuthBizUtils.isValidId(ownerId)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从左侧用户组列表中选择要取消授权的用户组哟！");
+            return output;
+        }
+
+        if (CollectionUtils.isEmpty(relIds)) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，请先从授权清单中选择要取消授权的数据哟！");
+            return output;
+        }
+
+        int count = 0;
+        for (Long relId : relIds) {
+            if (!AuthBizUtils.isValidId(relId)) {
+                continue;
+            }
+            if (AuthRelTypeEnum.USER_GROUP_REL_ROLE.getRelType().equals(relType)
+                    || AuthRelTypeEnum.USER_GROUP_REL_ROLE_GROUP.getRelType().equals(relType)
+                    || AuthRelTypeEnum.USER_GROUP_REL_USER.getRelType().equals(relType)) {
+                fleaUserModuleSV.removeUserGroupRel(ownerId, relId, relType);
+                count++;
+            } else {
+                output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+                output.setRetMess("亲，不支持的用户组授权类型【" + relType + "】！");
+                return output;
+            }
+        }
+
+        if (count == 0) {
+            output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_N);
+            output.setRetMess("亲，不支持的用户组授权类型【" + relType + "】！");
+            return output;
+        }
+
+        output.setRetCode(FleamgmtConstants.ReturnCodeConstants.RETURN_CODE_Y);
+        output.setRetMess("亲，用户组取消授权成功，本次取消授权 " + count + " 项！");
+
+        authAuditLogger.recordRevoke("userGroup_" + ownerId, output.getRetMess() + "（关联类型：" + relType + "）", WebUtils.getRequest());
+
         return output;
     }
 
@@ -728,7 +885,7 @@ public class UsermgmtController extends BusinessController {
         Map<String, Integer> relTypeCounts = new HashMap<>();
 
         for (String relType : USER_REL_TYPES) {
-            List<FleaUserRel> relList = fleaUserRelSV.getUserRelList(userId, relType);
+            List<FleaUserRel> relList = fleaUserModuleSV.getUserRelList(userId, relType);
             relTypeCounts.put(relType, CollectionUtils.isNotEmpty(relList) ? relList.size() : 0);
         }
 
@@ -748,7 +905,7 @@ public class UsermgmtController extends BusinessController {
         Map<String, Integer> relTypeCounts = new HashMap<>();
 
         for (String relType : USER_GROUP_REL_TYPES) {
-            List<FleaUserGroupRel> relList = fleaUserGroupRelSV.getUserGroupRelList(userGroupId, null, relType);
+            List<FleaUserGroupRel> relList = fleaUserModuleSV.getUserGroupRelList(userGroupId, relType);
             relTypeCounts.put(relType, CollectionUtils.isNotEmpty(relList) ? relList.size() : 0);
         }
 
