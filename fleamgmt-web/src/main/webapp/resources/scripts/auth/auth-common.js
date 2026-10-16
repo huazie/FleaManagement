@@ -1010,7 +1010,8 @@ define(function (require, exports, module) {
                 rowList: [10, 20, 50],
                 pager: "#" + conf.pagerId,
                 viewrecords: true,
-                sortname: conf.columns[0].name,
+                // 默认按第一列升序；conf.sortname 显式传 "" 时保持后端原始顺序（组织树序）
+                sortname: conf.sortname !== undefined ? conf.sortname : conf.columns[0].name,
                 sortorder: "asc",
                 autowidth: true,
                 altRows: true,
