@@ -4,6 +4,7 @@ import com.huazie.fleaframework.auth.base.function.entity.FleaElement;
 import com.huazie.fleaframework.auth.base.function.entity.FleaMenu;
 import com.huazie.fleaframework.auth.base.function.entity.FleaOperation;
 import com.huazie.fleaframework.auth.base.function.entity.FleaResource;
+import com.huazie.fleaframework.auth.base.organization.entity.FleaOrganization;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilege;
 import com.huazie.fleaframework.auth.base.privilege.entity.FleaPrivilegeGroup;
 import com.huazie.fleaframework.auth.base.role.entity.FleaRole;
@@ -12,6 +13,7 @@ import com.huazie.fleaframework.auth.base.user.entity.FleaAccount;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUser;
 import com.huazie.fleaframework.auth.base.user.entity.FleaUserGroup;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaFunctionModuleSV;
+import com.huazie.fleaframework.auth.common.service.interfaces.IFleaOrgModuleSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaPrivilegeModuleSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaRoleModuleSV;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaUserModuleSV;
@@ -21,6 +23,8 @@ import com.huazie.fleaframework.common.util.CollectionUtils;
 import com.huazie.fleaframework.common.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +50,21 @@ public final class AuthCandidateUtil {
      * <p> 在用状态值（用户/账户/用户组的状态字段：0-删除 1-正常） </p>
      */
     private static final int STATE_IN_USE = 1;
+
+    /**
+     * <p> 组织类型：公司 </p>
+     */
+    private static final int ORG_TYPE_COMPANY = 1;
+
+    /**
+     * <p> 组织类型：部门 </p>
+     */
+    private static final int ORG_TYPE_DEPARTMENT = 2;
+
+    /**
+     * <p> 组织类型：小组 </p>
+     */
+    private static final int ORG_TYPE_GROUP = 3;
 
     private AuthCandidateUtil() {
         throw new UnsupportedOperationException("工具类不允许实例化");
@@ -126,6 +145,157 @@ public final class AuthCandidateUtil {
         }
 
         return candidateList;
+    }
+
+    /**
+     * <p> 组织候选列表（新增组织的父组织下拉、用户关联组织页的授权主体列表用） </p>
+     *
+     * <p> 按树形先序（DFS）展开：父组织紧跟其子组织，同级按编号升序，
+     * 非顶级组织展示名带层级缩进（全角空格 + 「└」），与变更页父组织下拉样式一致。 </p>
+     *
+     * @param fleaOrgModuleSV 组织模块服务
+     * @return Fuelux 树扁平节点列表
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> organizations(IFleaOrgModuleSV fleaOrgModuleSV) throws CommonException {
+
+        List<Map<String, Object>> candidateList = new ArrayList<>();
+
+        List<FleaOrganization> orgList = fleaOrgModuleSV.queryAllValidOrganizations();
+        if (CollectionUtils.isEmpty(orgList)) {
+            return candidateList;
+        }
+
+        // 组织列表按树形先序（DFS）排列：父组织紧跟其子组织，同级按编号升序
+        List<FleaOrganization> orderedList = orderOrganizationsByTree(orgList);
+
+        // 缩进层级直接取实体维护的 org_level（父组织变更时已联动重算）
+        for (FleaOrganization fleaOrganization : orderedList) {
+            Integer orgLevel = fleaOrganization.getOrgLevel();
+            candidateList.add(newNode(fleaOrganization.getOrgId(), fleaOrganization.getOrgCode(),
+                    orgIndent((orgLevel == null) ? 1 : orgLevel) + fleaOrganization.getOrgName()
+                            + "【" + fleaOrganization.getOrgCode() + "】"));
+        }
+
+        return candidateList;
+    }
+
+    /**
+     * <p> 组织列表按树形先序（DFS）排列 </p>
+     *
+     * <p> 父组织紧跟其子组织，同级按编号升序；父组织不在列表内的视作顶级。
+     * 脏数据父子成环时环上组织不会被先序遍历输出，末尾按编号升序兜底追加，保证不丢数据。 </p>
+     *
+     * @param orgList 组织列表
+     * @return 树形先序排列后的新列表（不改变入参列表）
+     * @since 1.0.0
+     */
+    private static List<FleaOrganization> orderOrganizationsByTree(List<FleaOrganization> orgList) {
+
+        List<FleaOrganization> orderedList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(orgList)) {
+            return orderedList;
+        }
+
+        // 组织编号 -> 组织，用于识别父组织是否在列表内
+        Map<Long, FleaOrganization> orgMap = new HashMap<>();
+        for (FleaOrganization fleaOrganization : orgList) {
+            if (ObjectUtils.isNotEmpty(fleaOrganization)) {
+                orgMap.put(fleaOrganization.getOrgId(), fleaOrganization);
+            }
+        }
+
+        // 父组织编号 -> 子组织列表；父组织不在列表内的视作顶级
+        Map<Long, List<FleaOrganization>> childrenMap = new HashMap<>();
+        List<FleaOrganization> rootList = new ArrayList<>();
+        for (FleaOrganization fleaOrganization : orgList) {
+            if (ObjectUtils.isEmpty(fleaOrganization)) {
+                continue;
+            }
+            FleaOrganization parentOrg = orgMap.get(fleaOrganization.getParentId());
+            if (parentOrg != null) {
+                List<FleaOrganization> children = childrenMap.get(parentOrg.getOrgId());
+                if (children == null) {
+                    children = new ArrayList<>();
+                    childrenMap.put(parentOrg.getOrgId(), children);
+                }
+                children.add(fleaOrganization);
+            } else {
+                rootList.add(fleaOrganization);
+            }
+        }
+
+        sortOrganizations(rootList);
+        for (FleaOrganization rootOrg : rootList) {
+            collectOrganizations(rootOrg, childrenMap, orderedList);
+        }
+
+        // 防御脏数据父子成环导致的遗漏：未输出的组织按编号升序兜底追加
+        if (orderedList.size() < orgMap.size()) {
+            List<FleaOrganization> missedList = new ArrayList<>();
+            for (FleaOrganization fleaOrganization : orgList) {
+                if (ObjectUtils.isNotEmpty(fleaOrganization) && !orderedList.contains(fleaOrganization)) {
+                    missedList.add(fleaOrganization);
+                }
+            }
+            sortOrganizations(missedList);
+            orderedList.addAll(missedList);
+        }
+
+        return orderedList;
+    }
+
+    /**
+     * <p> 以树形先序收集单个组织及其子树 </p>
+     *
+     * @param fleaOrganization 当前组织
+     * @param childrenMap      父组织编号 -> 子组织列表
+     * @param orderedList      有序列表（输出）
+     * @since 1.0.0
+     */
+    private static void collectOrganizations(FleaOrganization fleaOrganization,
+            Map<Long, List<FleaOrganization>> childrenMap, List<FleaOrganization> orderedList) {
+
+        orderedList.add(fleaOrganization);
+
+        List<FleaOrganization> children = childrenMap.get(fleaOrganization.getOrgId());
+        if (CollectionUtils.isNotEmpty(children)) {
+            sortOrganizations(children);
+            for (FleaOrganization childOrg : children) {
+                collectOrganizations(childOrg, childrenMap, orderedList);
+            }
+        }
+    }
+
+    /**
+     * <p> 组织列表按编号升序排序 </p>
+     *
+     * @param orgList 组织列表
+     * @since 1.0.0
+     */
+    private static void sortOrganizations(List<FleaOrganization> orgList) {
+        Collections.sort(orgList, new Comparator<FleaOrganization>() {
+            @Override
+            public int compare(FleaOrganization o1, FleaOrganization o2) {
+                return o1.getOrgId().compareTo(o2.getOrgId());
+            }
+        });
+    }
+
+    /**
+     * <p> 按层级生成展示缩进：第 N 层缩进 N-1 个全角空格，非顶级组织前加树形符号 </p>
+     *
+     * @param level 层级
+     * @return 缩进前缀
+     * @since 1.0.0
+     */
+    private static String orgIndent(int level) {
+        StringBuilder indentBuilder = new StringBuilder();
+        for (int i = 1; i < level; i++) {
+            indentBuilder.append("\u3000");
+        }
+        return indentBuilder.length() > 0 ? indentBuilder + "└ " : "";
     }
 
     /**
@@ -854,6 +1024,93 @@ public final class AuthCandidateUtil {
         }
 
         return rowList;
+    }
+
+    /**
+     * <p> 组织明细行列表（组织变更表格用） </p>
+     *
+     * <p> 在组织基础信息之外，附带父组织名称，便于表格直接展示归属；
+     * 另附 orgTypeName（公司/部门/小组），供表格直接展示类型。
+     * 行顺序与候选列表一致，按树形先序（DFS）排列：父组织行紧跟其子组织行。 </p>
+     *
+     * @param fleaOrgModuleSV 组织模块服务
+     * @return 组织明细行集合
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    public static List<Map<String, Object>> orgRows(IFleaOrgModuleSV fleaOrgModuleSV) throws CommonException {
+
+        List<Map<String, Object>> rowList = new ArrayList<>();
+
+        List<FleaOrganization> orgList = fleaOrgModuleSV.queryAllValidOrganizations();
+        if (CollectionUtils.isEmpty(orgList)) {
+            return rowList;
+        }
+
+        // 组织编号 -> 组织，用于按编号取父组织名称
+        Map<Long, FleaOrganization> orgMap = new HashMap<>();
+        for (FleaOrganization fleaOrganization : orgList) {
+            if (ObjectUtils.isNotEmpty(fleaOrganization)) {
+                orgMap.put(fleaOrganization.getOrgId(), fleaOrganization);
+            }
+        }
+
+        // 行顺序按树形先序（DFS）：父组织行紧跟其子组织行
+        List<FleaOrganization> orderedList = orderOrganizationsByTree(orgList);
+
+        for (FleaOrganization fleaOrganization : orderedList) {
+            if (ObjectUtils.isEmpty(fleaOrganization) || !isInUse(fleaOrganization.getOrgState())) {
+                continue;
+            }
+
+            FleaOrganization parentOrg = orgMap.get(fleaOrganization.getParentId());
+
+            // 缩进层级直接取实体维护的 org_level（父组织变更时已联动重算）；
+            // orgNameTree 供表格树形展示，orgName 保持纯名称供表单回填，避免缩进字符入库
+            Integer orgLevel = fleaOrganization.getOrgLevel();
+            String orgNameTree = orgIndent((orgLevel == null) ? 1 : orgLevel) + fleaOrganization.getOrgName();
+
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("orgId", fleaOrganization.getOrgId());
+            rowMap.put("orgCode", fleaOrganization.getOrgCode());
+            rowMap.put("orgName", fleaOrganization.getOrgName());
+            rowMap.put("orgNameTree", orgNameTree);
+            rowMap.put("orgDesc", fleaOrganization.getOrgDesc());
+            rowMap.put("orgType", fleaOrganization.getOrgType());
+            rowMap.put("orgTypeName", orgTypeName(fleaOrganization.getOrgType()));
+            rowMap.put("orgLevel", fleaOrganization.getOrgLevel());
+            rowMap.put("parentId", fleaOrganization.getParentId());
+            rowMap.put("parentName", (parentOrg == null) ? "-" : parentOrg.getOrgName());
+            rowMap.put("orgState", fleaOrganization.getOrgState());
+            rowMap.put("remarks", fleaOrganization.getRemarks());
+
+            rowList.add(rowMap);
+        }
+
+        return rowList;
+    }
+
+    /**
+     * <p> 组织类型展示名 </p>
+     *
+     * @param orgType 组织类型
+     * @return 类型展示名，未知类型返回「未知」
+     * @since 1.0.0
+     */
+    private static String orgTypeName(Integer orgType) {
+        if (orgType == null) {
+            return "未知";
+        }
+        if (ORG_TYPE_COMPANY == orgType) {
+            return "公司";
+        }
+        if (ORG_TYPE_DEPARTMENT == orgType) {
+            return "部门";
+        }
+        if (ORG_TYPE_GROUP == orgType) {
+            return "小组";
+        }
+        return "未知";
     }
 
     /**

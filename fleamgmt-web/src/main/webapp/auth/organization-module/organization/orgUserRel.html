@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>用户关联组织</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+		<link rel="stylesheet" href="../resources/plugins/jqGrid/css/ui.jqgrid.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css"/>
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+		<!-- ace settings handler -->
+		<script src="../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="../resources/plugins/respond/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			/* 穿梭框工具条 */
+			.shuttle-toolbar {
+				margin-bottom: 8px;
+			}
+
+			.shuttle-toolbar .shuttle-search {
+				display: inline-block;
+				width: 55%;
+				vertical-align: middle;
+			}
+
+			.shuttle-toolbar .btn-group {
+				vertical-align: middle;
+				margin-left: 6px;
+			}
+
+			.shuttle-panel-title {
+				font-weight: bold;
+				margin-bottom: 6px;
+				color: #478fca;
+			}
+
+			/* 候选数据列表 */
+			.shuttle-list {
+				height: 260px;
+				overflow-y: auto;
+				border: 1px solid #e5e5e5;
+				border-radius: 3px;
+				padding: 4px 8px;
+			}
+
+			.shuttle-item {
+				display: block;
+				font-weight: normal;
+				margin: 0;
+				padding: 4px 2px;
+				border-bottom: 1px dashed #eee;
+				cursor: pointer;
+			}
+
+			.shuttle-item:last-child {
+				border-bottom: none;
+			}
+
+			.shuttle-item:hover {
+				background-color: #f5f8fa;
+			}
+
+			.shuttle-item .lbl {
+				margin-left: 4px;
+			}
+
+			/* 授权清单 */
+			.selected-list {
+				min-height: 34px;
+				line-height: 26px;
+				padding: 4px;
+				border: 1px dashed #d5d5d5;
+				border-radius: 3px;
+			}
+
+			.selected-list .label {
+				margin-right: 4px;
+				display: inline-block;
+			}
+
+			.shuttle-remove {
+				cursor: pointer;
+			}
+
+			/* 标签页 */
+			#auth_tabs .nav-tabs {
+				margin-bottom: 0;
+			}
+
+			#auth_tabs .tab-content {
+				padding: 14px;
+				border: 1px solid #ddd;
+				border-top: none;
+				border-radius: 0 0 4px 4px;
+				background-color: #fff;
+			}
+
+			@media only screen and (max-width: 767px) {
+
+				/* 穿梭框：搜索框独占一行，列表矮一截，底部按钮整行 */
+				.shuttle-toolbar .shuttle-search {
+					display: block;
+					width: 100%;
+					margin-bottom: 6px;
+				}
+
+				.shuttle-toolbar .btn-group {
+					margin-left: 0;
+				}
+
+				.shuttle-list {
+					height: 190px;
+				}
+
+				/* 候选/清单条目加高，便于手指点选 */
+				.shuttle-item {
+					padding: 8px 4px;
+				}
+
+				.shuttle-actions .btn {
+					display: block;
+					width: 100%;
+					margin: 0 0 6px 0;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					组织模块管理
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						 &nbsp;用户关联组织
+					</small>
+				</h1>
+				<!-- 收藏模块  start-->
+				<div class="page-header-fav">
+					<a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+						<i class="fa fa-star-o fa-lg"></i>
+						<span>收藏</span>
+					</a>
+				</div>
+				<!-- 收藏模块  end -->
+			</div><!-- /.page-header -->
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="widget-box">
+						<div class="widget-header header-color-blue2">
+							<h5 class="lighter smaller">
+								<i class="fa fa-list-alt fa-lg"></i>
+								组织列表（点击行选择关联主体）
+							</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main padding-8">
+								<table id="auth_owner_grid"></table>
+								<div id="auth_owner_pager"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="space-8"></div>
+
+					<div class="widget-box" id="auth_panel">
+						<div class="widget-header header-color-green">
+							<h5 class="lighter smaller">
+								<i class="fa fa-users fa-lg"></i>
+								用户关联组织
+							</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div class="alert alert-info">
+									<i class="fa fa-hand-o-right blue"></i>
+									当前关联组织：<strong id="auth_owner_label">未选择</strong>
+
+									<br />
+
+									<i class="fa fa-info-circle"></i>
+									已默认选中首个组织，可在上方表格中切换关联主体；下方按维度关联，每个维度单独保存。
+								</div>
+
+								<div class="tabbable" id="auth_tabs">
+									<ul class="nav nav-tabs"></ul>
+									<div class="tab-content"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+						<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- 基础脚本basic scripts -->
+
+		<!--[if !IE]> -->
+		<script src="../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script src="..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../resources/plugins/jqGrid/js/jquery.jqGrid.min.js"></script>
+		<script src="../resources/plugins/jqGrid/i18n/grid.locale-zh.js"></script>
+		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../resources/scripts/base/config.js"></script>
+		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../resources/scripts/base/comm.js"></script>
+		<script src="../resources/scripts/common/click.js"></script>
+
+		<!-- ace scripts -->
+		<script src="../resources/plugins/ace/js/ace-elements.js"></script>
+		<script src="../resources/plugins/ace/js/ace.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+
+			$(function(){
+
+				// ### start load authOrg.js
+				seajs.use(SeaJsUrlMap.get("authOrg"), function(module) {
+					module.init("orgUserRel");
+				}); // ### end load authOrg.js
+
+			});
+
+		</script>
+
+	</body>
+</html>
