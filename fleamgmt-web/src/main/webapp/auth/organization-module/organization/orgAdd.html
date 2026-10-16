@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>新增组织</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- 基础样式 basic styles -->
+		<link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css"  />
+		<link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../resources/plugins/jquery/ui/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="../resources/plugins/dialog/6.0.4/css/ui-dialog.css" />
+
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-rtl.css" />
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-skins.css" />
+
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" href="../resources/plugins/ace/css/ace-ie.css"/>
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+		<!-- ace settings handler -->
+		<script src="../resources/plugins/ace/js/ace-extra.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../resources/plugins/html5shiv/html5shiv.js"></script>
+		<script src="../resources/plugins/respond/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					组织模块管理
+					<small>
+						<i class="fa fa-angle-double-right fa-lg"></i>
+						 &nbsp;新增组织
+					</small>
+				</h1>
+				<!-- 收藏模块  start-->
+				<div class="page-header-fav">
+					<a class="page-header-fav-a" onclick="Comm.addMenuFav()">
+						<i class="fa fa-star-o fa-lg"></i>
+						<span>收藏</span>
+					</a>
+				</div>
+				<!-- 收藏模块  end -->
+			</div><!-- /.page-header -->
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="widget-box">
+						<div class="widget-header widget-header-blue widget-header-flat">
+							<h4 class="lighter">
+								<i class="fa sitemap fa-lg"></i>
+								新增组织
+							</h4>
+
+							<div class="widget-toolbar">
+								<span class="label label-info arrowed-right arrowed-in">两步完成</span>
+							</div>
+						</div>
+
+						<div class="widget-body">
+							<div id="auth_wizard_form" class="widget-main" fieldset="json">
+								<div id="org_add_wizard" class="row-fluid" data-target="#org_add_steps">
+									<ul class="wizard-steps">
+										<li data-target="#org_add_steps_step1" class="active">
+											<span class="step">1</span>
+											<span class="title">组织信息</span>
+										</li>
+
+										<li data-target="#org_add_steps_step2">
+											<span class="step">2</span>
+											<span class="title">备注与确认</span>
+										</li>
+									</ul>
+								</div>
+
+								<hr />
+
+								<div class="step-content row-fluid position-relative" id="org_add_steps">
+									<div class="step-pane active" id="org_add_steps_step1">
+										<h4 class="lighter blue">第 1 步 · 组织信息</h4>
+
+										<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="orgCode">
+													<span class="blue">组织编码</span> <span class="red">*</span>
+												</label>
+
+											<input class="form-control" type="text" id="orgCode" name="orgCode" placeholder="全局唯一，如：ORG_HZ_DEPT" />
+											</div>
+										</div>
+
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="orgName">
+													<span class="blue">组织名称</span> <span class="red">*</span>
+												</label>
+
+											<input class="form-control" type="text" id="orgName" name="orgName" placeholder="如：Huazie研发部" />
+											</div>
+										</div>
+
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="orgType">
+													<span class="blue">组织类型</span> <span class="red">*</span>
+												</label>
+
+											<select class="form-control" id="orgType" name="orgType">
+												<option value="1">公司</option>
+												<option value="2">部门</option>
+												<option value="3">小组</option>
+											</select>
+											</div>
+										</div>
+
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="parentId">
+													<span class="blue">父组织</span> <span class="red">*</span>
+												</label>
+
+											<select class="form-control" id="parentId" name="parentId">
+												<option value="-1">根组织（顶级）</option>
+											</select>
+											</div>
+										</div>
+
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="orgDesc">
+													<span class="blue">组织描述</span>
+												</label>
+
+											<input class="form-control" type="text" id="orgDesc" name="orgDesc" placeholder="简要说明该组织的职责" />
+											</div>
+										</div>
+										</div>
+									</div>
+
+									<div class="step-pane" id="org_add_steps_step2">
+										<h4 class="lighter blue">第 2 步 · 备注与确认</h4>
+
+										<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="remarks">
+													<span class="blue">备注</span>
+												</label>
+
+											<textarea class="autosize-transition form-control" id="remarks" name="remarks" placeholder="填写组织相关的描述信息，留存备注"></textarea>
+											</div>
+										</div>
+										</div>
+
+										<div class="hr hr-8 dotted"></div>
+
+										<h5 class="lighter">
+											<i class="fa fa-check-circle green"></i>
+											填写摘要（提交前请核对）
+										</h5>
+
+										<div id="org_add_summary">
+											<div class="text-muted">亲，请在第 1 步中填写组织信息哟！</div>
+										</div>
+									</div>
+								</div>
+
+								<hr />
+
+								<div class="row-fluid wizard-actions">
+									<button class="btn btn-prev" type="button">
+										<i class="fa fa-arrow-left"></i>
+										上一步
+									</button>
+
+									<button class="btn btn-success btn-next" type="button" data-last="新增组织 ">
+										下一步
+										<i class="fa fa-arrow-right icon-on-right"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+						<i class="fa fa-angle-double-up icon-only bigger-110"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- 基础脚本basic scripts -->
+
+		<!--[if !IE]> -->
+		<script src="../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script src="..\resources\plugins\jquery\1.10.2\jquery-1.10.2.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/2.0.3/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../resources/plugins/jquery/1.10.2/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='../resources/plugins/jquery/mobile/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../resources/plugins/bootstrap/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="../resources/plugins/jquery/ui/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="../resources/plugins/fuelux/fuelux.wizard.min.js"></script>
+		<script src="../resources/plugins/handlebars/1.0.6/handlebars.js" ></script>
+		<script src="../resources/plugins/handlebars/1.0.6/helpers.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-min.js" ></script>
+		<script src="../resources/plugins/dialog/6.0.4/js/dialog-plus-min.js" ></script>
+		<script src="../resources/scripts/base/config.js"></script>
+		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
+		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script src="../resources/scripts/base/comm.js"></script>
+		<script src="../resources/scripts/common/click.js"></script>
+
+		<!-- ace scripts -->
+		<script src="../resources/plugins/ace/js/ace-elements.js"></script>
+		<script src="../resources/plugins/ace/js/ace.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+
+			$(function(){
+
+				// ### start load authOrg.js
+				seajs.use(SeaJsUrlMap.get("authOrg"), function(module) {
+					module.init("orgAdd");
+				}); // ### end load authOrg.js
+
+			});
+
+		</script>
+
+	</body>
+</html>

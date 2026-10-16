@@ -133,6 +133,7 @@ var SeaJsUrlMap = (function () {
         "authUser": seaJsUrlPrefix[0] + "auth/user/auth-user",				// 用户模块管理js
         "authRole": seaJsUrlPrefix[0] + "auth/role/auth-role",				// 角色模块管理js
         "authPrivilege": seaJsUrlPrefix[0] + "auth/privilege/auth-privilege",	// 权限模块管理js
+        "authOrg": seaJsUrlPrefix[0] + "auth/organization/auth-org",			// 组织模块管理js
         "uploadRes": seaJsUrlPrefix[0] + "mgmt/res/res-upload",				// 上传物品模块js
         "auditRes": seaJsUrlPrefix[0] + "mgmt/res/res-audit",				// 物品审核模块js
         "searchRes": seaJsUrlPrefix[0] + "mgmt/res/res-search",				// 物品浏览模块js
@@ -150,6 +151,7 @@ var SeaJsUrlMap = (function () {
         "authUser": seaJsUrlPrefix[1] + "auth/user/auth-user",				// 用户模块管理js
         "authRole": seaJsUrlPrefix[1] + "auth/role/auth-role",				// 角色模块管理js
         "authPrivilege": seaJsUrlPrefix[1] + "auth/privilege/auth-privilege",	// 权限模块管理js
+        "authOrg": seaJsUrlPrefix[1] + "auth/organization/auth-org",			// 组织模块管理js
         "uploadRes": seaJsUrlPrefix[1] + "mgmt/res/res-upload",				// 上传物品模块js
         "auditRes": seaJsUrlPrefix[1] + "mgmt/res/res-audit",				// 物品审核模块js
         "searchRes": seaJsUrlPrefix[1] + "mgmt/res/res-search",				// 物品浏览模块js
