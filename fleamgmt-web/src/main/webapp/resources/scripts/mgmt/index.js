@@ -247,7 +247,7 @@ define(function (require, exports, module) {
                     var menu = menuList[0];
                     if(menu) {
                         if(!menu["HAS_SUB_MENU"]) {
-                            fleaMenu.open(menu["MENU_CODE"]);//打开初始化选中的菜单
+                            fleaMenu.open(menu["MENU_CODE"], menu["MENU_NAME"]);//打开初始化选中的菜单
                         }
                         fleaMenu.showMenuPath(menu);
                     }
@@ -337,9 +337,7 @@ define(function (require, exports, module) {
                         var menuCode = item.code;
 
                         require.async("../common/menu", function (fleaMenu) {
-                            window.currentMenu = {};
-                            fleaMenu.open(menuCode); // 打开初始化选中的菜单
-                            fleaMenu.clearMenuPath(); // 清空展示菜单的路径
+                            fleaMenu.open(menuCode, item.name); // 打开搜索选中的菜单(激活标签时同步面包屑)
                         });
 
                         // 在这边设置code，或者直接就打开菜单
@@ -379,15 +377,11 @@ define(function (require, exports, module) {
                 var $thiz = $(this);
                 var menu = Huazie.form.serialize($thiz);
 
-                if (window.currentMenu && window.currentMenu["MENU_CODE"] === menu["MENU_CODE"]) {
-                    return;
-                }
-
                 require.async("../common/menu", function (fleaMenu) {
-                    // 表示这个是叶子菜单
+                    // 表示这个是叶子菜单(已打开的菜单仅激活对应标签，iframe 状态保留)
                     if (!$thiz.hasClass("dropdown-toggle")) {
                         // 打开选中的菜单
-                        fleaMenu.open(menu["MENU_CODE"]);
+                        fleaMenu.open(menu["MENU_CODE"], menu["MENU_NAME"]);
                     }
                     fleaMenu.showMenuPath(menu);
                 });

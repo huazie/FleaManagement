@@ -35,12 +35,12 @@ define(function (require, exports, module) {
          */
         bindMenufavoritesEvent: function () {
             $("a[id^='favorites_']").on("click", function () {
-                var menuCode = $(this).attr("name");
+                var $thiz = $(this);
+                var menuCode = $thiz.attr("name");
+                var menuName = $.trim($thiz.find("span").text());
 
                 require.async("../common/menu", function (fleaMenu) {
-                    parent.window.currentMenu = {};
-                    fleaMenu.open1(menuCode); // 打开初始化选中的菜单
-                    fleaMenu.clearMenuPath(); // 清空展示菜单的路径
+                    fleaMenu.open1(menuCode, menuName); // 在父页面标签栏中打开收藏的菜单(激活标签时同步面包屑)
                 });
 
             });
