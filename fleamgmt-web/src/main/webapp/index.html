@@ -31,6 +31,197 @@
 		<![endif]-->
 		
 		<!-- inline styles related to this page -->
+
+		<style>
+			/* 菜单多标签页：标签栏位于内容区最顶部 + iframe 面板 */
+			#menu-tabs {
+				position: relative;
+				padding: 6px 210px 0 4px;
+				border-bottom: 2px solid #438eb9;
+			}
+			/* 菜单搜索框已移入标签栏同行，垂直居中于标签行 */
+			#menu-tabs .nav-search {
+				top: 50%;
+				right: 12px;
+				transform: translateY(-50%);
+			}
+			#menu-tabs .menu-tabs {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			#menu-tabs .menu-tabs > li {
+				display: inline-block;
+				margin: 0 2px 0 0;
+				padding: 0;
+				vertical-align: bottom;
+				background: #f1f5f9;
+				border: 1px solid #ddd;
+				border-bottom: none;
+				border-radius: 4px 4px 0 0;
+			}
+			#menu-tabs .menu-tabs > li > a {
+				display: inline-block;
+				max-width: 160px;
+				padding: 7px 8px 7px 12px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				vertical-align: middle;
+				color: #555;
+				text-decoration: none;
+			}
+			#menu-tabs .menu-tabs > li.active {
+				background: #fff;
+				border-color: #438eb9;
+			}
+			#menu-tabs .menu-tabs > li.active > a {
+				color: #438eb9;
+				font-weight: bold;
+			}
+			#menu-tabs .menu-tabs > li > a:focus,
+			#menu-tabs .menu-tabs > li > a:active,
+			#menu-tabs .menu-tab-close:focus {
+				outline: none;
+				box-shadow: none;
+			}
+			#menu-tabs .menu-tab-close {
+				padding: 7px 10px 7px 2px;
+				color: #aaa;
+				cursor: pointer;
+			}
+			#menu-tabs .menu-tab-close:hover {
+				color: #d15b47;
+			}
+			/* 只剩最后一个标签时不允许关闭 */
+			#menu-tabs .menu-tabs > li:only-child .menu-tab-close {
+				display: none;
+			}
+			#menu-tab-content .menu-tab-pane {
+				display: none;
+			}
+			#menu-tab-content .menu-tab-pane.active {
+				display: block;
+			}
+			#menu-tab-content .menu-tab-pane > iframe {
+				display: block;
+				width: 100%;
+				height: calc(100vh - 135px);
+				min-height: 480px;
+				border: 0;
+			}
+
+			/* 平板及以下：MENU 按钮（≤991px 显示）移入导航栏第二行（与用户信息同行），
+			   去掉 MENU 文字与下三角，仅保留三色图案；标签栏无需再让位 */
+			@media (max-width: 991px) {
+				#navbar-container {
+					position: relative;
+				}
+				/* Fixed Navbar 场景下 navbar 为 fixed 层叠上下文（z-index auto），
+			     会被 DOM 序靠后的内容区（iframe）整体盖住，提升其层叠级别 */
+				#navbar {
+					z-index: 1000;
+				}
+				#menu-toggler {
+					position: absolute;
+					left: 0;
+					top: 45px;
+					width: 40px;
+					height: 45px;
+					padding: 0;
+					margin: 0;
+					background-color: transparent;
+					box-shadow: none;
+				}
+				#menu-toggler:before,
+				#menu-toggler:after {
+					left: 8px;
+					height: 2px;
+					border-width: 1px 0;
+				}
+				#menu-toggler:before {
+					top: 50%;
+					margin-top: -6px;
+				}
+				#menu-toggler:after {
+					top: 50%;
+					margin-top: 2px;
+				}
+				/* 展开态：线条变粗靠拢，保持中心对称（ace transition 播放动画） */
+				#menu-toggler.display:before,
+				#menu-toggler.display:after {
+					height: 4px;
+					border-width: 2px 0;
+				}
+				#menu-toggler.display:before {
+					margin-top: -8px;
+				}
+				#menu-toggler.display:after {
+					margin-top: 0;
+				}
+				#menu-toggler > .menu-text {
+					display: none;
+				}
+				#menu-tab-content .menu-tab-pane > iframe {
+					height: calc(100vh - 135px);
+					min-height: 420px;
+				}
+				/* 侧边栏展开时的全屏遮罩：低于 navbar(1000) 与展开的 sidebar，高于内容区（含 iframe） */
+				#menu-mask {
+					display: none;
+					position: fixed;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					z-index: 998;
+					background: rgba(0, 0, 0, 0.2);
+				}
+				#menu-mask.display {
+					display: block;
+				}
+				/* 展开的 sidebar 提升到遮罩之上，保证边栏可点 */
+				#sidebar.display {
+					z-index: 999;
+				}
+				/* 折叠（menu-min）态增强：窄条不透明白底+右边框+阴影，确保折叠后侧边栏清晰可见 */
+				#sidebar.menu-min {
+					display: block;
+					background-color: #ffffff;
+					border-right: 1px solid #e5e5e5;
+					box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12);
+				}
+				/* 折叠态隐藏快捷区色块，避免溢出干扰图标菜单 */
+				#sidebar.menu-min .sidebar-shortcuts {
+					display: none;
+				}
+			}
+
+			/* 窄屏：标签一行展示、超出左右触摸滚动；ace 已把搜索框收窄为图标（约 44px） */
+			@media (max-width: 767px) {
+				#menu-tabs {
+					padding: 6px 60px 0 4px;
+				}
+				#menu-tabs .menu-tabs > li > a {
+					max-width: 110px;
+					padding: 6px 6px 6px 10px;
+				}
+				#menu-tabs .menu-tabs {
+					white-space: nowrap;
+					overflow-x: auto;
+					overflow-y: hidden;
+					-webkit-overflow-scrolling: touch;
+					scrollbar-width: none;
+				}
+				#menu-tabs .menu-tabs::-webkit-scrollbar {
+					display: none;
+				}
+				#menu-tab-content .menu-tab-pane > iframe {
+					height: calc(100vh - 115px);
+					min-height: 420px;
+				}
+			}
+		</style>
 		
 		
 		<!-- ace settings handler -->
@@ -60,6 +251,11 @@
 				<div class="navbar-header pull-right" role="navigation">
 					<ul id="nav-top" class="nav ace-nav"></ul>
 				</div>
+
+				<!-- 手机端菜单按钮：navbar-container 直接子级，不受顶部导航模板重写影响（≤991px 由内联样式定位显示） -->
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
 			</div>
 			
 		</header>
@@ -70,9 +266,6 @@
 			</script>
 			
 			<div class="main-container-inner">
-				<a class="menu-toggler" id="menu-toggler" href="#">
-					<span class="menu-text"></span>
-				</a>
 				
 				<div class="sidebar" id="sidebar">
 					<script type="text/javascript">
@@ -224,6 +417,14 @@
 		<script src="../resources/scripts/base/config.js"></script>
 		<script src="../resources/plugins/huazie/1.0.0/huazie.src.js"></script>
 		<script src="../resources/plugins/seajs/2.3.0/sea.js" ></script>
+		<script type="text/javascript">
+			// SeaJS 模块 URL 追加时间戳，破浏览器启发式缓存（Tomcat 对 resources 无 Cache-Control，改 JS 后浏览器可能不发请求）
+			seajs.config({
+				map: [
+					[/^(.*\/resources\/scripts\/.*\.js)$/i, "$1?v=" + new Date().getTime()]
+				]
+			});
+		</script>
 		<script src="../resources/scripts/base/comm.js"></script>
 		
 		<!-- ace scripts -->
