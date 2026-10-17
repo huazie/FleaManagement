@@ -12,8 +12,10 @@ FleaManagement ("Flea Housekeeper") is an admin management system built on [Flea
 - **Role Management**: role and role group maintenance; role authorization covers multiple dimensions including menus / operations / elements / resources
 - **Privilege Management**: privilege and privilege group maintenance; privilege relations cover four dimensions: menus / operations / elements / resources
 - **Function Management**: unified maintenance of four function entity types — menus, operations, elements and resources
+- **Organization Management**: organization creation (step wizard), modification (parent adjustment with field-level change audit) and user-organization relation via transfer-list authorization
 - **Common Page Engine**: four page engines (FormPage / WizardPage / GridPage / AuthPage); declarative configuration gives you a complete interaction with list + filtering + pagination + tabs + transfer-list authorization
 - **Responsive Design**: secondary columns are hidden automatically on narrow screens (≤767px), with quick keyword search
+- **Multi-tab Menus**: menus opened from the sidebar, favorites and search are presented as tabs for parallel browsing; an already-opened menu is just activated (iframe state preserved), and the last remaining tab cannot be closed
 
 ## Architecture
 
