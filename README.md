@@ -99,4 +99,4 @@ http://localhost:8080/login.html
 
 ## 许可证
 
-[MIT](LICENSE) © [huazie](https://github.com/huazie)
+本项目基于 MIT 许可证开源 - 查看 [LICENSE](LICENSE) 文件了解更多细节
