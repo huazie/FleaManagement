@@ -99,4 +99,4 @@ Pull Requests and Issues are welcome to help improve this project.
 
 ## License
 
-[MIT](LICENSE) © [huazie](https://github.com/huazie)
+This project is open source under the MIT License - see the [LICENSE](LICENSE) file for details.
